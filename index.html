@@ -299,6 +299,44 @@
     line-height: 1.15;
   }
 
+  /* ── INTERACTIVE EXPAND STYLES ── */
+  .expandable {
+    cursor: pointer;
+  }
+
+  .expand-action {
+    display: none;
+    width: 100%;
+    margin-top: 1.2rem;
+    padding-top: 1.2rem;
+    border-top: 1px dashed var(--border2);
+    animation: fadeUp 0.3s ease forwards;
+  }
+
+  .expandable.expanded .expand-action {
+    display: flex;
+  }
+
+  .doc-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.5rem 1rem;
+    background: rgba(126,184,247,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(126,184,247,0.3);
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-family: 'DM Mono', monospace;
+    transition: all 0.2s;
+  }
+
+  .doc-btn:hover {
+    background: rgba(126,184,247,0.2);
+    border-color: var(--accent);
+  }
+
   /* ── EDUCATION ── */
   .edu-card {
     background: var(--surface);
@@ -522,6 +560,7 @@
 
   .achievement-item {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 1.5rem;
     background: var(--surface);
@@ -541,6 +580,10 @@
     flex-shrink: 0;
   }
 
+  .achievement-text {
+    flex: 1;
+  }
+
   .achievement-text h4 {
     font-size: 1rem;
     font-weight: 500;
@@ -554,7 +597,6 @@
   }
 
   .achievement-badge {
-    margin-left: auto;
     background: rgba(240,184,110,0.1);
     border: 1px solid rgba(240,184,110,0.2);
     color: var(--accent3);
@@ -677,7 +719,6 @@
 </nav>
 
 <main>
-  <!-- HERO -->
   <div class="hero">
     <div class="hero-inner">
       <div class="hero-tag">Available for Internships & Research Roles</div>
@@ -709,11 +750,10 @@
     </div>
   </div>
 
-  <!-- EDUCATION -->
   <section id="education">
     <div class="section-label">01 — Education</div>
     <h2>Academic<br><em>Background</em></h2>
-    <div class="edu-card reveal">
+    <div class="edu-card reveal expandable" title="Click to view transcript">
       <div class="edu-logo">ISI</div>
       <div class="edu-content">
         <h3>Indian Statistical Institute, Delhi</h3>
@@ -729,11 +769,13 @@
           <span class="tag green">Linear Regression</span>
           <span class="tag green">Sampling Theory</span>
         </div>
+        <div class="expand-action">
+          <a href="transcript.pdf" target="_blank" class="doc-btn">📄 Show Latest Transcript</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SKILLS -->
   <section id="skills">
     <div class="section-label">02 — Technical Skills</div>
     <h2>Tools &<br><em>Technologies</em></h2>
@@ -781,13 +823,12 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
   <section id="projects">
     <div class="section-label">03 — Projects</div>
     <h2>Research &<br><em>Work</em></h2>
     <div class="projects-grid">
 
-      <div class="project-card reveal">
+      <div class="project-card reveal expandable" title="Click to view report">
         <span class="project-num">01</span>
         <div class="project-header">
           <h3>Convex Optimization for Constrained LPG Allocation</h3>
@@ -798,9 +839,12 @@
           <span class="tag">QP Modeling</span>
           <span class="tag green">Optimization Theory</span>
         </div>
+        <div class="expand-action">
+          <a href="project-lpg-allocation.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
+        </div>
       </div>
 
-      <div class="project-card reveal">
+      <div class="project-card reveal expandable" title="Click to view report">
         <span class="project-num">02</span>
         <div class="project-header">
           <h3>Authorship Attribution using Poisson Probabilities</h3>
@@ -811,6 +855,9 @@
           <span class="tag">Statistical Modeling</span>
           <span class="tag">Poisson Distribution</span>
           <span class="tag green">NLP</span>
+        </div>
+        <div class="expand-action">
+          <a href="project-authorship.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
         </div>
       </div>
 
@@ -828,7 +875,7 @@
         </div>
       </div>
 
-      <div class="project-card reveal">
+      <div class="project-card reveal expandable" title="Click to view report">
         <span class="project-num">04</span>
         <div class="project-header">
           <h3>Data Anomaly Detection using Benford's Law</h3>
@@ -840,9 +887,12 @@
           <span class="tag">Statistical Verification</span>
           <span class="tag green">Anomaly Detection</span>
         </div>
+        <div class="expand-action">
+          <a href="project-benford.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
+        </div>
       </div>
 
-      <div class="project-card reveal">
+      <div class="project-card reveal expandable" title="Click to view report">
         <span class="project-num">05</span>
         <div class="project-header">
           <h3>Geospatial Stratification & Population Estimation</h3>
@@ -854,9 +904,12 @@
           <span class="tag">Google Earth Pro</span>
           <span class="tag green">GIS Mapping</span>
         </div>
+        <div class="expand-action">
+          <a href="project-geospatial.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
+        </div>
       </div>
 
-      <div class="project-card reveal">
+      <div class="project-card reveal expandable" title="Click to view report">
         <span class="project-num">06</span>
         <div class="project-header">
           <h3>Statistical Critique of Climate Economics</h3>
@@ -868,24 +921,31 @@
           <span class="tag">Critical Analysis</span>
           <span class="tag green">Climate Economics</span>
         </div>
+        <div class="expand-action">
+          <a href="project-climate.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
+        </div>
       </div>
 
     </div>
   </section>
 
-  <!-- ACHIEVEMENTS -->
   <section id="achievements">
     <div class="section-label">04 — Achievements</div>
     <h2>Honours &<br><em>Recognition</em></h2>
     <div class="achievements-list">
-      <div class="achievement-item reveal">
+      
+      <div class="achievement-item reveal expandable" title="Click to view certificate">
         <div class="achievement-icon">🏆</div>
         <div class="achievement-text">
           <h4>ISI Merit List — All India Rank 31</h4>
           <p>Secured AIR 31 for the BSDS program at the Indian Statistical Institute</p>
         </div>
         <div class="achievement-badge">AIR 31</div>
+        <div class="expand-action">
+          <a href="cert-isi-merit.pdf" target="_blank" class="doc-btn">📄 View Document</a>
+        </div>
       </div>
+
       <div class="achievement-item reveal">
         <div class="achievement-icon">📐</div>
         <div class="achievement-text">
@@ -894,26 +954,34 @@
         </div>
         <div class="achievement-badge">99.37 %ile</div>
       </div>
-      <div class="achievement-item reveal">
+
+      <div class="achievement-item reveal expandable" title="Click to view certificate">
         <div class="achievement-icon">🚀</div>
         <div class="achievement-text">
           <h4>NIT Delhi UpVision Hackathon</h4>
           <p>Top 10 out of 150+ teams in the "AI for Humanity" track with Team Diazonium</p>
         </div>
         <div class="achievement-badge">Top 10 / 150+</div>
+        <div class="expand-action">
+          <a href="cert-hackathon.pdf" target="_blank" class="doc-btn">📄 View Certificate</a>
+        </div>
       </div>
-      <div class="achievement-item reveal">
+
+      <div class="achievement-item reveal expandable" title="Click to view certificate">
         <div class="achievement-icon">🌐</div>
         <div class="achievement-text">
           <h4>IELTS Certified — C1 Level (Advanced)</h4>
           <p>English language proficiency at advanced level; also fluent in Hindi and Maithili (mother tongue)</p>
         </div>
         <div class="achievement-badge">C1 Level</div>
+        <div class="expand-action">
+          <a href="cert-ielts.pdf" target="_blank" class="doc-btn">📄 View Certificate</a>
+        </div>
       </div>
+
     </div>
   </section>
 
-  <!-- CONTACT -->
   <div class="contact-section" id="contact">
     <h2>Let's <em>Connect</em></h2>
     <p>Open to research collaborations, internships, and quantitative roles.</p>
@@ -959,6 +1027,17 @@
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
       document.querySelector(this.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Expandable cards logic
+  document.querySelectorAll('.expandable').forEach(card => {
+    card.addEventListener('click', function(e) {
+      // Prevent the card from closing if the user clicks directly on the PDF button
+      if (e.target.closest('a')) return;
+      
+      // Toggle the expanded state
+      this.classList.toggle('expanded');
     });
   });
 </script>
