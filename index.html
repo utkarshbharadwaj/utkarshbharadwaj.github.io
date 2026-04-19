@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Utkarsh Bharadwaj — Statistics & Data Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0d0f;
+    --bg2: #111318;
+    --bg3: #171a21;
+    --surface: #1c2030;
+    --surface2: #222840;
+    --accent: #7eb8f7;
+    --accent2: #a5d4a0;
+    --accent3: #f0b86e;
+    --text: #e8eaf0;
+    --text2: #9ba3bc;
+    --text3: #5c6480;
+    --border: rgba(120,135,180,0.12);
+    --border2: rgba(120,135,180,0.22);
+    --glow: rgba(126,184,247,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(126,184,247,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(126,184,247,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Glow blobs */
+  .blob1 {
+    position: fixed;
+    top: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(126,184,247,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .blob2 {
+    position: fixed;
+    bottom: -20%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(165,212,160,0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(12,13,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--text);
+    letter-spacing: 0.01em;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  nav ul {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  nav a {
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--accent); }
+
+  main { position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero-inner {
+    max-width: 780px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(126,184,247,0.08);
+    border: 1px solid rgba(126,184,247,0.2);
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--accent2);
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 400;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--text3);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--text2);
+    max-width: 560px;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.75rem 1.75rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0a1020;
+  }
+
+  .btn-primary:hover { background: #a2ccf9; transform: translateY(-1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text2);
+    border: 1px solid var(--border2);
+  }
+
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.6s 0.5s ease both;
+  }
+
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .stat-num span { color: var(--accent); }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 6rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 1.2rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 120px;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 3rem;
+    line-height: 1.15;
+  }
+
+  /* ── EDUCATION ── */
+  .edu-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+
+  .edu-card:hover {
+    border-color: var(--border2);
+    background: var(--surface2);
+  }
+
+  .edu-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: rgba(126,184,247,0.1);
+    border: 1px solid rgba(126,184,247,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .edu-content h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+
+  .edu-content .edu-degree {
+    font-size: 0.9rem;
+    color: var(--accent2);
+    margin-bottom: 0.5rem;
+  }
+
+  .edu-content .edu-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--text3);
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    display: inline-block;
+    background: rgba(126,184,247,0.08);
+    border: 1px solid rgba(126,184,247,0.15);
+    color: var(--accent);
+    border-radius: 6px;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    margin: 0.2rem 0.2rem 0.2rem 0;
+  }
+
+  .tag.green {
+    background: rgba(165,212,160,0.08);
+    border-color: rgba(165,212,160,0.15);
+    color: var(--accent2);
+  }
+
+  .tag.amber {
+    background: rgba(240,184,110,0.08);
+    border-color: rgba(240,184,110,0.15);
+    color: var(--accent3);
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    transition: all 0.2s;
+  }
+
+  .skill-card:hover {
+    border-color: var(--border2);
+    transform: translateY(-2px);
+  }
+
+  .skill-icon {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+
+  .skill-card h4 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .skill-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .skill-pill {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    border-radius: 6px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card:hover {
+    border-color: rgba(126,184,247,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+
+  .project-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3.5rem;
+    color: rgba(126,184,247,0.06);
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    line-height: 1;
+    font-weight: 400;
+    pointer-events: none;
+  }
+
+  .project-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .project-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .project-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text3);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .project-card p {
+    font-size: 0.875rem;
+    color: var(--text2);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
+  }
+
+  /* ── ACHIEVEMENTS ── */
+  .achievements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .achievement-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.75rem;
+    transition: all 0.2s;
+  }
+
+  .achievement-item:hover {
+    border-color: rgba(240,184,110,0.3);
+    background: var(--surface2);
+  }
+
+  .achievement-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .achievement-text h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+
+  .achievement-text p {
+    font-size: 0.85rem;
+    color: var(--text2);
+  }
+
+  .achievement-badge {
+    margin-left: auto;
+    background: rgba(240,184,110,0.1);
+    border: 1px solid rgba(240,184,110,0.2);
+    color: var(--accent3);
+    border-radius: 8px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.78rem;
+    font-family: 'DM Mono', monospace;
+    white-space: nowrap;
+  }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 4rem;
+    margin: 0 4rem 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(126,184,247,0.06) 0%, transparent 60%);
+  }
+
+  .contact-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .contact-section p {
+    color: var(--text2);
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.7rem 1.4rem;
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .contact-link:hover {
+    color: var(--accent);
+    border-color: rgba(126,184,247,0.4);
+    background: rgba(126,184,247,0.05);
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text3);
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    border-top: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    section { padding: 4rem 1.5rem; }
+    .hero-stats { gap: 2rem; }
+    .edu-card { flex-direction: column; gap: 1rem; }
+    .contact-section { margin: 0 1.5rem 4rem; padding: 2.5rem 1.5rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="blob1"></div>
+<div class="blob2"></div>
+
+<nav>
+  <div class="nav-logo">UB<span>.</span></div>
+  <ul>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">Available for Internships & Research Roles</div>
+      <h1>Utkarsh<br><em>Bharadwaj</em></h1>
+      <p class="hero-subtitle">// Statistics & Data Science · ISI Delhi</p>
+      <p class="hero-desc">
+        Mathematics and statistics student passionate about applying
+        theoretical foundations to solve complex, real-world problems.
+        Eager to contribute to quantitative research.
+      </p>
+      <div class="hero-cta">
+        <a href="mailto:bsdbg2521@isid.ac.in" class="btn btn-primary">Get in Touch →</a>
+        <a href="#projects" class="btn btn-ghost">View Projects</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">99<span>.37</span></div>
+          <div class="stat-label">JEE Maths %ile</div>
+        </div>
+        <div>
+          <div class="stat-num">AIR <span>31</span></div>
+          <div class="stat-label">ISI BSDS Rank</div>
+        </div>
+        <div>
+          <div class="stat-num"><span>6</span>+</div>
+          <div class="stat-label">Research Projects</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-label">01 — Education</div>
+    <h2>Academic<br><em>Background</em></h2>
+    <div class="edu-card reveal">
+      <div class="edu-logo">ISI</div>
+      <div class="edu-content">
+        <h3>Indian Statistical Institute, Delhi</h3>
+        <div class="edu-degree">Bachelor of Statistical Data Science (BSDS)</div>
+        <div class="edu-meta">Aug 2025 – Present &nbsp;·&nbsp; Aggregate: 70.4% (1st Semester)</div>
+        <div>
+          <span class="tag">R Programming</span>
+          <span class="tag">Linear Algebra</span>
+          <span class="tag">Probability Theory</span>
+          <span class="tag">Real Analysis</span>
+          <span class="tag">Statistical Inference</span>
+          <span class="tag">Hypothesis Testing</span>
+          <span class="tag green">Linear Regression</span>
+          <span class="tag green">Sampling Theory</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label">02 — Technical Skills</div>
+    <h2>Tools &<br><em>Technologies</em></h2>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-icon">lang</div>
+        <h4>Languages</h4>
+        <div class="skill-items">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">R</span>
+          <span class="skill-pill">LaTeX</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">libs</div>
+        <h4>Libraries</h4>
+        <div class="skill-items">
+          <span class="skill-pill">Pandas</span>
+          <span class="skill-pill">NumPy</span>
+          <span class="skill-pill">ggplot2</span>
+          <span class="skill-pill">lattice</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">env</div>
+        <h4>Environment</h4>
+        <div class="skill-items">
+          <span class="skill-pill">Linux (Debian)</span>
+          <span class="skill-pill">VS Code</span>
+          <span class="skill-pill">RStudio</span>
+          <span class="skill-pill">Google Earth Pro</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">stat</div>
+        <h4>Statistical Methods</h4>
+        <div class="skill-items">
+          <span class="skill-pill">QP Modeling</span>
+          <span class="skill-pill">Poisson Processes</span>
+          <span class="skill-pill">Benford's Law</span>
+          <span class="skill-pill">Stratified Sampling</span>
+          <span class="skill-pill">Regression Analysis</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">03 — Projects</div>
+    <h2>Research &<br><em>Work</em></h2>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <span class="project-num">01</span>
+        <div class="project-header">
+          <h3>Convex Optimization for Constrained LPG Allocation</h3>
+          <span class="project-date">Apr 2026</span>
+        </div>
+        <p>Formulated a strictly convex Quadratic Programming model to optimally allocate constrained national fuel supply across domestic and commercial sectors, balancing economic losses against environmental health risks.</p>
+        <div class="project-tags">
+          <span class="tag">QP Modeling</span>
+          <span class="tag green">Optimization Theory</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="project-num">02</span>
+        <div class="project-header">
+          <h3>Authorship Attribution using Poisson Probabilities</h3>
+          <span class="project-date">Mar 2026</span>
+        </div>
+        <p>Modeled frequency of non-contextual filler words as rare events using Poisson distributions to create statistical fingerprints for historical texts, using log-likelihoods to mitigate numerical underflow.</p>
+        <div class="project-tags">
+          <span class="tag">Statistical Modeling</span>
+          <span class="tag">Poisson Distribution</span>
+          <span class="tag green">NLP</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="project-num">03</span>
+        <div class="project-header">
+          <h3>Eco-Aware AI Tool — NIT Delhi Hackathon</h3>
+          <span class="project-date">Mar 2026</span>
+        </div>
+        <p>Top 10 of 150+ teams at NIT Delhi UpVision Hackathon ("AI for Humanity" track). Built a tool using Abstract Syntax Trees to estimate the carbon and water footprint of Python code in 12 hours.</p>
+        <div class="project-tags">
+          <span class="tag amber">Top 10 / 150+ Teams</span>
+          <span class="tag">Python ASTs</span>
+          <span class="tag green">AI for Humanity</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="project-num">04</span>
+        <div class="project-header">
+          <h3>Data Anomaly Detection using Benford's Law</h3>
+          <span class="project-date">Nov 2025</span>
+        </div>
+        <p>Investigated application of Benford's Law to detect data fabrication in macroeconomic datasets. Programmed R scripts to extract leading digits and validate anomalies in GDP reporting of volatility-prone economies.</p>
+        <div class="project-tags">
+          <span class="tag">R</span>
+          <span class="tag">Statistical Verification</span>
+          <span class="tag green">Anomaly Detection</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="project-num">05</span>
+        <div class="project-header">
+          <h3>Geospatial Stratification & Population Estimation</h3>
+          <span class="project-date">Oct 2025</span>
+        </div>
+        <p>Designed a Stratified Random Sampling experiment to estimate tree population of the ISI campus using Google Earth Pro KML mapping and 10m × 10m grid segmentation with High/Low-Density strata.</p>
+        <div class="project-tags">
+          <span class="tag">Sampling Design</span>
+          <span class="tag">Google Earth Pro</span>
+          <span class="tag green">GIS Mapping</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="project-num">06</span>
+        <div class="project-header">
+          <h3>Statistical Critique of Climate Economics</h3>
+          <span class="project-date">Sept 2025</span>
+        </div>
+        <p>Analyzed impact of data anomalies on global climate commitment models. Critiqued methodological robustness of Kotz et al. (2024) vs Hsiang et al. (2025), evaluating sensitivity of regression estimates in distributed lag models.</p>
+        <div class="project-tags">
+          <span class="tag">R</span>
+          <span class="tag">Critical Analysis</span>
+          <span class="tag green">Climate Economics</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements">
+    <div class="section-label">04 — Achievements</div>
+    <h2>Honours &<br><em>Recognition</em></h2>
+    <div class="achievements-list">
+      <div class="achievement-item reveal">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-text">
+          <h4>ISI Merit List — All India Rank 31</h4>
+          <p>Secured AIR 31 for the BSDS program at the Indian Statistical Institute</p>
+        </div>
+        <div class="achievement-badge">AIR 31</div>
+      </div>
+      <div class="achievement-item reveal">
+        <div class="achievement-icon">📐</div>
+        <div class="achievement-text">
+          <h4>JEE Main 2025 — Mathematics</h4>
+          <p>Secured 99.37 percentile in Mathematics, placing in the top 0.6% of applicants nationwide</p>
+        </div>
+        <div class="achievement-badge">99.37 %ile</div>
+      </div>
+      <div class="achievement-item reveal">
+        <div class="achievement-icon">🚀</div>
+        <div class="achievement-text">
+          <h4>NIT Delhi UpVision Hackathon</h4>
+          <p>Top 10 out of 150+ teams in the "AI for Humanity" track with Team Diazonium</p>
+        </div>
+        <div class="achievement-badge">Top 10 / 150+</div>
+      </div>
+      <div class="achievement-item reveal">
+        <div class="achievement-icon">🌐</div>
+        <div class="achievement-text">
+          <h4>IELTS Certified — C1 Level (Advanced)</h4>
+          <p>English language proficiency at advanced level; also fluent in Hindi and Maithili (mother tongue)</p>
+        </div>
+        <div class="achievement-badge">C1 Level</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="contact-section" id="contact">
+    <h2>Let's <em>Connect</em></h2>
+    <p>Open to research collaborations, internships, and quantitative roles.</p>
+    <div class="contact-links">
+      <a href="mailto:bsdbg2521@isid.ac.in" class="contact-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        bsdbg2521@isid.ac.in
+      </a>
+      <a href="tel:+918527557285" class="contact-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +91 85275 57285
+      </a>
+      <a href="https://linkedin.com" class="contact-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com" class="contact-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Built with precision · Utkarsh Bharadwaj © 2026 · ISI Delhi
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
