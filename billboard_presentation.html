@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Billboard Hot 100 Research — 2018–2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+  :root {
+    /* Presentation High Contrast Palette */
+    --bg: #030508;
+    --bg2: #0a0e17;
+    --bg3: #111826;
+    --gold: #ffcc33;
+    --gold2: #ffe680;
+    --amber: #ff9900;
+    --teal: #00f2ff;
+    --lavender: #b388ff;
+    --rose: #ff3366;
+    --text: #ffffff;
+    --muted: #b0bec5;
+    --border: rgba(255, 204, 51, 0.3);
+    --code-bg: #000000;
+    --code-border: #00f2ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    height: 100vh;
+    user-select: none;
+  }
+
+  #deck { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+
+  .slide {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    padding: 0; opacity: 0; transform: translateX(60px);
+    pointer-events: none; transition: opacity 0.4s ease, transform 0.4s ease;
+    background: var(--bg); overflow: hidden;
+  }
+
+  .slide.active { opacity: 1; transform: translateX(0); pointer-events: all; }
+  .slide.out { opacity: 0; transform: translateX(-60px); pointer-events: none; }
+
+  /* ─── HEADER BAR ─── */
+  .slide-header {
+    display: flex; align-items: center; gap: 16px; padding: 24px 60px;
+    border-bottom: 2px solid rgba(255,255,255,0.1); background: var(--bg2);
+    z-index: 10; flex-shrink: 0;
+  }
+
+  .section-badge {
+    font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; padding: 8px 16px;
+    border-radius: 4px; border: 2px solid;
+  }
+
+  .badge-intro { color: var(--teal); border-color: var(--teal); background: rgba(0,242,255,0.1); }
+  .badge-q1 { color: var(--gold); border-color: var(--gold); background: rgba(255,204,51,0.1); }
+  .badge-q2 { color: var(--amber); border-color: var(--amber); background: rgba(255,153,0,0.1); }
+  .badge-q3 { color: var(--lavender); border-color: var(--lavender); background: rgba(179,136,255,0.1); }
+  .badge-q4 { color: var(--rose); border-color: var(--rose); background: rgba(255,51,102,0.1); }
+  .badge-team { color: var(--teal); border-color: var(--teal); background: rgba(0,242,255,0.1); }
+
+  .slide-header-title { font-family: 'DM Mono', monospace; font-size: 18px; color: var(--muted); letter-spacing: 1px; margin-left: auto; }
+
+  /* ─── CONTENT AREA ─── */
+  .slide-body {
+    flex: 1; overflow-y: auto; padding: 40px 60px 100px 60px;
+    scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  h1 { font-family: 'Playfair Display', serif; font-size: clamp(48px, 6vw, 80px); font-weight: 900; line-height: 1.1; color: var(--text); margin-bottom: 20px; }
+  h1 em { color: var(--gold); font-style: italic; }
+  h2 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 4vw, 56px); font-weight: 700; color: var(--text); margin-bottom: 20px; line-height: 1.2; }
+  h3 { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
+  p, li { font-size: 22px; line-height: 1.6; color: #e2e8f0; font-weight: 400; margin-bottom: 16px; }
+  strong { color: #ffffff; font-weight: 700; }
+
+  .accent { color: var(--gold); }
+  .accent-teal { color: var(--teal); }
+  .accent-amber { color: var(--amber); }
+  .accent-lav { color: var(--lavender); }
+  .accent-rose { color: var(--rose); }
+
+  /* ─── TITLE SLIDE ─── */
+  .title-sub { font-size: 24px; color: var(--muted); margin-top: 24px; max-width: 800px; }
+  .title-pills { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 48px; }
+  .pill { font-family: 'DM Mono', monospace; font-size: 16px; padding: 10px 24px; border-radius: 100px; background: var(--bg3); border: 2px solid var(--border); color: var(--text); font-weight: bold; }
+  .pill strong { color: var(--gold); }
+
+  /* ─── GRIDS ─── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 32px; align-items: start; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-top: 32px; }
+
+  /* ─── CODE BLOCK ─── */
+  .code-wrap { background: var(--code-bg); border: 2px solid var(--code-border); border-radius: 12px; overflow: hidden; margin: 20px 0; position: relative; }
+  .code-header { display: flex; align-items: center; gap: 12px; padding: 16px 20px; background: rgba(0, 242, 255, 0.1); border-bottom: 2px solid var(--code-border); }
+  .code-lang { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: bold; color: var(--teal); margin-right: auto; }
+  
+  /* Copy Button Styles */
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--teal);
+    color: var(--teal);
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+  }
+  .copy-btn:hover { background: var(--teal); color: #000; box-shadow: 0 0 10px rgba(0,242,255,0.4); }
+
+  pre { padding: 24px; overflow-x: auto; font-family: 'DM Mono', monospace; font-size: 16px; line-height: 1.6; color: #c9d1d9; margin: 0; }
+  .kw { color: #ff79c6; font-weight: bold; }
+  .fn { color: #50fa7b; }
+  .str { color: #f1fa8c; }
+  .cm { color: #6272a4; font-style: italic; }
+
+  /* ─── BOXES ─── */
+  .finding-card { background: var(--bg3); border: 2px solid var(--border); border-radius: 12px; padding: 24px 32px; margin: 16px 0; display: flex; gap: 20px; align-items: flex-start; }
+  .finding-icon { font-size: 32px; flex-shrink: 0; }
+  .finding-text { font-size: 20px; line-height: 1.6; color: #e2e8f0; }
+  .rq-box { background: rgba(255,204,51,0.05); border: 2px solid var(--gold); border-radius: 16px; padding: 32px 40px; margin: 24px 0; }
+  .rq-text { font-family: 'Playfair Display', serif; font-size: 28px; font-style: italic; color: var(--gold2); line-height: 1.5; }
+  .highlight-box { background: rgba(0, 242, 255, 0.05); border: 2px solid var(--teal); border-radius: 12px; padding: 24px 32px; margin: 20px 0; }
+  .highlight-box p { font-size: 20px; margin: 0; }
+
+  /* ─── GITHUB & TEAM ─── */
+  .github-banner { background: rgba(0, 242, 255, 0.1); border: 2px solid var(--teal); border-radius: 12px; padding: 32px; text-align: center; margin-bottom: 40px; }
+  .github-link { text-decoration: none; display: inline-block; cursor: pointer; }
+  .github-link h2 { margin-bottom: 10px; font-family: 'DM Mono', monospace; color: var(--teal); transition: color 0.2s ease, text-shadow 0.2s ease; }
+  .github-link:hover h2 { color: var(--gold); text-shadow: 0 0 15px rgba(255,204,51,0.5); }
+  .github-banner p { font-size: 22px; color: var(--text); margin: 0; }
+  
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .team-member { background: var(--bg2); border: 2px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; transition: transform 0.2s ease; }
+  .team-member:hover { transform: translateY(-5px); border-color: var(--teal); }
+  .team-member .name { font-size: 24px; font-weight: 700; color: var(--gold); margin-bottom: 8px; }
+  .team-member .role { font-size: 16px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* Email Reveal Interaction */
+  .team-member { cursor: pointer; } 
+  .team-member .email {
+    font-size: 14px;
+    color: var(--teal);
+    font-family: 'DM Mono', monospace;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .team-member.show-email { 
+    border-color: var(--teal); 
+    background: rgba(0, 242, 255, 0.05); 
+  }
+  .team-member.show-email .email { 
+    max-height: 40px; 
+    opacity: 1; 
+    margin-top: 12px; 
+  }
+
+  /* ─── PLOTS & TABLES ─── */
+  .plot-wrap { background: var(--bg2); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; overflow: hidden; margin: 24px 0; }
+  .plot-title-bar { padding: 16px 24px; background: rgba(255,255,255,0.05); border-bottom: 2px solid rgba(255,255,255,0.1); font-family: 'DM Mono', monospace; font-size: 14px; color: var(--muted); }
+  
+  .schema-table, .var-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  .schema-table th, .var-table th { font-family: 'DM Mono', monospace; font-size: 16px; color: var(--teal); text-align: left; padding: 12px 16px; border-bottom: 2px solid var(--teal); }
+  .schema-table td, .var-table td { font-size: 18px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+  /* ─── NAV ─── */
+  #nav { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 24px; background: rgba(10, 14, 23, 0.95); border: 2px solid var(--border); border-radius: 100px; padding: 12px 32px; z-index: 100; }
+  .nav-btn { background: none; border: 2px solid var(--muted); color: var(--text); width: 48px; height: 48px; border-radius: 50%; cursor: pointer; font-size: 20px; transition: 0.2s; }
+  .nav-btn:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); background: rgba(255,204,51,0.1); }
+  #slide-counter { font-family: 'DM Mono', monospace; font-size: 18px; }
+  #slide-counter span { color: var(--gold); font-weight: bold; }
+  #progress-bar { position: fixed; top: 0; left: 0; height: 6px; background: linear-gradient(90deg, var(--teal), var(--gold), var(--rose)); transition: 0.4s; z-index: 200; }
+  
+  ul.clean { list-style: none; margin-left: 0; padding-left: 0; }
+  ul.clean li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; gap: 16px; margin:0; }
+  ul.clean li::before { content: '—'; color: var(--gold); font-weight: bold; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div id="deck"></div>
+
+<div id="nav">
+  <button class="nav-btn" id="prevBtn" onclick="prevSlide()">&#8592;</button>
+  <div id="slide-counter"><span id="cur">1</span> / <span id="tot"></span></div>
+  <button class="nav-btn" id="nextBtn" onclick="nextSlide()">&#8594;</button>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+//  COPY FUNCTIONALITY
+// ══════════════════════════════════════════════════════════════════
+function copyCode(btn) {
+  const pre = btn.closest('.code-wrap').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    const originalText = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.style.background = 'var(--gold)';
+    btn.style.color = '#000';
+    btn.style.borderColor = 'var(--gold)';
+    
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.borderColor = '';
+    }, 2000);
+  }).catch(err => {
+    console.error('Failed to copy text: ', err);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  EMBEDDED DATASETS FOR PLOTS
+// ══════════════════════════════════════════════════════════════════
+
+const scatterDataRQ1 = [
+  {dc: 6.05, hp: 0.11, label: "God's Plan (2018)"}, {dc: 7.67, hp: 0.04, label: "SAD! (2018)"}, {dc: 4.57, hp: 0.50, label: "rockstar (2018)"},
+  {dc: 4.62, hp: 0.35, label: "Psycho (2018)"}, {dc: 2.12, hp: 0.61, label: "FRIENDS (2018)"}, {dc: 8.11, hp: 0.11, label: "WAP (2020)"},
+  {dc: 5.61, hp: 0.36, label: "Circles (2020)"}, {dc: 3.02, hp: 0.33, label: "The Box (2020)"}, {dc: 24.2, hp: 1.00, label: "Savage (2020)"},
+  {dc: 3.33, hp: 0.16, label: "Levitating (2021)"}, {dc: 4.09, hp: 0.42, label: "Good 4 U (2021)"}, {dc: 5.54, hp: 0.22, label: "Easy on Me (2022)"},
+  {dc: 3.26, hp: 0.61, label: "Heat Waves (2022)"}, {dc: 4.57, hp: 0.50, label: "Last Night (2023)"}, {dc: 2.12, hp: 0.61, label: "Beautiful Things (2024)"},
+  {dc: 5.37, hp: 0.30, label: "A Bar Song (2024)"}, {dc: 3.02, hp: 0.33, label: "Lose Control (2024)"}, {dc: 4.63, hp: 0.03, label: "Birds of a Feather (2025)"},
+  {dc: 5.61, hp: 0.36, label: "Luther (2025)"}, {dc: 5.64, hp: 0.12, label: "I Had Some Help (2025)"}, {dc: 2.61, hp: 0.21, label: "APT. (2025)"}
+];
+
+const acousticTrend = {
+  years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+  values: [0.196, 0.214, 0.230, 0.240, 0.250, 0.285, 0.289, 0.258]
+};
+
+const durationDataRQ3 = [
+  {rank: 1, dur: 3.31, label: "God's Plan"}, {rank: 2, dur: 2.77, label: "SAD!"}, {rank: 3, dur: 3.63, label: "rockstar"}, {rank: 4, dur: 3.23, label: "Bad Guy"},
+  {rank: 5, dur: 3.02, label: "Rockstar"}, {rank: 6, dur: 3.57, label: "Happier"}, {rank: 7, dur: 2.97, label: "7 Rings"}, {rank: 9, dur: 5.21, label: "Sicko Mode"},
+  {rank: 12, dur: 3.99, label: "Lucid Dreams"}, {rank: 15, dur: 2.59, label: "Savage"}, {rank: 22, dur: 6.96, label: "Te Bote"}, {rank: 30, dur: 4.39, label: "Perfect"},
+  {rank: 48, dur: 3.99, label: "Lucid Dreams"}, {rank: 75, dur: 4.48, label: "Him & I"}, {rank: 95, dur: 1.59, label: "Everybody Dies"}
+];
+
+const varianceData = [
+  {year:2018, dance:0.0172, tempo:829, acoustic:0.0488}, {year:2019, dance:0.0330, tempo:837, acoustic:0.0538},
+  {year:2020, dance:0.0199, tempo:672, acoustic:0.0469}, {year:2021, dance:0.0262, tempo:968, acoustic:0.0640},
+  {year:2022, dance:0.0199, tempo:938, acoustic:0.0616}, {year:2023, dance:0.0230, tempo:910, acoustic:0.0610},
+  {year:2024, dance:0.0228, tempo:981, acoustic:0.0750}, {year:2025, dance:0.0216, tempo:1146, acoustic:0.0702}
+];
+
+// ══════════════════════════════════════════════════════════════════
+//  SLIDE DEFINITIONS (25 SLIDES TOTAL)
+// ══════════════════════════════════════════════════════════════════
+
+const slides = [
+
+// ─── 0: TITLE ───
+{html: `
+<div class="slide-body" style="display:flex;flex-direction:column;justify-content:center;">
+  <h3>Data Analysis using R and Python (DARP)</h3>
+  <h1>What Makes a Hit? <br><em>Billboard Analytics 2018–2025</em></h1>
+  <p class="title-sub">A data-driven exploration bridging Spotify, Maven Analytics, and AcousticBrainz to understand the sonic characteristics of chart-topping success.</p>
+  <div class="title-pills">
+    <div class="pill"><strong>800</strong> Tracks Analyzed</div>
+    <div class="pill"><strong>15</strong> Variables per Track</div>
+    <div class="pill"><strong>R/Py</strong> Full Pipeline</div>
+    <div class="pill"><strong>6</strong> Team Members</div>
+  </div>
+</div>
+`, badge:'badge-intro', section:'Indian Statistical Institute · 2026', title:'Title Slide'},
+
+// ─── 1: SCHEMA ───
+{html: `
+<div class="slide-body">
+  <h3>Data Schema</h3>
+  <h2>The 15-Feature Dataset</h2>
+  <p>To analyze hit properties, we bridged three heterogeneous sources—Maven Analytics, Billboard API, and a personal Spotify Export—to create a unified longitudinal dataset spanning an eight-year window.</p>
+  
+  <div class="two-col">
+    <div>
+      <h3 style="color:var(--text); font-size: 24px;">Spotify API Features</h3>
+      <table class="schema-table">
+        <thead><tr><th>Feature</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>tempo</td><td>Beats per minute (BPM)</td></tr>
+          <tr><td>danceability</td><td>0-1 composite rhythm score</td></tr>
+          <tr><td>acousticness</td><td>0-1 confidence of acoustic sound</td></tr>
+          <tr><td>speechiness</td><td>Proportion of spoken words</td></tr>
+          <tr><td>duration_minutes</td><td>Track length in minutes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3 style="color:var(--text); font-size: 24px;">AcousticBrainz Features</h3>
+      <table class="schema-table">
+        <thead><tr><th>Feature</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>avg_loudness</td><td>Mean signal loudness</td></tr>
+          <tr><td>dynamic_complexity</td><td>Variance in loudness over time</td></tr>
+          <tr><td>happy_prob</td><td>SVM Positive Mood Score</td></tr>
+          <tr><td>sad_prob</td><td>SVM Negative Mood Score</td></tr>
+          <tr><td>danceable_prob</td><td>SVM Dance Classification</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`, badge:'badge-intro', section:'Methodology', title:'Data Schema'},
+
+// ─── 2: IMPUTATION ───
+{html: `
+<div class="slide-body">
+  <h3>Data Engineering</h3>
+  <h2>KNN Imputation Strategy</h2>
+  <p>Because the AcousticBrainz service officially shut down in late 2022, entries for 2025 required full mood inference. We utilized K-Nearest Neighbors (KNN) to extrapolate features.</p>
+  
+  <div class="two-col">
+    <div>
+      <div class="highlight-box">
+        <p><strong>The Distance Metric:</strong> We computed the distance between 2025 songs and our 700-song fully-labeled donor pool (2018-2024) utilizing the 5 core Spotify features, standardized by their deviation.</p>
+        <p style="text-align:center;color:var(--teal);margin-top:20px;font-size:28px;">$$ d(x,y) = \\sqrt{\\sum_{i=1}^{n}\\left(\\frac{x_i - y_i}{\\sigma_i}\\right)^2} $$</p>
+      </div>
+      <p style="margin-top: 20px;">A strict post-generation validation check ensured no partially-labeled records entered the R analysis pipeline.</p>
+    </div>
+    <div>
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">Python · Euclidean Distance Inference</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="cm"># Normalize donor space by standard deviation</span>
+scales <span class="op">=</span> donors[PUBLIC_COLS].<span class="fn">std</span>().<span class="fn">replace</span>(<span class="num">0</span>, <span class="num">1</span>)
+
+<span class="kw">for</span> idx, row <span class="kw">in</span> result.<span class="fn">iterrows</span>():
+    <span class="cm"># Compute normalized Euclidean distance array</span>
+    distances <span class="op">=</span> (
+        ((donors[PUBLIC_COLS] <span class="op">-</span> row[PUBLIC_COLS]) 
+        <span class="op">/</span> scales) <span class="op">**</span> <span class="num">2</span>
+    ).<span class="fn">sum</span>(axis<span class="op">=</span><span class="num">1</span>) <span class="op">**</span> <span class="num">0.5</span>
+    
+    <span class="cm"># Extract exact match and impute target features</span>
+    nearest <span class="op">=</span> donors.<span class="fn">loc</span>[distances.<span class="fn">idxmin</span>()]</pre>
+      </div>
+    </div>
+  </div>
+</div>
+`, badge:'badge-intro', section:'Methodology', title:'Imputation Math'},
+
+// ─── 3: RQ1 HYPOTHESIS ───
+{html: `
+<div class="slide-body">
+  <h3>Research Question 1</h3>
+  <h2>What Makes a Song <span class="accent">Happy</span>?</h2>
+  <div class="rq-box" style="border-color:var(--gold);">
+    <div class="rq-text" style="color:var(--gold2);">Which measurable audio features correlate most strongly with the <code>happy_probability</code> score assigned by AcousticBrainz?</div>
+  </div>
+  
+  <p>To demystify the sonic characteristics of joy, we looked at how structural audio elements (tempo, danceability, loudness, dynamic complexity) map to perceived happiness across all 800 songs.</p>
+  
+  <div class="highlight-box" style="border-color:var(--gold); background:rgba(255,204,51,0.05);">
+    <p><strong>What is Happy Probability?</strong> It is generated by Support Vector Machine (SVM) classifiers trained on human-annotated ground truth. It evaluates spectral, rhythmic, and timbral descriptors extracted by the Essentia engine, completely ignoring lyrical content.</p>
+  </div>
+  <p>Our hypothesis was that high tempo and high danceability would naturally yield the highest happiness scores.</p>
+</div>
+`, badge:'badge-q1', section:'RQ1 (1/4)', title:'Happiness Hypothesis'},
+
+// ─── 4: RQ1 METHODOLOGY ───
+{html: `
+<div class="slide-body">
+  <h3>RQ1 · Methodology</h3>
+  <h2>OLS Regression Engine</h2>
+  <p>For each candidate predictor $x_{i}$, we fit a simple ordinary-least-squares (OLS) regression over the pooled 800-song dataset to compute the Pearson correlation coefficient.</p>
+  
+  <p style="text-align:center; padding: 20px; font-size:32px; color:var(--gold);">$$ \\hat{happy}_{j}=\\hat{\\beta}_{0}+\\hat{\\beta}_{1}x_{ij} $$</p>
+
+  <div class="code-wrap">
+    <div class="code-header">
+      <span class="code-lang">R · Correlation Pipeline</span>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <pre><span class="cm"># Loop linear model across all predictors</span>
+lm_results <span class="op">&lt;-</span> <span class="fn">lapply</span>(predictors, <span class="kw">function</span>(p) {
+  
+  formula <span class="op">&lt;-</span> <span class="fn">as.formula</span>(<span class="fn">paste</span>(<span class="str">"happy_prob ~"</span>, p))
+  model <span class="op">&lt;-</span> <span class="fn">lm</span>(formula, data <span class="op">=</span> combined.data)
+  
+  <span class="cm"># Compute Pearson correlation (r)</span>
+  r <span class="op">&lt;-</span> <span class="fn">cor</span>(combined.data[[p]], combined.data<span class="op">$</span>happy_probability)
+           
+  <span class="fn">list</span>(predictor <span class="op">=</span> p, r <span class="op">=</span> r, model <span class="op">=</span> model)
+})</pre>
+  </div>
+</div>
+`, badge:'badge-q1', section:'RQ1 (2/4)', title:'Methodology'},
+
+// ─── 5: RQ1 CORRELATION PLOT ───
+{html: `
+<div class="slide-body">
+  <h3>RQ1 · Interactive Plot 1</h3>
+  <h2>Ranking the Audio Predictors</h2>
+  <p>We visualized the output of the Pearson correlations ($r$) across all features to see which elements truly drive a song's happiness probability.</p>
+  
+  <div class="plot-wrap">
+    <div class="plot-title-bar" style="color:var(--gold);">📊 Horizontal Bar Chart: Pearson Correlation (r) with Happiness</div>
+    <div id="plot-rq1-bar" style="height:350px; width:100%;"></div>
+  </div>
+  
+  <div class="finding-card" style="border-color:var(--gold);">
+    <div class="finding-icon">🔍</div>
+    <div class="finding-text"><strong>Immediate Observation:</strong> Dynamic complexity vastly outperforms traditional metrics like tempo or danceability. Furthermore, speechiness acts as a strong negative weight.</div>
+  </div>
+</div>
+`, badge:'badge-q1', section:'RQ1 (3/4)', title:'Correlation Bar Chart',
+onRender: function() {
+  const trace = {
+    x: [0.4155, 0.2296, 0.0408, 0.0407, 0.0342, -0.1357].reverse(),
+    y: ['Dynamic Complexity', 'Tempo', 'Duration', 'Danceability', 'Avg Loudness', 'Speechiness'].reverse(),
+    type: 'bar', orientation: 'h',
+    marker: { color: ['#ffcc33', '#ffcc33', '#ffcc33', '#ffcc33', '#ffcc33', '#ff3366'].reverse() }
+  };
+  Plotly.newPlot('plot-rq1-bar', [trace], {
+    paper_bgcolor:'transparent', plot_bgcolor:'transparent',
+    font: {color: '#b0bec5', family: 'DM Mono', size: 14},
+    xaxis: {title: 'Pearson Correlation (r)', gridcolor:'rgba(255,255,255,0.1)', zeroline: true, zerolinecolor: '#ffffff'},
+    yaxis: {gridcolor:'transparent'},
+    margin:{l:180,r:40,t:20,b:40}
+  }, {displayModeBar: false});
+}},
+
+// ─── 6: RQ1 SCATTER & FINDINGS ───
+{html: `
+<div class="slide-body">
+  <h3>RQ1 · Interactive Plot 2 & Findings</h3>
+  <h2>Dynamic Range is the Key to Joy</h2>
+  
+  <div class="two-col">
+    <div>
+      <div class="plot-wrap">
+        <div class="plot-title-bar" style="color:var(--gold);">📊 Scatter: Dynamic Complexity vs Happiness</div>
+        <div id="plot-rq1-scatter" style="height:350px; width:100%;"></div>
+      </div>
+    </div>
+    <div>
+      <div class="finding-card" style="border-color:var(--gold);">
+        <div class="finding-icon">🏆</div>
+        <div class="finding-text"><strong>Dynamic Complexity (r = 0.42):</strong> The strongest predictor. Songs with a wide loudness dynamic range—where soft verses give way to explosive choruses—are consistently rated as significantly happier.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-icon">🎵</div>
+        <div class="finding-text"><strong>The Danceability Paradox:</strong> Danceability had near-zero correlation ($r=0.04$). Many high-energy electronic or hip-hop tracks receive high danceability scores without the acoustic brightness that classifiers associate with happiness. Instead, they lean into minor keys and aggressive 808s, perceived as "intense" rather than "joyful."</div>
+      </div>
+    </div>
+  </div>
+</div>
+`, badge:'badge-q1', section:'RQ1 (4/4)', title:'Scatter & Findings',
+onRender: function() {
+  const trace = {
+    x: scatterDataRQ1.map(d=>d.dc), y: scatterDataRQ1.map(d=>d.hp), text: scatterDataRQ1.map(d=>d.label),
+    mode: 'markers', type: 'scatter', marker: { color: '#ffcc33', size: 10, opacity: 0.8 },
+    hovertemplate: '<b>%{text}</b><br>Complexity: %{x}<br>Happy Prob: %{y}<extra></extra>'
+  };
+  Plotly.newPlot('plot-rq1-scatter', [trace], {
+    paper_bgcolor:'transparent', plot_bgcolor:'transparent', font: {color: '#b0bec5', family: 'DM Mono'},
+    xaxis: {title: 'Dynamic Complexity', gridcolor:'rgba(255,255,255,0.1)', zeroline:false},
+    yaxis: {title: 'Happy Probability (0-1)', gridcolor:'rgba(255,255,255,0.1)', zeroline:false},
+    margin:{l:60,r:20,t:20,b:40}
+  }, {displayModeBar: false});
+}},
+
+// ─── 7: RQ2 HYPOTHESIS ───
+{html: `
+<div class="slide-body">
+  <h3>Research Question 2</h3>
+  <h2>Acousticness <span class="accent-amber">Over Time</span></h2>
+  <div class="rq-box" style="border-color:var(--amber);">
+    <div class="rq-text" style="color:var(--amber);">Has the average level of acousticness in Billboard hits shifted between 2018 and 2025, and did the COVID-19 pandemic drive a return to organic sound?</div>
+  </div>
+  
+  <p>There is a popular narrative that the 2020-2021 global lockdowns forced artists to abandon large studios and synthesize tracks in favor of intimate, acoustic home recordings. We wanted to test this "Pandemic Acoustic Surge" theory.</p>
+  
+  <div class="highlight-box" style="border-color:var(--amber); background:rgba(255,153,0,0.05);">
+    <p><strong>Spotify's Acousticness Metric:</strong> A confidence measure ($0.0 - 1.0$) of whether a track is acoustic. A value near 1.0 indicates high confidence that no electronic amplification or heavy synthesizers are present.</p>
+  </div>
+</div>
+`, badge:'badge-q2', section:'RQ2 (1/3)', title:'Acoustic Hypothesis'},
+
+// ─── 8: RQ2 METHODOLOGY ───
+{html: `
+<div class="slide-body">
+  <h3>RQ2 · Methodology</h3>
+  <h2>Time-Series Aggregation</h2>
+  <p>To observe the macro trend, we utilized <code>dplyr</code> to group all 800 tracks by year and compute the annual mean acousticness.</p>
+
+  <div class="two-col" style="margin-top: 10px;">
+    <div>
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">R · Dplyr Aggregation</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="cm"># Compute the yearly mean acousticness</span>
+acoustic_trend <span class="op">&lt;-</span> combined.data <span class="op">%&gt;%</span>
+  <span class="fn">group_by</span>(year) <span class="op">%&gt;%</span>
+  <span class="fn">summarise</span>(
+    avg_acousticness <span class="op">=</span> <span class="fn">mean</span>(acousticness, 
+                            na.rm <span class="op">=</span> <span class="kw">TRUE</span>)
+  )
+
+<span class="cm"># Plotting the trend with ggplot2</span>
+<span class="fn">ggplot</span>(acoustic_trend, 
+       <span class="fn">aes</span>(x <span class="op">=</span> year, y <span class="op">=</span> avg_acousticness)) <span class="op">+</span>
+  <span class="fn">geom_line</span>(colour <span class="op">=</span> <span class="str">"steelblue"</span>, size <span class="op">=</span> <span class="num">1.2</span>) <span class="op">+</span>
+  <span class="fn">geom_point</span>(colour <span class="op">=</span> <span class="str">"steelblue"</span>, size <span class="op">=</span> <span class="num">3</span>)</pre>
+      </div>
+    </div>
+    <div>
+      <table class="var-table">
+        <thead><tr><th style="color:var(--amber)">Year</th><th style="color:var(--amber)">Mean Acousticness</th><th style="color:var(--amber)">YoY Change</th></tr></thead>
+        <tbody>
+          <tr><td>2018</td><td>0.196</td><td>--</td></tr>
+          <tr><td>2020</td><td>0.230</td><td>+0.016</td></tr>
+          <tr><td>2023</td><td style="color:var(--amber);font-weight:bold;">0.285</td><td style="color:var(--teal);font-weight:bold;">+0.035 (Peak Jump)</td></tr>
+          <tr><td>2024</td><td style="color:var(--amber);font-weight:bold;">0.289</td><td>+0.004</td></tr>
+          <tr><td>2025</td><td>0.258</td><td style="color:var(--rose);font-weight:bold;">-0.031 (Reversal)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`, badge:'badge-q2', section:'RQ2 (2/3)', title:'Aggregation Logic'},
+
+// ─── 9: RQ2 PLOT & FINDINGS ───
+{html: `
+<div class="slide-body">
+  <h3>RQ2 · Interactive Findings</h3>
+  <h2>The Country Boom, Not COVID</h2>
+  
+  <div class="two-col">
+    <div>
+      <div class="plot-wrap">
+        <div class="plot-title-bar" style="color:var(--amber);">📈 Line Chart: Mean Acousticness (2018-2025)</div>
+        <div id="plot-rq2" style="height:380px; width:100%;"></div>
+      </div>
+    </div>
+    <div>
+      <div class="finding-card" style="border-color:var(--amber);">
+        <div class="finding-icon">🦠</div>
+        <div class="finding-text"><strong>Busting the COVID Myth:</strong> The lockdown period (2020-2021) did not produce a sudden spike. The increase was underway in 2019 and continued smoothly.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-icon">🎸</div>
+        <div class="finding-text"><strong>The Country Crossover Effect:</strong> The steepest jump occurred between 2022 and 2023 (+0.035). This tracks the dominance of acoustic country stars like Zach Bryan, Morgan Wallen, and Olivia Rodrigo's acoustic work.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-icon">📉</div>
+        <div class="finding-text"><strong>The 2025 Reversal:</strong> A slight drop to 0.258 hints that the pendulum may be swinging back toward electronic production (e.g., Charli XCX, Sabrina Carpenter).</div>
+      </div>
+    </div>
+  </div>
+</div>
+`, badge:'badge-q2', section:'RQ2 (3/3)', title:'Interactive Trend',
+onRender: function() {
+  const trace = {
+    x: acousticTrend.years, y: acousticTrend.values, mode: 'lines+markers', type: 'scatter',
+    line: { color: '#ff9900', width: 4 }, marker: { size: 12 }, fill: 'tozeroy', fillcolor: 'rgba(255, 153, 0, 0.1)',
+    hovertemplate: 'Year: %{x}<br>Acousticness: %{y}<extra></extra>'
+  };
+  Plotly.newPlot('plot-rq2', [trace], {
+    paper_bgcolor:'transparent', plot_bgcolor:'transparent', font: {color: '#b0bec5', family: 'DM Mono'},
+    xaxis: {gridcolor:'rgba(255,255,255,0.1)'}, yaxis: {range:[0.15, 0.35], gridcolor:'rgba(255,255,255,0.1)', zeroline:false},
+    margin:{l:50,r:20,t:20,b:40}
+  }, {displayModeBar: false});
+}},
+
+// ─── 10: RQ3 HYPOTHESIS ───
+{html: `
+<div class="slide-body">
+  <h3>Research Question 3</h3>
+  <h2>Which Songs Rank Better: <span class="accent-lav">Shorter or Longer?</span></h2>
+  <div class="rq-box" style="border-color:var(--lavender);">
+    <div class="rq-text" style="color:var(--lavender);">Is there a statistically meaningful difference in song duration between elite top-20 hits and those ranked 21-100?</div>
+  </div>
+  
+  <p>Billboard updated its methodology to incorporate streaming data. Because platforms like Spotify pay per-stream (requiring only 30 seconds of playback), shorter songs inherently generate more streams-per-hour.</p>
+  
+  <div class="highlight-box" style="border-color:var(--lavender); background:rgba(179,136,255,0.05);">
+    <p><strong>The Hypothesis:</strong> We expect songs that reach the absolute pinnacle of the charts (Top 20) to be systematically shorter than lower-ranked songs, reflecting aggressive optimization for streaming algorithms.</p>
+  </div>
+</div>
+`, badge:'badge-q3', section:'RQ3 (1/4)', title:'Duration Hypothesis'},
+
+// ─── 11: RQ3 METHODOLOGY ───
+{html: `
+<div class="slide-body">
+  <h3>RQ3 · Methodology</h3>
+  <h2>Independent Two-Sample T-Test</h2>
+  <p>We created a binary <code>top20</code> indicator and computed the mean duration for Top 20 vs. remaining charting songs, testing the difference with a two-sample t-test.</p>
+
+  <div class="code-wrap" style="margin-top: 10px;">
+    <div class="code-header">
+      <span class="code-lang">R · T-Test Execution</span>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <pre><span class="cm"># Partition into Top 20 vs Rest</span>
+combined.data<span class="op">$</span>top20 <span class="op">&lt;-</span> <span class="fn">ifelse</span>(combined.data<span class="op">$</span>billboard_rank <span class="op">&lt;=</span> <span class="num">20</span>, <span class="num">1</span>, <span class="num">0</span>)
+
+<span class="cm"># Group summarization</span>
+duration_summary <span class="op">&lt;-</span> combined.data <span class="op">%&gt;%</span>
+  <span class="fn">group_by</span>(top20) <span class="op">%&gt;%</span>
+  <span class="fn">summarise</span>(avg_duration <span class="op">=</span> <span class="fn">mean</span>(duration_minutes), n_songs <span class="op">=</span> <span class="fn">n</span>())
+
+<span class="cm"># Perform two-sample t-test</span>
+<span class="fn">t.test</span>(duration_minutes <span class="op">~</span> top20, data <span class="op">=</span> combined.data)</pre>
+  </div>
+</div>
+`, badge:'badge-q3', section:'RQ3 (2/4)', title:'Methodology'},
+
+// ─── 12: RQ3 BAR CHART ───
+{html: `
+<div class="slide-body">
+  <h3>RQ3 · Interactive Plot 1</h3>
+  <h2>The "8-Second" Streaming Tax</h2>
+  <p>Our t-test revealed a small but statistically significant difference in how long songs are allowed to be at the very top of the charts.</p>
+  
+  <div class="two-col">
+    <div>
+      <div class="plot-wrap">
+        <div class="plot-title-bar" style="color:var(--lavender);">📊 Bar Chart: Mean Duration (Top 20 vs Rest)</div>
+        <div id="plot-rq3-bar" style="height:350px; width:100%;"></div>
+      </div>
+    </div>
+    <div>
+      <div class="finding-card" style="border-color:var(--lavender);">
+        <div class="finding-icon">⏱️</div>
+        <div class="finding-text"><strong>Measurably Shorter:</strong> Top-20 hits average 3.248 minutes, which is roughly 8 seconds shorter than songs ranked 21-100 (3.382 minutes).</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-icon">✂️</div>
+        <div class="finding-text"><strong>Algorithmic Editing:</strong> Producers are actively shaving off long intros to hit choruses faster and maximize replay value. This feeds into the ranking algorithms of Spotify and Apple Music that inform Billboard's methodology since 2012.</div>
+      </div>
+    </div>
+  </div>
+</div>
+`, badge:'badge-q3', section:'RQ3 (3/4)', title:'Duration Comparison',
+onRender: function() {
+  const trace = {
+    x: ['Top 20 Hits', 'Rank 21-100'], y: [3.248, 3.382], type: 'bar',
+    text: ['3.248 min', '3.382 min'], textposition: 'auto',
+    marker: { color: ['#b388ff', '#5c4d7d'] }
+  };
+  Plotly.newPlot('plot-rq3-bar', [trace], {
+    paper_bgcolor:'transparent', plot_bgcolor:'transparent', font: {color: '#b0bec5', family: 'DM Mono', size: 16},
+    yaxis: {title: 'Mean Duration (Minutes)', range: [3.0, 3.5], gridcolor:'rgba(255,255,255,0.1)'},
+    margin:{l:60,r:20,t:20,b:40}
+  }, {displayModeBar: false});
+}},
+
+// ─── 13: RQ3 SCATTER & FINDINGS ───
+{html: `
+<div class="slide-body">
+  <h3>RQ3 · Interactive Plot 2 & Findings</h3>
+  <h2>Not a Golden Ticket</h2>
+  
+  <div class="two-col">
+    <div>
+      <div class="plot-wrap">
+        <div class="plot-title-bar" style="color:var(--lavender);">📊 Scatter: Rank vs Duration (Subset)</div>
+        <div id="plot-rq3-scatter" style="height:380px; width:100%;"></div>
+      </div>
+    </div>
+    <div>
+      <div class="finding-card" style="border-color:var(--lavender);">
+        <div class="finding-icon">🎯</div>
+        <div class="finding-text"><strong>A Prerequisite, Not a Guarantee:</strong> The absence of a strong linear relationship (the scatter plot is noisy) suggests duration alone is not a reliable predictor of chart position, but the group-level difference is real.</div>
+      </div>
+      <div class="highlight-box">
+        <p><strong>Outliers Defy the Rule:</strong> Massive cultural hits often ignore this optimization entirely. Tracks like Travis Scott's "Sicko Mode" (5.2 minutes) and XXXTENTACION's "Jocelyn Flores" (1.99 minutes) prove that exceptional fan engagement can override standard streaming penalties.</p>
+      </div>
+    </div>
+  </div>
+</div>
+`, badge:'badge-q3', section:'RQ3 (4/4)', title:'Scatter & Findings',
+onRender: function() {
+  const trace = {
+    x: durationDataRQ3.map(d=>d.dur), y: durationDataRQ3.map(d=>d.rank), text: durationDataRQ3.map(d=>d.label),
+    mode: 'markers', type: 'scatter', marker: { color: '#b388ff', size: 10, opacity: 0.8 },
+    hovertemplate: '<b>%{text}</b><br>Duration: %{x} min<br>Rank: %{y}<extra></extra>'
+  };
+  Plotly.newPlot('plot-rq3-scatter', [trace], {
+    paper_bgcolor:'transparent', plot_bgcolor:'transparent', font: {color: '#b0bec5', family: 'DM Mono'},
+    xaxis: {title: 'Duration (Minutes)', gridcolor:'rgba(255,255,255,0.1)', zeroline:false},
+    yaxis: {title: 'Billboard Rank', autorange: 'reversed', gridcolor:'rgba(255,255,255,0.1)', zeroline:false},
+    margin:{l:50,r:20,t:20,b:40}
+  }, {displayModeBar: false});
+}},
+
+// ─── 14: RQ4 HYPOTHESIS ───
+{html: `
+<div class="slide-body">
+  <h3>Research Question 4</h3>
+  <h2>Is Popular Music Becoming <span class="accent-rose">Formulaic?</span></h2>
+  <div class="rq-box" style="border-color:var(--rose);">
+    <div class="rq-text" style="color:var(--rose);">Have key audio features (tempo, acousticness, danceability) converged over time, suggesting that chart-topping music is being engineered to a narrow algorithmic template?</div>
+  </div>
+  
+  <p>A common cultural critique is that "all modern pop sounds exactly the same." If this homogenization were true, we would expect the mathematical variance ($s^2$) of audio features within the Top 100 to shrink year over year as producers converge on a proven formula.</p>
+  
+  <div class="highlight-box" style="border-color:var(--rose); background:rgba(255,51,102,0.05);">
+    <p><strong>The Hypothesis:</strong> The sample variance of structural features (tempo, duration, danceability) will display a steady downward trend from 2018 to 2025.</p>
+  </div>
+</div>
+`, badge:'badge-q4', section:'RQ4 (1/3)', title:'Formulaic Hypothesis'},
+
+// ─── 15: RQ4 METHODOLOGY ───
+{html: `
+<div class="slide-body">
+  <h3>RQ4 · Methodology</h3>
+  <h2>Tracking Sample Variance</h2>
+  <p>We measured the variance of each key audio feature within each year's Top 100, treating declining variance as evidence of creative convergence.</p>
+
+  <div class="two-col" style="margin-top: 10px;">
+    <div>
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">R · Variance Computation</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="cm"># Compute feature variance per year</span>
+var_trend <span class="op">&lt;-</span> combined.data <span class="op">%&gt;%</span>
+  <span class="fn">group_by</span>(year) <span class="op">%&gt;%</span>
+  <span class="fn">summarise</span>(
+    var_dance <span class="op">=</span> <span class="fn">var</span>(danceability, 
+                    na.rm <span class="op">=</span> <span class="kw">TRUE</span>),
+    var_tempo <span class="op">=</span> <span class="fn">var</span>(tempo, 
+                    na.rm <span class="op">=</span> <span class="kw">TRUE</span>),
+    var_acoustic <span class="op">=</span> <span class="fn">var</span>(acousticness, 
+                       na.rm <span class="op">=</span> <span class="kw">TRUE</span>)
+  )</pre>
+      </div>
+    </div>
+    <div>
+      <table class="var-table">
+        <thead><tr><th style="color:var(--rose)">Year</th><th style="color:var(--rose)">Var (Dance)</th><th style="color:var(--rose)">Var (Tempo)</th><th style="color:var(--rose)">Var (Acoustic)</th></tr></thead>
+        <tbody>
+          <tr><td>2018</td><td>0.0172</td><td style="color:var(--rose);font-weight:bold;">829</td><td>0.0488</td></tr>
+          <tr><td>2021</td><td>0.0262</td><td>968</td><td>0.0640</td></tr>
+          <tr><td>2024</td><td>0.0228</td><td>981</td><td>0.0750</td></tr>
+          <tr><td>2025</td><td>0.0216</td><td style="color:var(--teal);font-weight:bold;">1146</td><td style="color:var(--teal);font-weight:bold;">0.0702</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`, badge:'badge-q4', section:'RQ4 (2/3)', title:'Variance Logic'},
+
+// ─── 16: RQ4 PLOT & FINDINGS ───
+{html: `
+<div class="slide-body">
+  <h3>RQ4 · Interactive Findings</h3>
+  <h2>The Monoculture Myth Busted</h2>
+  
+  <div class="two-col">
+    <div>
+      <div class="plot-wrap">
+        <div class="plot-title-bar" style="color:var(--rose);">📈 Dual Axis: Tempo & Danceability Variance</div>
+        <div id="plot-rq4" style="height:380px; width:100%;"></div>
+      </div>
+    </div>
+    <div>
+      <div class="finding-card" style="border-color:var(--rose);">
+        <div class="finding-icon">❌</div>
+        <div class="finding-text"><strong>Hypothesis Rejected:</strong> Variance in tempo has actually increased drastically, rising from 829 to 1,146. Today's Top 100 houses a much wider diversity of song speeds.</div>
+      </div>
+      <div class="finding-card" style="border-color:var(--teal);">
+        <div class="finding-icon">💃</div>
+        <div class="finding-text"><strong>Stable Grooves:</strong> Danceability variance is more stable, oscillating around 0.02 - 0.033 without a clear directional trend. It proves there's no further homogenization happening.</div>
+      </div>
+    </div>
+  </div>
+</div>
+`, badge:'badge-q4', section:'RQ4 (3/3)', title:'Variance Findings',
+onRender: function() {
+  // Trace 1: Tempo Variance (Left Axis)
+  const trace1 = {
+    x: varianceData.map(d=>d.year), 
+    y: varianceData.map(d=>d.tempo),
+    name: 'Tempo Var',
+    mode: 'lines+markers', 
+    type: 'scatter',
+    line: { color: '#ff3366', width: 3 }, 
+    marker: { size: 10 },
+    yaxis: 'y1',
+    hovertemplate: 'Year: %{x}<br>Tempo Var: %{y}<extra></extra>'
+  };
+
+  // Trace 2: Danceability Variance (Right Axis)
+  const trace2 = {
+    x: varianceData.map(d=>d.year), 
+    y: varianceData.map(d=>d.dance || d.danceability),
+    name: 'Dance Var',
+    mode: 'lines+markers', 
+    type: 'scatter',
+    line: { color: '#00f2ff', width: 3, dash: 'dot' }, 
+    marker: { size: 10 },
+    yaxis: 'y2',
+    hovertemplate: 'Year: %{x}<br>Dance Var: %{y:.4f}<extra></extra>'
+  };
+
+  Plotly.newPlot('plot-rq4', [trace1, trace2], {
+    paper_bgcolor:'transparent', 
+    plot_bgcolor:'transparent', 
+    font: {color: '#b0bec5', family: 'DM Mono', size: 11},
+    xaxis: {
+      gridcolor:'rgba(255,255,255,0.1)', 
+      tickvals: [2018,2019,2020,2021,2022,2023,2024,2025]
+    }, 
+    yaxis: {
+      title: 'Tempo Variance', 
+      titlefont: {color: '#ff3366'}, 
+      tickfont: {color: '#ff3366'}, 
+      gridcolor:'rgba(255,255,255,0.1)', 
+      zeroline:false
+    },
+    yaxis2: {
+      title: 'Danceability Variance', 
+      titlefont: {color: '#00f2ff'}, 
+      tickfont: {color: '#00f2ff'},
+      overlaying: 'y', 
+      side: 'right', 
+      gridcolor: 'transparent', 
+      zeroline:false
+    },
+    legend: { orientation: 'h', y: -0.15 },
+    margin:{l:50,r:50,t:20,b:40}
+  }, {displayModeBar: false});
+}},
+
+// ─── 17: LIMITATIONS 1/3 ───
+{html: `
+<div class="slide-body" style="display: flex; flex-direction: column; height: 100%;">
+  <h3>Limitations (1/3)</h3>
+  <h2>Data Processing <span class="accent-rose">Constraints</span></h2>
+  <p style="margin-bottom:24px;">The data collection and imputation pipelines introduce constraints we must acknowledge.</p>
+  
+  <div class="two-col" style="flex: 1; margin-top: 0;">
+    <div class="finding-card" style="margin: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px;">
+      <div class="finding-icon" style="font-size: 56px; margin: 0 0 24px 0;">⚠️</div>
+      <div class="finding-text" style="font-size: 18px;"><strong>AcousticBrainz Discontinuation:</strong><br><br>The service was shut down in Nov 2022. The 2025 dataset relies heavily on KNN Inference, meaning values are extrapolations from historical donors, not independent observations. Any trend visible in 2025 for these columns should be treated with caution.</div>
+    </div>
+    <div class="finding-card" style="margin: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px;">
+      <div class="finding-icon" style="font-size: 56px; margin: 0 0 24px 0;">📝</div>
+      <div class="finding-text" style="font-size: 18px;"><strong>Manual Curation (2019-2024):</strong><br><br>The Billboard song lists were compiled by hand. Minor transcription errors in track titles or artist names could prevent correct MusicBrainz matching, forcing the pipeline to use imputed values instead of true data.</div>
+    </div>
+  </div>
+</div>
+`, badge:'badge-concl', section:'Limitations', title:'Data Constraints'},
+
+// ─── 18: LIMITATIONS 2/3 ───
+{html: `
+<div class="slide-body" style="display: flex; flex-direction: column; height: 100%;">
+  <h3>Limitations (2/3)</h3>
+  <h2>Algorithmic & Imputation <span class="accent-rose">Assumptions</span></h2>
+  <p style="margin-bottom:24px;">How we structured the math introduces potential biases into the final analysis.</p>
+  
+  <div class="two-col" style="flex: 1; margin-top: 0;">
+    <div class="finding-card" style="margin: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px;">
+      <div class="finding-icon" style="font-size: 56px; margin: 0 0 24px 0;">🎵</div>
+      <div class="finding-text" style="font-size: 18px;"><strong>Spotify Feature Reliability:</strong><br><br>Spotify's algorithm occasionally returns erroneous tempo values (particularly for complex metre or freestyle rap) and uses proprietary, undisclosed transformations to normalise features to [0,1], making cross-platform comparison non-trivial.</div>
+    </div>
+    <div class="finding-card" style="margin: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px;">
+      <div class="finding-icon" style="font-size: 56px; margin: 0 0 24px 0;">🧮</div>
+      <div class="finding-text" style="font-size: 18px;"><strong>KNN Assumptions:</strong><br><br>The imputer assumes similar Spotify features equal similar mood scores, which may not hold across genre boundaries. Furthermore, our choice of Euclidean distance and equal weighting of the 5 features was essentially arbitrary.</div>
+    </div>
+  </div>
+</div>
+`, badge:'badge-concl', section:'Limitations', title:'Algorithmic Constraints'},
+
+// ─── 19: LIMITATIONS 3/3 ───
+{html: `
+<div class="slide-body" style="display: flex; flex-direction: column; height: 100%;">
+  <h3>Limitations (3/3)</h3>
+  <h2>Scope & Chart <span class="accent-rose">Biases</span></h2>
+  <p style="margin-bottom:24px;">Interpreting the statistical results requires accounting for external factors.</p>
+  
+  <div class="two-col" style="flex: 1; margin-top: 0;">
+    <div style="display: flex; flex-direction: column; gap: 40px; height: 100%;">
+      <div class="finding-card" style="margin: 0; flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 30px;">
+        <div class="finding-icon" style="font-size: 40px; margin: 0 0 16px 0;">⚖️</div>
+        <div class="finding-text"><strong>Billboard Methodology Changes:</strong><br>Billboard adjusted the weights assigned to streaming, radio airplay, and sales over the study period. A Rank 1 song in 2018 may have earned its position via a different path than Rank 1 in 2025, introducing temporal inconsistency.</div>
+      </div>
+      <div class="finding-card" style="margin: 0; flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 30px;">
+        <div class="finding-icon" style="font-size: 40px; margin: 0 0 16px 0;">🌎</div>
+        <div class="finding-text"><strong>Geographic Bias:</strong><br>The Hot 100 primarily reflects United States consumption patterns. Songs popular globally but not in the US are absent. Findings shouldn't be generalised to world music.</div>
+      </div>
+    </div>
+    <div class="finding-card" style="margin: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px;">
+      <div class="finding-icon" style="font-size: 56px; margin: 0 0 24px 0;">🔗</div>
+      <div class="finding-text" style="font-size: 18px;"><strong>Correlation ≠ Causation:</strong><br><br>Findings are purely correlational. Increasing the dynamic complexity of a track does not magically manufacture a happier song. Confounding variables (genre, key, mode, lyrics) are not captured in this dataset.</div>
+    </div>
+  </div>
+</div>
+`, badge:'badge-concl', section:'Limitations', title:'Scope Constraints'},
+
+// ─── 20: CONCLUSION ───
+{html: `
+<div class="slide-body">
+  <h3>Conclusion</h3>
+  <h2>Key Project <span class="accent-teal">Takeaways</span></h2>
+  
+  <div class="two-col">
+    <div>
+      <div class="finding-card" style="border-color:var(--gold);">
+        <div class="finding-icon">01</div>
+        <div class="finding-text"><strong>Happiness requires dynamic contrast:</strong> Compressed, consistently loud songs are not perceived as happy. Dynamic range is crucial (r=0.42).</div>
+      </div>
+      <div class="finding-card" style="border-color:var(--amber);">
+        <div class="finding-icon">02</div>
+        <div class="finding-text"><strong>Acoustic music returned:</strong> The 48% rise in acousticness defined the post-2019 era, driven by country crossover, though 2025 shows the trend cooling off.</div>
+      </div>
+    </div>
+    <div>
+      <div class="finding-card" style="border-color:var(--lavender);">
+        <div class="finding-icon">03</div>
+        <div class="finding-text"><strong>Shorter is safer:</strong> Top 20 hits shave ~8 seconds off the average track length to feed algorithmic streaming models.</div>
+      </div>
+      <div class="finding-card" style="border-color:var(--rose);">
+        <div class="finding-icon">04</div>
+        <div class="finding-text"><strong>Pop is NOT a monolith:</strong> Variance metrics definitively prove the Top 100 is sonically broader today than in 2018. Pop music is not converging to a single formula.</div>
+      </div>
+    </div>
+  </div>
+</div>
+`, badge:'badge-concl', section:'Summary', title:'Conclusion'},
+
+// ─── 21: GITHUB & TEAM ───
+{html: `
+<div class="slide-body">
+  <h3>Access & Contact</h3>
+  <h2>Get the Code & <span class="accent-teal">Data</span></h2>
+  
+  <div class="github-banner">
+    <a href="https://github.com/Neeravvv/DARP-Project-repo" target="_blank" class="github-link">
+      <h2>&lt;Project GitHub Repository&gt;</h2>
+    </a>
+    <p>All Python extraction scripts, R analysis files, and unified CSV datasets are fully open-source and available for reproduction.</p>
+  </div>
+
+  <h3 style="margin-top: 40px; color:var(--text);">The Research Team (Indian Statistical Institute)</h3>
+  <div class="team-grid">
+    <div class="team-member" onclick="this.classList.toggle('show-email')">
+      <div class="name">Neerav Bhuyan</div>
+      <div class="role">Team Lead - Data Engineering & Pipeline</div>
+      <div class="email">neeravbhuyan@gmail.com</div>
+    </div>
+    <div class="team-member" onclick="this.classList.toggle('show-email')">
+      <div class="name">Utkarsh Bharadwaj</div>
+      <div class="role">Analysis & Statistics</div>
+      <div class="email">utkarshbharadwaj25@gmail.com</div>
+    </div>
+    <div class="team-member" onclick="this.classList.toggle('show-email')">
+      <div class="name">Sagnik Das</div>
+      <div class="role">Visualization & Reporting</div>
+      <div class="email">bsdbg2516@isibang.ac.in</div>
+    </div>
+    <div class="team-member" onclick="this.classList.toggle('show-email')">
+      <div class="name">Manogna Tejaswini</div>
+      <div class="role">Data Cleaning</div>
+      <div class="email">bsddh2513@isibang.ac.in</div>
+    </div>
+    <div class="team-member" onclick="this.classList.toggle('show-email')">
+      <div class="name">Sandip Manna</div>
+      <div class="role">Imputation & Testing</div>
+      <div class="email">bsdcc2516@isical.ac.in</div>
+    </div>
+    <div class="team-member" onclick="this.classList.toggle('show-email')">
+      <div class="name">Manvi Garodia</div>
+      <div class="role">Research & QA</div>
+      <div class="email">bsdcc2508@isical.ac.in</div>
+    </div>
+  </div>
+</div>
+`, badge:'badge-team', section:'Resources', title:'Team & Code'}
+
+];
+
+// ─── ENGINE LOGIC ───
+let current = 0;
+const total = slides.length;
+const deck = document.getElementById('deck');
+const curEl = document.getElementById('cur');
+const totEl = document.getElementById('tot');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const progress = document.getElementById('progress-bar');
+
+totEl.textContent = total;
+
+slides.forEach((s, i) => {
+  const el = document.createElement('div');
+  el.className = 'slide' + (i === 0 ? ' active' : '');
+  el.id = `slide-${i}`;
+  el.innerHTML = `
+    <div class="slide-header">
+      <div class="section-badge ${s.badge}">${s.section}</div>
+      <div class="slide-header-title">${s.title}</div>
+    </div>
+    ${s.html}
+  `;
+  deck.appendChild(el);
+});
+
+function updateNav() {
+  curEl.textContent = current + 1;
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === total - 1;
+  progress.style.width = ((current + 1) / total * 100) + '%';
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= total || idx === current) return;
+  document.getElementById(`slide-${current}`).className = 'slide out';
+  document.getElementById(`slide-${idx}`).className = 'slide active';
+  current = idx;
+  updateNav();
+  if (slides[current].onRender) {
+    // Timeout ensures DOM transitions before Plotly computes container width
+    setTimeout(() => slides[current].onRender(), 50);
+  }
+}
+
+function nextSlide() { goTo(current + 1); }
+function prevSlide() { goTo(current - 1); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+});
+
+updateNav();
+if (slides[0].onRender) slides[0].onRender();
+</script>
+</body>
+</html>
