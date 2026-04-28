@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Billboard Hot 100 Research — 2018–2025</title>
+<title>Billboard Hot 100 Research - 2018-2025</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -190,7 +190,7 @@
   
   ul.clean { list-style: none; margin-left: 0; padding-left: 0; }
   ul.clean li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; gap: 16px; margin:0; }
-  ul.clean li::before { content: '—'; color: var(--gold); font-weight: bold; }
+  ul.clean li::before { content: '-'; color: var(--gold); font-weight: bold; }
 </style>
 </head>
 <body>
@@ -271,7 +271,7 @@ const slides = [
 {html: `
 <div class="slide-body" style="display:flex;flex-direction:column;justify-content:center;">
   <h3>Data Analysis using R and Python (DARP)</h3>
-  <h1>What Makes a Hit? <br><em>Billboard Analytics 2018–2025</em></h1>
+  <h1>What Makes a Hit? <br><em>Billboard Analytics 2018-2025</em></h1>
   <p class="title-sub">A data-driven exploration bridging Spotify, Maven Analytics, and AcousticBrainz to understand the sonic characteristics of chart-topping success.</p>
   <div class="title-pills">
     <div class="pill"><strong>800</strong> Tracks Analyzed</div>
@@ -280,14 +280,14 @@ const slides = [
     <div class="pill"><strong>6</strong> Team Members</div>
   </div>
 </div>
-`, badge:'badge-intro', section:'Indian Statistical Institute · 2026', title:'Title Slide'},
+`, badge:'badge-intro', section:'Indian Statistical Institute - 2026', title:'Title Slide'},
 
 // ─── 1: SCHEMA ───
 {html: `
 <div class="slide-body">
   <h3>Data Schema</h3>
   <h2>The 15-Feature Dataset</h2>
-  <p>To analyze hit properties, we bridged three heterogeneous sources—Maven Analytics, Billboard API, and a personal Spotify Export—to create a unified longitudinal dataset spanning an eight-year window.</p>
+  <p>To analyze hit properties, we bridged three heterogeneous sources - Maven Analytics, Billboard API, and a personal Spotify Export - to create a unified longitudinal dataset spanning an eight-year window.</p>
   
   <div class="two-col">
     <div>
@@ -456,7 +456,7 @@ onRender: function() {
     <div>
       <div class="finding-card" style="border-color:var(--gold);">
         <div class="finding-icon">🏆</div>
-        <div class="finding-text"><strong>Dynamic Complexity (r = 0.42):</strong> The strongest predictor. Songs with a wide loudness dynamic range—where soft verses give way to explosive choruses—are consistently rated as significantly happier.</div>
+        <div class="finding-text"><strong>Dynamic Complexity (r = 0.42):</strong> The strongest predictor. Songs with a wide loudness dynamic range - where soft verses give way to explosive choruses - are consistently rated as significantly happier.</div>
       </div>
       <div class="finding-card">
         <div class="finding-icon">🎵</div>
@@ -530,7 +530,7 @@ acoustic_trend <span class="op">&lt;-</span> combined.data <span class="op">%&gt
       <table class="var-table">
         <thead><tr><th style="color:var(--amber)">Year</th><th style="color:var(--amber)">Mean Acousticness</th><th style="color:var(--amber)">YoY Change</th></tr></thead>
         <tbody>
-          <tr><td>2018</td><td>0.196</td><td>--</td></tr>
+          <tr><td>2018</td><td>0.196</td><td>-</td></tr>
           <tr><td>2020</td><td>0.230</td><td>+0.016</td></tr>
           <tr><td>2023</td><td style="color:var(--amber);font-weight:bold;">0.285</td><td style="color:var(--teal);font-weight:bold;">+0.035 (Peak Jump)</td></tr>
           <tr><td>2024</td><td style="color:var(--amber);font-weight:bold;">0.289</td><td>+0.004</td></tr>
@@ -786,7 +786,7 @@ var_trend <span class="op">&lt;-</span> combined.data <span class="op">%&gt;%</s
       </div>
       <div class="finding-card" style="border-color:var(--teal);">
         <div class="finding-icon">💃</div>
-        <div class="finding-text"><strong>Stable Grooves:</strong> Danceability variance is more stable, oscillating around 0.02 - 0.033 without a clear directional trend. It proves there's no further homogenization happening.</div>
+        <div class="finding-text"><strong>Stable Grooves:</strong> Danceability variance is more stable, oscillating around 0.02 - 0.033 without a clear directional trend. It proves there is no further homogenization happening.</div>
       </div>
     </div>
   </div>
@@ -962,22 +962,22 @@ onRender: function() {
   <div class="team-grid">
     <div class="team-member" onclick="this.classList.toggle('show-email')">
       <div class="name">Neerav Bhuyan</div>
-      <div class="role">Team Lead - Data Engineering & Pipeline</div>
+      <div class="role">Team Lead - Data Engineering, Pipeline & Analysis</div>
       <div class="email">neeravbhuyan@gmail.com</div>
     </div>
     <div class="team-member" onclick="this.classList.toggle('show-email')">
       <div class="name">Utkarsh Bharadwaj</div>
-      <div class="role">Analysis & Statistics</div>
+      <div class="role">Analysis, Statistics & Reporting</div>
       <div class="email">utkarshbharadwaj25@gmail.com</div>
     </div>
     <div class="team-member" onclick="this.classList.toggle('show-email')">
       <div class="name">Sagnik Das</div>
-      <div class="role">Visualization & Reporting</div>
+      <div class="role">Data Cleaning</div>
       <div class="email">bsdbg2516@isibang.ac.in</div>
     </div>
     <div class="team-member" onclick="this.classList.toggle('show-email')">
       <div class="name">Manogna Tejaswini</div>
-      <div class="role">Data Cleaning</div>
+      <div class="role">Reporting</div>
       <div class="email">bsddh2513@isibang.ac.in</div>
     </div>
     <div class="team-member" onclick="this.classList.toggle('show-email')">
@@ -987,7 +987,7 @@ onRender: function() {
     </div>
     <div class="team-member" onclick="this.classList.toggle('show-email')">
       <div class="name">Manvi Garodia</div>
-      <div class="role">Research & QA</div>
+      <div class="role">Research</div>
       <div class="email">bsdcc2508@isical.ac.in</div>
     </div>
   </div>
