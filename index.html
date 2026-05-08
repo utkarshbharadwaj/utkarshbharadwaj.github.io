@@ -30,13 +30,10 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
 
-  /* Custom Scrollbar */
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: var(--bg-base); }
   ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
-
-  /* Selection Color */
   ::selection { background: rgba(56, 189, 248, 0.3); color: #fff; }
 
   body {
@@ -48,7 +45,6 @@
     overflow-x: hidden;
   }
 
-  /* ── BACKGROUND EFFECTS ── */
   body::before {
     content: '';
     position: fixed;
@@ -60,7 +56,6 @@
     pointer-events: none;
   }
 
-  /* ── NAVIGATION ── */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -80,337 +75,111 @@
     font-size: 1.6rem;
     color: var(--text-main);
     letter-spacing: 0.02em;
+    text-decoration: none;
   }
   .nav-logo span { color: var(--accent-cyan); }
 
-  nav ul {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
+  nav ul { display: flex; gap: 2.5rem; list-style: none; }
   nav a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
+    color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase; transition: all 0.3s ease;
   }
-  nav a:hover {
-    color: var(--text-main);
-    text-shadow: 0 0 10px rgba(255,255,255,0.3);
-  }
+  nav a:hover, nav a.active { color: var(--text-main); text-shadow: 0 0 10px rgba(255,255,255,0.3); }
 
   main { position: relative; z-index: 1; }
 
-  /* ── HERO SECTION ── */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 8rem 5% 4rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+  .hero { min-height: 100vh; display: flex; align-items: center; padding: 8rem 5% 4rem; max-width: 1200px; margin: 0 auto; }
   .hero-inner { max-width: 850px; }
 
   .hero-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(56, 189, 248, 0.05);
-    border: 1px solid rgba(56, 189, 248, 0.2);
-    border-radius: 999px;
-    padding: 0.5rem 1.2rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--accent-cyan);
-    margin-bottom: 2rem;
-    backdrop-filter: blur(4px);
-    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    display: inline-flex; align-items: center; gap: 10px; background: rgba(56, 189, 248, 0.05);
+    border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 999px; padding: 0.5rem 1.2rem;
+    font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--accent-cyan);
+    margin-bottom: 2rem; backdrop-filter: blur(4px); animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
   h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(3.5rem, 8vw, 6.5rem);
-    font-weight: 400;
-    line-height: 1.05;
-    color: var(--text-main);
-    margin-bottom: 0.5rem;
-    animation: fadeUp 0.8s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    font-family: 'DM Serif Display', serif; font-size: clamp(3.5rem, 8vw, 6.5rem); font-weight: 400;
+    line-height: 1.05; color: var(--text-main); margin-bottom: 0.5rem; animation: fadeUp 0.8s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  h1 em {
-    font-style: normal;
-    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+  h1 em { font-style: normal; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-  .hero-subtitle {
-    font-family: 'DM Mono', monospace;
-    font-size: 1.05rem;
-    color: var(--text-muted);
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
+  .hero-subtitle { font-family: 'DM Mono', monospace; font-size: 1.05rem; color: var(--text-muted); margin-bottom: 1.5rem; animation: fadeUp 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .hero-desc { font-size: 1.2rem; color: var(--text-muted); max-width: 650px; line-height: 1.8; margin-bottom: 3rem; animation: fadeUp 0.8s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .hero-cta { display: flex; gap: 1.5rem; flex-wrap: wrap; animation: fadeUp 0.8s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-  .hero-desc {
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    max-width: 650px;
-    line-height: 1.8;
-    margin-bottom: 3rem;
-    animation: fadeUp 0.8s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    animation: fadeUp 0.8s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-
-  /* ── BUTTONS ── */
   .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.85rem 2.2rem;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    border: none;
-    font-family: 'Outfit', sans-serif;
+    display: inline-flex; align-items: center; justify-content: center; padding: 0.85rem 2.2rem;
+    border-radius: 12px; font-size: 0.95rem; font-weight: 600; text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; border: none; font-family: 'Outfit', sans-serif;
   }
-  .btn-primary {
-    background: var(--text-main);
-    color: var(--bg-base);
-    box-shadow: 0 4px 14px 0 rgba(255, 255, 255, 0.1);
-  }
-  .btn-primary:hover {
-    background: var(--accent-cyan);
-    color: #000;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3);
-  }
-  .btn-ghost {
-    background: rgba(255, 255, 255, 0.03);
-    color: var(--text-main);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-  }
-  .btn-ghost:hover {
-    border-color: var(--accent-cyan);
-    background: rgba(56, 189, 248, 0.05);
-    color: var(--accent-cyan);
-    transform: translateY(-3px);
-  }
+  .btn-primary { background: var(--text-main); color: var(--bg-base); box-shadow: 0 4px 14px 0 rgba(255, 255, 255, 0.1); }
+  .btn-primary:hover { background: var(--accent-cyan); color: #000; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3); }
+  .btn-ghost { background: rgba(255, 255, 255, 0.03); color: var(--text-main); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); }
+  .btn-ghost:hover { border-color: var(--accent-cyan); background: rgba(56, 189, 248, 0.05); color: var(--accent-cyan); transform: translateY(-3px); }
 
-  /* ── HERO STATS ── */
-  .hero-stats {
-    display: flex;
-    gap: 4rem;
-    margin-top: 5rem;
-    padding-top: 3rem;
-    border-top: 1px solid var(--border-light);
-    animation: fadeUp 0.8s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-  .stat-num {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.5rem;
-    color: var(--text-main);
-    line-height: 1;
-  }
+  .hero-stats { display: flex; gap: 4rem; margin-top: 5rem; padding-top: 3rem; border-top: 1px solid var(--border-light); animation: fadeUp 0.8s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .stat-num { font-family: 'DM Serif Display', serif; font-size: 2.5rem; color: var(--text-main); line-height: 1; }
   .stat-num span { color: var(--accent-cyan); }
-  .stat-label {
-    font-size: 0.85rem;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin-top: 8px;
-    font-weight: 500;
-  }
+  .stat-label { font-size: 0.85rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 8px; font-weight: 500; }
 
-  /* ── GLOBAL SECTIONS ── */
-  section {
-    padding: 7rem 5%;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .section-label {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.85rem;
-    color: var(--accent-cyan);
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    margin-bottom: 1.5rem;
-    font-weight: 500;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, var(--border-light), transparent);
-    max-width: 200px;
-  }
-  h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2.8rem, 5vw, 4rem);
-    font-weight: 400;
-    color: var(--text-main);
-    margin-bottom: 4rem;
-    line-height: 1.1;
-  }
+  section { padding: 7rem 5%; max-width: 1200px; margin: 0 auto; }
+  .section-label { display: flex; align-items: center; gap: 16px; font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1.5rem; font-weight: 500; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-light), transparent); max-width: 200px; }
+  h2 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem, 5vw, 4rem); font-weight: 400; color: var(--text-main); margin-bottom: 4rem; line-height: 1.1; }
 
-  /* ── GLASSMORPHISM CARDS ── */
   .glass-card {
-    background: var(--bg-card);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--border-light);
-    border-radius: 20px;
-    padding: 2.5rem;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-    overflow: hidden;
+    background: var(--bg-card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-light); border-radius: 20px; padding: 2.5rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden;
   }
   .glass-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
+    content: ''; position: absolute; inset: 0;
     background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.03), transparent 40%);
-    opacity: 0;
-    transition: opacity 0.4s;
-    pointer-events: none;
+    opacity: 0; transition: opacity 0.4s; pointer-events: none;
   }
-  .glass-card:hover {
-    border-color: rgba(255,255,255,0.2);
-    background: var(--bg-card-hover);
-    transform: translateY(-6px);
-    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-  }
+  .glass-card:hover { border-color: rgba(255,255,255,0.2); background: var(--bg-card-hover); transform: translateY(-6px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
   .glass-card:hover::before { opacity: 1; }
 
-  /* ── TAGS ── */
   .tag {
-    display: inline-block;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: var(--text-muted);
-    border-radius: 8px;
-    padding: 0.35rem 0.9rem;
-    font-size: 0.75rem;
-    font-family: 'DM Mono', monospace;
-    margin: 0.3rem 0.3rem 0.3rem 0;
-    transition: all 0.2s;
+    display: inline-block; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text-muted); border-radius: 8px; padding: 0.35rem 0.9rem; font-size: 0.75rem;
+    font-family: 'DM Mono', monospace; margin: 0.3rem 0.3rem 0.3rem 0; transition: all 0.2s;
   }
-  .glass-card:hover .tag {
-    border-color: rgba(255,255,255,0.15);
-    color: var(--text-main);
-  }
+  .glass-card:hover .tag { border-color: rgba(255,255,255,0.15); color: var(--text-main); }
   .tag.blue { background: rgba(56,189,248,0.1); border-color: rgba(56,189,248,0.2); color: var(--accent-cyan); }
   .tag.green { background: rgba(52,211,153,0.1); border-color: rgba(52,211,153,0.2); color: var(--accent-emerald); }
   .tag.amber { background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.2); color: var(--accent-amber); }
 
-  /* ── EXPANDABLE ACTIONS ── */
   .expandable { cursor: pointer; }
-  .click-indicator {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    margin-top: 1.5rem;
-    transition: color 0.2s;
-    opacity: 0.7;
-  }
+  .click-indicator { display: inline-flex; align-items: center; gap: 6px; font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text-dim); margin-top: 1.5rem; transition: color 0.2s; opacity: 0.7; }
   .expandable:hover .click-indicator { color: var(--accent-cyan); opacity: 1; }
   .expandable.expanded .click-indicator { display: none; }
-
-  .expand-action {
-    display: none;
-    width: 100%;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-light);
-    animation: fadeUp 0.4s ease forwards;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
+  .expand-action { display: none; width: 100%; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-light); animation: fadeUp 0.4s ease forwards; gap: 12px; flex-wrap: wrap; }
   .expandable.expanded .expand-action { display: flex; }
 
   .doc-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 0.6rem 1.2rem;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: var(--text-main);
-    border-radius: 10px;
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-family: 'DM Mono', monospace;
-    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px; padding: 0.6rem 1.2rem; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1); color: var(--text-main); border-radius: 10px; text-decoration: none;
+    font-size: 0.85rem; font-family: 'DM Mono', monospace; transition: all 0.2s;
   }
-  .doc-btn:hover {
-    background: rgba(56, 189, 248, 0.1);
-    border-color: var(--accent-cyan);
-    color: var(--accent-cyan);
-    transform: translateY(-2px);
-  }
+  .doc-btn:hover { background: rgba(56, 189, 248, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); transform: translateY(-2px); }
 
-  /* ── EDUCATION ── */
   .edu-card { display: flex; gap: 2.5rem; align-items: flex-start; }
-  .edu-logo {
-    width: 70px; height: 70px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, rgba(56,189,248,0.1), rgba(129,140,248,0.1));
-    border: 1px solid rgba(255,255,255,0.1);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.8rem;
-    color: var(--text-main);
-    flex-shrink: 0;
-  }
+  .edu-logo { width: 70px; height: 70px; border-radius: 16px; background: linear-gradient(135deg, rgba(56,189,248,0.1), rgba(129,140,248,0.1)); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 1.8rem; color: var(--text-main); flex-shrink: 0; }
   .edu-content h3 { font-size: 1.4rem; font-weight: 500; color: var(--text-main); margin-bottom: 0.3rem; }
   .edu-content .edu-degree { font-size: 1.05rem; color: var(--accent-cyan); margin-bottom: 0.8rem; font-weight: 400; }
   .edu-content .edu-meta { font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; }
 
-  /* ── SKILLS ── */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
   .skill-card { padding: 2rem; }
   .skill-icon { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.2rem; }
   .skill-card h4 { font-size: 1.2rem; font-weight: 500; color: var(--text-main); margin-bottom: 1.2rem; }
   .skill-items { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 
-  /* ── PROJECTS ── */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-    gap: 2rem;
-  }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 2rem; }
   .project-card { display: flex; flex-direction: column; gap: 1.2rem; }
-  .project-num {
-    font-family: 'DM Serif Display', serif;
-    font-size: 5rem;
-    color: rgba(255,255,255,0.02);
-    position: absolute; top: -0.5rem; right: 1.5rem;
-    line-height: 1; pointer-events: none;
-    transition: color 0.4s;
-  }
+  .project-num { font-family: 'DM Serif Display', serif; font-size: 5rem; color: rgba(255,255,255,0.02); position: absolute; top: -0.5rem; right: 1.5rem; line-height: 1; pointer-events: none; transition: color 0.4s; }
   .project-card:hover .project-num { color: rgba(56,189,248,0.05); }
   .project-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; position: relative; z-index: 2; }
   .project-card h3 { font-size: 1.25rem; font-weight: 500; color: var(--text-main); line-height: 1.4; }
@@ -418,79 +187,29 @@
   .project-card p { font-size: 1rem; color: var(--text-muted); flex: 1; position: relative; z-index: 2; }
   .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; }
 
-  /* ── ACHIEVEMENTS ── */
   .achievements-list { display: flex; flex-direction: column; gap: 1.2rem; }
   .achievement-item { display: flex; flex-wrap: wrap; align-items: center; gap: 2rem; padding: 1.8rem 2.5rem; }
   .achievement-icon { font-size: 2rem; flex-shrink: 0; }
   .achievement-text { flex: 1; }
   .achievement-text h4 { font-size: 1.2rem; font-weight: 500; color: var(--text-main); margin-bottom: 0.4rem; }
   .achievement-text p { font-size: 0.95rem; color: var(--text-muted); }
-  .achievement-badge {
-    background: rgba(251, 191, 36, 0.1);
-    border: 1px solid rgba(251, 191, 36, 0.2);
-    color: var(--accent-amber);
-    border-radius: 10px;
-    padding: 0.5rem 1.2rem;
-    font-size: 0.85rem;
-    font-family: 'DM Mono', monospace;
-    white-space: nowrap;
-  }
+  .achievement-badge { background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.2); color: var(--accent-amber); border-radius: 10px; padding: 0.5rem 1.2rem; font-size: 0.85rem; font-family: 'DM Mono', monospace; white-space: nowrap; }
 
-  /* ── CONTACT ── */
-  .contact-section {
-    text-align: center;
-    padding: 6rem 4rem;
-    margin: 0 5% 6rem;
-  }
+  .contact-section { text-align: center; padding: 6rem 4rem; margin: 0 5% 6rem; }
   .contact-section h2 { font-size: 3.5rem; margin-bottom: 1.5rem; }
   .contact-section p { color: var(--text-muted); font-size: 1.2rem; margin-bottom: 3rem; }
   .contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
-  .contact-link {
-    display: flex; align-items: center; gap: 12px;
-    padding: 1rem 2rem;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 14px;
-    color: var(--text-main);
-    text-decoration: none;
-    font-size: 1rem;
-    transition: all 0.3s;
-    font-family: 'Outfit', sans-serif;
-  }
-  .contact-link:hover {
-    background: var(--text-main);
-    color: var(--bg-base);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-  }
+  .contact-link { display: flex; align-items: center; gap: 12px; padding: 1rem 2rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; color: var(--text-main); text-decoration: none; font-size: 1rem; transition: all 0.3s; font-family: 'Outfit', sans-serif; }
+  .contact-link:hover { background: var(--text-main); color: var(--bg-base); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-  footer {
-    text-align: center;
-    padding: 3rem;
-    color: var(--text-dim);
-    font-size: 0.85rem;
-    font-family: 'DM Mono', monospace;
-    border-top: 1px solid var(--border-light);
-    position: relative;
-    z-index: 1;
-  }
+  footer { text-align: center; padding: 3rem; color: var(--text-dim); font-size: 0.85rem; font-family: 'DM Mono', monospace; border-top: 1px solid var(--border-light); position: relative; z-index: 1; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
-    nav { padding: 1.2rem 5%; }
-    nav ul { display: none; }
-    .hero { padding: 8rem 5% 4rem; }
-    section { padding: 5rem 5%; }
-    .hero-stats { gap: 2.5rem; flex-wrap: wrap; }
-    .edu-card { flex-direction: column; gap: 1.5rem; }
-    .contact-section { margin: 0 5% 4rem; padding: 4rem 1.5rem; }
-    .projects-grid { grid-template-columns: 1fr; }
-    .glass-card { padding: 1.8rem; }
+    nav { padding: 1.2rem 5%; } nav ul { display: none; } .hero { padding: 8rem 5% 4rem; } section { padding: 5rem 5%; }
+    .hero-stats { gap: 2.5rem; flex-wrap: wrap; } .edu-card { flex-direction: column; gap: 1.5rem; }
+    .contact-section { margin: 0 5% 4rem; padding: 4rem 1.5rem; } .projects-grid { grid-template-columns: 1fr; } .glass-card { padding: 1.8rem; }
   }
 
   .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
@@ -503,7 +222,7 @@
 <div class="blob2"></div>
 
 <nav>
-  <div class="nav-logo">UB<span>.</span></div>
+  <a href="index.html" class="nav-logo">UB<span>.</span></a>
   <ul>
     <li><a href="#education">Education</a></li>
     <li><a href="#skills">Skills</a></li>
@@ -539,7 +258,7 @@
           <div class="stat-label">ISI BSDS Rank</div>
         </div>
         <div>
-          <div class="stat-num"><span>8</span>+</div>
+          <div class="stat-num"><span>9</span>+</div>
           <div class="stat-label">Research Projects</div>
         </div>
       </div>
@@ -570,7 +289,7 @@
           Click to view transcript
         </div>
         <div class="expand-action">
-          <a href="transcript.pdf" target="_blank" class="doc-btn">📄 Show Latest Transcript</a>
+          <a href="documents/transcript.pdf" target="_blank" class="doc-btn">📄 Show Latest Transcript</a>
         </div>
       </div>
     </div>
@@ -619,6 +338,7 @@
           <span class="tag">QP Modeling</span>
           <span class="tag">Benford's Law</span>
           <span class="tag">Regression Analysis</span>
+          <span class="tag">Time-Series</span>
         </div>
       </div>
     </div>
@@ -629,17 +349,25 @@
     <h2>Research &<br><em>Work</em></h2>
     <div class="projects-grid">
 
-      <div class="glass-card project-card reveal">
+      <div class="glass-card project-card reveal expandable" title="Click to view documents">
         <span class="project-num">01</span>
         <div class="project-header">
-          <h3>StyloGuard: Forensic Stylometry Platform</h3>
-          <span class="project-date">Apr 2026</span>
+          <h3>Beyond the Deficit: India's Foreign Trade Dynamics</h3>
+          <span class="project-date">May 2026</span>
         </div>
-        <p>Developed a full-stack multi-author forensic stylometry application. Engineered a backend utilizing Poisson log-likelihood and Bayesian softmax to analyze statistical fingerprints of 70 filler words against a calibrated global English baseline to attribute authorship.</p>
+        <p>Conducted a comprehensive 35-year empirical time-series analysis (1990–2025) of India's macroeconomic trade trends. Evaluated the structural impacts of currency depreciation and energy dependency using inflation-adjusted (Real) values.</p>
         <div class="project-tags">
-          <span class="tag">Python/Flask</span>
-          <span class="tag blue">Bayesian Inference</span>
-          <span class="tag green">Statistical NLP</span>
+          <span class="tag">R</span>
+          <span class="tag blue">Time-Series Analysis</span>
+          <span class="tag green">Macroeconomics</span>
+        </div>
+        <div class="click-indicator">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          View Documents
+        </div>
+        <div class="expand-action">
+          <a href="projects/project-trade-analysis.pdf" target="_blank" class="doc-btn">📄 Show Report</a>
+          <a href="projects/trade_presentation.html" target="_blank" class="doc-btn">📊 Show Presentation</a>
         </div>
       </div>
 
@@ -647,7 +375,7 @@
         <span class="project-num">02</span>
         <div class="project-header">
           <h3>What Makes a Hit? Billboard Analytics 2018–2025</h3>
-          <span class="project-date">Apr 2025</span>
+          <span class="project-date">May 2025</span>
         </div>
         <p>Investigated the acoustic and structural properties of Billboard Top 100 songs across eight years. Engineered a unified dataset bridging Spotify, Maven Analytics, and AcousticBrainz APIs, utilizing Python for KNN imputation and R for statistical analysis.</p>
         <div class="project-tags">
@@ -660,8 +388,8 @@
           View Documents
         </div>
         <div class="expand-action">
-          <a href="project-billboard.pdf" target="_blank" class="doc-btn">📄 Show Report</a>
-          <a href="billboard_presentation.html" target="_blank" class="doc-btn">📊 Show Presentation</a>
+          <a href="projects/project-billboard.pdf" target="_blank" class="doc-btn">📄 Show Report</a>
+          <a href="projects/billboard_presentation.html" target="_blank" class="doc-btn">📊 Show Presentation</a>
         </div>
       </div>
 
@@ -669,7 +397,7 @@
         <span class="project-num">03</span>
         <div class="project-header">
           <h3>Convex Optimization for Constrained LPG Allocation</h3>
-          <span class="project-date">Apr 2026</span>
+          <span class="project-date">May 2026</span>
         </div>
         <p>Formulated a strictly convex Quadratic Programming model to optimally allocate constrained national fuel supply across domestic and commercial sectors, balancing economic losses against environmental health risks.</p>
         <div class="project-tags">
@@ -678,16 +406,29 @@
         </div>
         <div class="click-indicator">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-          View Documents
+          View Report
         </div>
         <div class="expand-action">
-          <a href="project-lpg-allocation.pdf" target="_blank" class="doc-btn">📄 Show Report</a>
-          <a href="lpg_presentation.html" target="_blank" class="doc-btn">📊 Show Presentation</a>
+          <a href="projects/project-lpg-allocation.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
+        </div>
+      </div>
+
+      <div class="glass-card project-card reveal">
+        <span class="project-num">04</span>
+        <div class="project-header">
+          <h3>StyloGuard: Forensic Stylometry Platform</h3>
+          <span class="project-date">Apr 2026</span>
+        </div>
+        <p>Developed a full-stack multi-author forensic stylometry application. Engineered a backend utilizing Poisson log-likelihood and Bayesian softmax to analyze statistical fingerprints of 70 filler words against a calibrated global English baseline to attribute authorship.</p>
+        <div class="project-tags">
+          <span class="tag">Python/Flask</span>
+          <span class="tag blue">Bayesian Inference</span>
+          <span class="tag green">Statistical NLP</span>
         </div>
       </div>
 
       <div class="glass-card project-card reveal expandable" title="Click to view report">
-        <span class="project-num">04</span>
+        <span class="project-num">05</span>
         <div class="project-header">
           <h3>Authorship Attribution using Poisson Probabilities</h3>
           <span class="project-date">Mar 2026</span>
@@ -703,12 +444,12 @@
           View Report
         </div>
         <div class="expand-action">
-          <a href="project-authorship.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
+          <a href="projects/project-authorship.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
         </div>
       </div>
 
       <div class="glass-card project-card reveal">
-        <span class="project-num">05</span>
+        <span class="project-num">06</span>
         <div class="project-header">
           <h3>Eco-Aware AI Tool — NIT Delhi Hackathon</h3>
           <span class="project-date">Mar 2026</span>
@@ -722,7 +463,7 @@
       </div>
 
       <div class="glass-card project-card reveal expandable" title="Click to view report">
-        <span class="project-num">06</span>
+        <span class="project-num">07</span>
         <div class="project-header">
           <h3>Data Anomaly Detection using Benford's Law</h3>
           <span class="project-date">Nov 2025</span>
@@ -738,12 +479,12 @@
           View Report
         </div>
         <div class="expand-action">
-          <a href="project-benford.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
+          <a href="projects/project-benford.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
         </div>
       </div>
 
       <div class="glass-card project-card reveal expandable" title="Click to view report">
-        <span class="project-num">07</span>
+        <span class="project-num">08</span>
         <div class="project-header">
           <h3>Geospatial Stratification & Population Estimation</h3>
           <span class="project-date">Oct 2025</span>
@@ -759,12 +500,12 @@
           View Report
         </div>
         <div class="expand-action">
-          <a href="project-geospatial.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
+          <a href="projects/project-geospatial.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
         </div>
       </div>
 
       <div class="glass-card project-card reveal expandable" title="Click to view report">
-        <span class="project-num">08</span>
+        <span class="project-num">09</span>
         <div class="project-header">
           <h3>Statistical Critique of Climate Economics</h3>
           <span class="project-date">Sept 2025</span>
@@ -780,7 +521,7 @@
           View Report
         </div>
         <div class="expand-action">
-          <a href="project-climate.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
+          <a href="projects/project-climate.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
         </div>
       </div>
 
@@ -802,7 +543,7 @@
             View Certificate
           </div>
           <div class="expand-action">
-            <a href="cert-vihaan.pdf" target="_blank" class="doc-btn">📄 View Certificate</a>
+            <a href="certificates/cert-vihaan.pdf" target="_blank" class="doc-btn">📄 View Certificate</a>
           </div>
         </div>
         <div class="achievement-badge">Vihaan 9.0</div>
@@ -818,7 +559,7 @@
             View Document
           </div>
           <div class="expand-action">
-            <a href="cert-isi-merit.pdf" target="_blank" class="doc-btn">📄 View Document</a>
+            <a href="certificates/cert-isi-merit.pdf" target="_blank" class="doc-btn">📄 View Document</a>
           </div>
         </div>
         <div class="achievement-badge">AIR 31</div>
@@ -843,7 +584,7 @@
             View Certificate
           </div>
           <div class="expand-action">
-            <a href="cert-hackathon.pdf" target="_blank" class="doc-btn">📄 View Certificate</a>
+            <a href="certificates/cert-hackathon.pdf" target="_blank" class="doc-btn">📄 View Certificate</a>
           </div>
         </div>
         <div class="achievement-badge">Top 10 / 150+</div>
@@ -859,7 +600,7 @@
             View Certificate
           </div>
           <div class="expand-action">
-            <a href="cert-ielts.pdf" target="_blank" class="doc-btn">📄 View Certificate</a>
+            <a href="certificates/cert-ielts.pdf" target="_blank" class="doc-btn">📄 View Certificate</a>
           </div>
         </div>
         <div class="achievement-badge">C1 Level</div>
@@ -894,7 +635,6 @@
 </footer>
 
 <script>
-  // Mouse tracking for subtle card glow effect
   document.querySelectorAll('.glass-card').forEach(card => {
     card.addEventListener('mousemove', e => {
       const rect = card.getBoundingClientRect();
@@ -905,7 +645,6 @@
     });
   });
 
-  // Scroll Reveal Observer
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
@@ -917,7 +656,6 @@
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  // Smooth Scrolling for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
@@ -925,10 +663,8 @@
     });
   });
 
-  // Expandable cards logic
   document.querySelectorAll('.expandable').forEach(card => {
     card.addEventListener('click', function(e) {
-      // Prevent the card from closing if the user clicks directly on the PDF/button links
       if (e.target.closest('a')) return;
       this.classList.toggle('expanded');
     });
