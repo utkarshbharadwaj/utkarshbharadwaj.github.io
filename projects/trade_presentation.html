@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Beyond the Deficit – ISI Macroeconomic Defense</title>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -149,8 +151,8 @@
     padding: 0 100px;
   }
   .title-slide img.logo {
-    width: 150px;
-    margin-bottom: 30px;
+    width: 180px;
+    margin-bottom: 40px;
   }
   .title-slide h1 {
     font-family: 'Lora', serif;
@@ -416,7 +418,7 @@
       <div>
         <div class="data-box">
           <h3>Core Resilience of Non-Oil Trade</h3>
-          <p>When crude oil is mathematically stripped from the ledger, the Non-Oil Trade Balance <span class="highlight">hovers remarkably close to zero</span>. In several recorded months, India's core manufacturing sectors actively ran a physical trade surplus.</p>
+          <p>When crude oil is mathematically stripped from the ledger, the Non-Oil Trade Balance <span class="highlight">hovers close to zero</span>. In several recorded months, India's core manufacturing sectors actively ran a physical trade surplus.</p>
         </div>
         <div class="data-box alert">
           <h3>The Structural Energy Gap</h3>
@@ -587,6 +589,39 @@
 <div class="slide-container" id="slide-16">
   <div class="header-bar">
     <div class="header-content">
+      <div class="eyebrow">Executive Summary</div>
+      <h1>Synthesis of Findings</h1>
+    </div>
+  </div>
+  <div class="slide-content">
+    <div class="grid-2">
+      <div>
+        <div class="data-box">
+          <h3>1. The Currency Distortion</h3>
+          <p>India's reported trade deficit is artificially magnified 10x by nominal reporting. Macroeconomic health must be evaluated using constant-dollar metrics to avoid "analytical panic."</p>
+        </div>
+        <div class="data-box">
+          <h3>2. The Energy Dependency</h3>
+          <p>The merchandise deficit is fundamentally an <span class="highlight">energy deficit</span>. Core non-oil manufacturing remains resilient and frequently operates near equilibrium.</p>
+        </div>
+      </div>
+      <div>
+        <div class="data-box">
+          <h3>3. Policy Momentum</h3>
+          <p>"Make in India" has sustained existing growth trajectories rather than triggering a structural break. Physical export velocity remains consistent with pre-2014 trends.</p>
+        </div>
+        <div class="data-box alert">
+          <h3>4. The Elasticity Trap</h3>
+          <p>High structural import elasticity dictates that export growth currently <span class="highlight">necessitates</span> import growth. Scaling manufacturing requires deep domestic supply-chain integration.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide-container" id="slide-17">
+  <div class="header-bar">
+    <div class="header-content">
       <div class="eyebrow">Methodology</div>
       <h1>Limitations of the Study</h1>
     </div>
@@ -618,7 +653,77 @@
   </div>
 </div>
 
-<div class="slide-container" id="slide-17">
+<div class="slide-container" id="slide-18">
+  <div class="header-bar">
+    <div class="header-content">
+      <div class="eyebrow">Methodological Defense</div>
+      <h1>Q&A: Calculating Growth Velocity</h1>
+    </div>
+  </div>
+  <div class="slide-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    
+    <div style="width: 100%; text-align: center; margin-bottom: 30px;">
+      <h3 style="font-family: 'Lora', serif; font-size: 28px; color: var(--primary); font-style: italic; margin-bottom: 20px;">
+        "Why use CAGR for the policy assessment, and how is it mathematically derived?"
+      </h3>
+      <p style="font-size: 20px; color: var(--text-main); max-width: 900px; margin: 0 auto; line-height: 1.6;">
+        Compound Annual Growth Rate (CAGR) smooths out "noisy" middle volatility (e.g., the 2015 global slowdown) to isolate the true geometric progression of physical exports from the beginning to the end of a given era.
+      </p>
+    </div>
+      
+    <div style="background-color: #F1F5F9; padding: 40px 60px; border-radius: 12px; text-align: center; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: 800px; margin: 0 auto;">
+      <p style="font-family: 'Lora', serif; font-size: 26px; color: var(--primary); margin-bottom: 25px; font-weight: 700;">
+        The CAGR Formula
+      </p>
+      
+      <div style="font-size: 32px; margin-bottom: 30px; color: var(--text-main);">
+        $$ \text{CAGR} = \left[ \left( \frac{V_{\text{final}}}{V_{\text{begin}}} \right)^{\frac{1}{t}} - 1 \right] \times 100 $$
+      </div>
+      
+      <p style="font-size: 18px; color: var(--text-muted); margin-bottom: 0;">
+        Where \( V_{\text{begin}} \) is the starting volume, \( V_{\text{final}} \) is the ending volume, and \( t \) is the duration in years.
+      </p>
+    </div>
+    
+  </div>
+</div>
+
+<div class="slide-container" id="slide-19">
+  <div class="header-bar">
+    <div class="header-content">
+      <div class="eyebrow">Methodological Defense</div>
+      <h1>Q&A: Controlling for Price Inflation</h1>
+    </div>
+  </div>
+  <div class="slide-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    
+    <div style="width: 100%; text-align: center; margin-bottom: 30px;">
+      <h3 style="font-family: 'Lora', serif; font-size: 28px; color: var(--primary); font-style: italic; margin-bottom: 20px;">
+        "How did we mathematically eliminate the distortions of global price inflation across 35 years?"
+      </h3>
+      <p style="font-size: 20px; color: var(--text-main); max-width: 950px; margin: 0 auto; line-height: 1.6;">
+        To measure pure physical trade volumes, we must strip away decades of global price inflation. A nominal dollar in 1991 represented vastly more physical merchandise than a nominal dollar today. By applying a mathematical deflator based on the US Consumer Price Index (FRED: CPIAUCSL), we standardized all historical trade values to <strong>Constant December 2025 US Dollars</strong>.
+      </p>
+    </div>
+      
+    <div style="background-color: #F1F5F9; padding: 40px 60px; border-radius: 12px; text-align: center; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: 850px; margin: 0 auto;">
+      <p style="font-family: 'Lora', serif; font-size: 26px; color: var(--primary); margin-bottom: 25px; font-weight: 700;">
+        The Inflation Deflator Formula
+      </p>
+      
+      <div style="font-size: 32px; margin-bottom: 30px; color: var(--text-main);">
+        $$ \text{Constant USD} = \text{Nominal USD} \times \left( \frac{\text{CPI}_{\text{Base}}}{\text{CPI}_{\text{Current}}} \right) $$
+      </div>
+      
+      <p style="font-size: 18px; color: var(--text-muted); margin-bottom: 0;">
+        Where \( \text{CPI}_{\text{Base}} \) is the index value for December 2025 (326.031), and \( \text{CPI}_{\text{Current}} \) is the index value for the specific month the historical trade occurred.
+      </p>
+    </div>
+    
+  </div>
+</div>
+
+<div class="slide-container" id="slide-20">
   <div class="title-slide">
     <h1 style="margin-bottom: 10px;">Thank You</h1>
     <h2 style="font-size: 20px;">End of Presentation</h2>
@@ -643,7 +748,7 @@
 <div class="footer">
   <div class="footer-text">ISI Kolkata • Group 24 Defense</div>
   <div class="controls">
-    <span id="slide-counter" style="margin-right: 20px; font-weight: 600; color: var(--primary);">1 / 17</span>
+    <span id="slide-counter" style="margin-right: 20px; font-weight: 600; color: var(--primary);">1 / 19</span>
     <button onclick="go(-1)">Previous</button>
     <button onclick="go(1)">Next</button>
     <button onclick="toggleFullScreen()">Fullscreen (F)</button>
@@ -652,7 +757,7 @@
 
 <script>
   let currentSlide = 1;
-  const totalSlides = 17;
+  const totalSlides = 20;
 
   function showSlide(n) {
     // Hide all slides
