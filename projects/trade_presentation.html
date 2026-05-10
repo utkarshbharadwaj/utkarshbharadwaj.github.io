@@ -451,17 +451,6 @@
     <h1>Beyond the <span>Deficit</span></h1>
     <div class="title-divider"></div>
     <h2>An Empirical Analysis of India's Foreign Trade Dynamics (1990–2025)</h2>
-    <div class="authors-card">
-      <strong>Research Conducted by Group 24</strong>
-      <div class="authors-grid">
-        <div>Utkarsh Bharadwaj</div>
-        <div>Rabi Shankar Sah</div>
-        <div>Garg Parashar</div>
-        <div>Abhinav</div>
-        <div>Aarav Chugh</div>
-        <div>Maddikuntala Pavankumar</div>
-      </div>
-    </div>
     <div class="date">Indian Statistical Institute &nbsp;·&nbsp; May 2026</div>
   </div>
 </div>
@@ -970,8 +959,85 @@
   </div>
 </div>
 
-<!-- SLIDE 20: Thank You -->
+<!-- SLIDE 20 -->
 <div class="slide-container" id="slide-20">
+  <div class="slide-num-badge">20 / 21</div>
+  <div class="header-bar">
+    <div class="header-content">
+      <div class="eyebrow">Statistical Robustness</div>
+      <h1>Q&A: Seasonal Cycles & Structural Shifts</h1>
+    </div>
+  </div>
+
+  <div class="grid-2" style="gap:40px; align-items:start; padding-top:20px;">
+    <div class="slide-content">
+      <div class="qa-question" style="font-size:32px; margin-bottom:30px; text-align:left;">"Are these trends merely seasonal artifacts or structural realities?"</div>
+      
+      <div class="data-box" style="margin-bottom:20px;">
+        <h3 style="color:var(--gold);">The Fiscal Year-End "March Spike"</h3>
+        <p>Our boxplot analysis confirms a significant, recurring surge in exports every <strong style="color:var(--white);">March</strong>. This is not a structural boom, but a mechanical fiscal-year-end rush where firms front-load shipments to meet annual targets.</p>
+      </div>
+
+      <div class="data-box" style="margin-bottom:20px;">
+        <h3 style="color:var(--hot-coral);">Monsoon Logistics Dampening</h3>
+        <p>A consistent dip is observed during <strong style="color:var(--white);">May and June</strong>. This seasonality reflects the physical reality of the Indian monsoon season, which historically hampers transport and port logistics.</p>
+      </div>
+
+      <div class="data-box accent">
+        <h3>Structural Persistence</h3>
+        <p>Crucially, while seasonal cycles are volatile, the <strong>trendlines and deficits persist across all seasons.</strong> This proves our findings are structural, not just noise from the calendar.</p>
+      </div>
+    </div>
+
+    <div class="content-right">
+      <div class="plot-wrapper" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px;">
+        <img src="plot_seasonality.png" alt="Seasonal Boxplot Analysis" style="width:100%; height:auto; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 21-->
+
+<div class="slide-container" id="slide-21">
+  <div class="slide-num-badge">21 / 22</div>
+  <div class="header-bar">
+    <div class="header-content">
+      <div class="eyebrow">Macro-Global Context</div>
+      <h1>Q&A: Resilience to Global External Shocks</h1>
+    </div>
+  </div>
+
+  <div class="grid-2" style="gap:40px; align-items:start; padding-top:20px;">
+    <div class="slide-content">
+      <div class="qa-question" style="font-size:30px; margin-bottom:25px; text-align:left;">"How have external global crises dictated the rhythm of India's trade trajectory?"</div>
+      
+      <div class="data-box" style="margin-bottom:15px;">
+        <h3 style="color:var(--gold);">The 2008 Financial Crisis</h3>
+        <p>The plot captures the first major structural deceleration of the 21st century. The global housing market collapse triggered a visible cooling period where the frantic growth of the early 2000s finally met global resistance.</p>
+      </div>
+
+      <div class="data-box" style="margin-bottom:15px;">
+        <h3 style="color:var(--hot-coral);">The 2020 Pandemic Shock</h3>
+        <p>This is the most violent "V-shaped" event in the 35-year history. It represents a total synchronized shutdown of global demand followed by the massive inflationary surge we see in the 2022-2024 recovery phase.</p>
+      </div>
+
+      <div class="data-box accent">
+        <h3>Analysis Independence</h3>
+        <p>This overview stands independent of specific policy questions. It serves to prove that India is a <strong>deeply integrated global player</strong>; our trade balance is as much a victim of global health as it is a product of domestic initiative.</p>
+      </div>
+    </div>
+
+    <div class="content-right">
+      <div class="plot-wrapper" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px;">
+        <img src="plot_trend.png" alt="35-Year Trade Shocks" style="width:100%; height:auto; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 22: Thank You -->
+<div class="slide-container" id="slide-22">
   <div class="thankyou-slide">
     <h1>Thank You</h1>
     <div class="title-divider" style="margin-bottom:24px;"></div>
@@ -997,10 +1063,10 @@
 <div class="footer">
   <div class="footer-left">
     <div class="footer-dot"></div>
-    <div class="footer-text">ISI Kolkata &nbsp;·&nbsp; Group 24 Defense</div>
+    <div class="footer-text">INDIAN STATISTICAL INSTITUTE &nbsp;·&nbsp; Group 24</div>
   </div>
   <div class="controls">
-    <span id="slide-counter">01 / 20</span>
+    <span id="slide-counter">01 / 22</span>
     <button onclick="go(-1)">← Prev</button>
     <button onclick="go(1)">Next →</button>
     <button onclick="toggleFullScreen()">Fullscreen (F)</button>
@@ -1010,7 +1076,7 @@
 
 <script>
   let currentSlide = 1;
-  const totalSlides = 20;
+  const totalSlides = 22;
 
   function showSlide(n) {
     document.querySelectorAll('.slide-container').forEach(s => s.classList.remove('active'));
