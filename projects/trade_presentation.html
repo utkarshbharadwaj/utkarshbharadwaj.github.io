@@ -6,78 +6,103 @@
 <title>Beyond the Deficit – ISI Macroeconomic Defense</title>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    /* Official Academic Color Palette */
-    --bg-color: #FFFFFF;
-    --text-main: #1A1A1A;     
-    --text-muted: #555555;    
-    
-    --primary: #003366;       
-    --highlight: #8B0000;     
-    --border: #E0E0E0;        
-    --box-bg: #F9F9F9;        
-    
+    /* High-contrast: very dark background, pure white text, vivid amber + hot coral accents */
+    --bg:        #0A0F1E;
+    --bg-card:   #111827;
+    --bg-card2:  #1a0a0a;
+    --gold:      #FFBE3D;
+    --gold-pale: rgba(255,190,61,0.15);
+    --coral:     #FF5252;
+    --coral-pale:rgba(255,82,82,0.12);
+    --white:     #FFFFFF;
+    --text-body: #E8EAF0;
+    --text-muted:#A0A8B8;
+    --border:    rgba(255,190,61,0.25);
+    --border-card:rgba(255,255,255,0.08);
     --slide-w: 100vw;
     --slide-h: 100vh;
   }
 
   body {
-    background-color: var(--bg-color);
-    font-family: 'Inter', sans-serif;
-    color: var(--text-main);
-    overflow: hidden; /* Prevents scrollbars */
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--white);
+    overflow: hidden;
   }
 
-  /* ── Presentation Engine ── */
+  /* ── Slide Engine ── */
   .slide-container {
     display: none;
     width: var(--slide-w);
     height: var(--slide-h);
-    animation: fadeIn 0.3s ease-in-out;
+    flex-direction: column;
+    position: relative;
+    animation: slideIn 0.4s cubic-bezier(0.22,1,0.36,1);
   }
-  .slide-container.active { 
-    display: flex; 
-    flex-direction: column; 
+  .slide-container.active { display: flex; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+  /* Subtle background glow */
+  .slide-container::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 55% 45% at 95% 5%,  rgba(255,190,61,0.08) 0%, transparent 55%),
+      radial-gradient(ellipse 45% 55% at 5%  95%, rgba(255,82,82,0.06)  0%, transparent 55%);
+    pointer-events: none; z-index: 0;
   }
 
-  /* ── Layout & Structure ── */
+  .header-bar, .slide-content, .title-slide, .thankyou-slide, .footer { position: relative; z-index: 1; }
+
+  /* ── Header ── */
   .header-bar {
-    padding: 30px 60px 15px 60px;
-    border-bottom: 2px solid var(--primary);
+    padding: 22px 56px 16px;
+    border-bottom: 2px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    flex-shrink: 0; /* Prevents header from shrinking */
-  }
-  .header-content h1 {
-    font-family: 'Lora', serif;
-    font-size: 38px;
-    color: var(--primary);
-    font-weight: 700;
+    flex-shrink: 0;
+    background: rgba(10,15,30,0.9);
   }
   .header-content .eyebrow {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 5px;
-    font-weight: 600;
+    letter-spacing: 3.5px;
+    margin-bottom: 6px;
+    font-weight: 500;
   }
-  
+  .header-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    color: var(--white);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+  }
+  .header-content h1::after {
+    content: '';
+    display: block;
+    width: 56px; height: 3px;
+    background: var(--gold);
+    margin-top: 10px;
+    border-radius: 2px;
+  }
+
+  /* ── Slide Content ── */
   .slide-content {
-    flex: 1;
-    min-height: 0; /* CRITICAL FIX: Stops nested flex items from expanding infinitely */
-    padding: 40px 60px;
+    flex: 1; min-height: 0;
+    padding: 32px 56px;
     display: flex;
     flex-direction: column;
   }
@@ -86,61 +111,102 @@
   .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 50px;
+    gap: 32px;
     height: 100%;
   }
 
-  /* ── Typography & Elements ── */
-  p { font-size: 20px; line-height: 1.7; margin-bottom: 20px; }
-  ul { font-size: 20px; line-height: 1.7; margin-left: 25px; margin-bottom: 20px; }
-  li { margin-bottom: 12px; }
-  
-  .highlight {
-    color: var(--highlight);
+  /* ── Body Text — LARGE for crowd readability ── */
+  p {
+    font-size: 20px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    color: var(--text-body);
+    font-weight: 400;
+  }
+  ul {
+    font-size: 20px;
+    line-height: 1.7;
+    margin-left: 24px;
+    margin-bottom: 16px;
+  }
+  li {
+    margin-bottom: 11px;
+    color: var(--text-body);
+    font-weight: 400;
+  }
+  li strong, p strong { color: var(--white); font-weight: 700; }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--gold);
+    margin-bottom: 16px;
     font-weight: 700;
-    background-color: rgba(139, 0, 0, 0.05);
-    padding: 0 4px;
+  }
+  em { color: var(--text-muted); font-style: italic; }
+
+  .highlight {
+    color: var(--bg);
+    background: var(--gold);
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
   }
 
+  /* ── Data Cards ── */
   .data-box {
-    background-color: var(--box-bg);
-    border-left: 4px solid var(--primary);
-    padding: 25px;
-    margin-bottom: 25px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-left: 4px solid var(--gold);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s, background 0.2s;
   }
-  .data-box.alert { border-left-color: var(--highlight); }
+  .data-box:hover {
+    border-left-color: var(--gold);
+    background: #161e30;
+  }
   .data-box h3 {
-    font-family: 'Lora', serif;
-    font-size: 22px;
-    color: var(--primary);
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold);
     margin-bottom: 10px;
+    font-weight: 700;
   }
-  .data-box.alert h3 { color: var(--highlight); }
 
-  /* ── Visualizations (Bulletproof Image Scaling) ── */
+  .data-box.alert {
+    background: var(--bg-card2);
+    border-left-color: var(--coral);
+    border-color: rgba(255,82,82,0.15);
+  }
+  .data-box.alert h3 { color: #FF7A7A; }
+  .data-box.alert .highlight {
+    background: var(--coral);
+    color: var(--white);
+  }
+
+  /* ── Plot Wrapper ── */
   .plot-wrapper {
-    flex: 1;
-    min-height: 0; /* CRITICAL FIX: Forces container to respect screen bounds */
+    flex: 1; min-height: 0;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid var(--border);
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    box-shadow: 0 12px 50px rgba(0,0,0,0.5);
   }
   .plot-wrapper img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain; /* Locks aspect ratio so it never squishes */
+    max-width: 100%; max-height: 100%;
+    width: auto; height: auto;
+    object-fit: contain;
     display: block;
   }
 
-  /* ── Title Slide Specifics ── */
+  /* ── Title Slide ── */
   .title-slide {
     display: flex;
     flex-direction: column;
@@ -148,91 +214,265 @@
     align-items: center;
     text-align: center;
     height: 100%;
-    padding: 0 100px;
+    padding: 0 80px;
+    position: relative;
+  }
+  .title-slide::before {
+    content: '';
+    position: absolute;
+    width: 560px; height: 560px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,190,61,0.1);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
   }
   .title-slide img.logo {
-    width: 180px;
-    margin-bottom: 40px;
+    width: 160px;
+    margin-bottom: 36px;
+    filter: brightness(0) invert(1) opacity(0.85);
+    position: relative; z-index: 1;
   }
   .title-slide h1 {
-    font-family: 'Lora', serif;
-    font-size: 64px;
-    color: var(--primary);
-    line-height: 1.1;
-    margin-bottom: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 76px;
+    color: var(--white);
+    line-height: 1.0;
+    margin-bottom: 16px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    position: relative; z-index: 1;
+  }
+  .title-slide h1 span { color: var(--gold); }
+  .title-divider {
+    width: 90px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 20px;
+    position: relative; z-index: 1;
   }
   .title-slide h2 {
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-weight: 400;
-    font-size: 26px;
-    color: var(--text-muted);
-    margin-bottom: 60px;
-  }
-  .title-slide .authors {
-    font-size: 18px;
-    color: var(--text-main);
-    line-height: 1.8;
+    font-size: 24px;
+    color: var(--text-body);
+    margin-bottom: 48px;
+    max-width: 720px;
+    line-height: 1.5;
+    position: relative; z-index: 1;
   }
   .title-slide .date {
-    margin-top: 40px;
-    font-size: 16px;
-    color: var(--text-muted);
+    margin-top: 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    position: relative; z-index: 1;
   }
 
-  /* ── Footer & Controls ── */
+  /* Authors card */
+  .authors-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 26px 36px;
+    text-align: left;
+    position: relative; z-index: 1;
+  }
+  .authors-card strong {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .authors-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 36px;
+  }
+  .authors-grid div {
+    font-size: 17px;
+    color: var(--text-body);
+    font-weight: 400;
+  }
+
+  /* ── Thank You Slide ── */
+  .thankyou-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    padding: 0 80px;
+    position: relative;
+  }
+  .thankyou-slide h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 100px;
+    color: var(--white);
+    font-weight: 900;
+    letter-spacing: -3px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .thankyou-slide h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--text-muted);
+    margin-bottom: 48px;
+  }
+
+  /* ── Q&A Slides ── */
+  .qa-question {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--gold);
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.45;
+  }
+  .qa-body {
+    font-size: 20px;
+    color: var(--text-body);
+    max-width: 880px;
+    margin: 0 auto 32px;
+    text-align: center;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+  .formula-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px 64px;
+    text-align: center;
+    width: 820px;
+    margin: 0 auto;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+  }
+  .formula-card .formula-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--gold);
+    margin-bottom: 28px;
+    font-weight: 700;
+  }
+  .formula-card .formula-eq {
+    font-size: 32px;
+    margin-bottom: 28px;
+    color: var(--white);
+  }
+  .formula-card .formula-note {
+    font-size: 17px;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  /* ── Footer ── */
   .footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 60px;
+    padding: 11px 56px;
     border-top: 1px solid var(--border);
-    background-color: var(--bg-color);
+    background: rgba(10,15,30,0.95);
     flex-shrink: 0;
+    position: relative; z-index: 2;
   }
+  .footer-left { display: flex; align-items: center; gap: 14px; }
+  .footer-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
   .footer-text {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+  }
+  .controls { display: flex; align-items: center; gap: 8px; }
+  #slide-counter {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--gold);
+    margin-right: 14px;
+    font-weight: 500;
   }
   .controls button {
-    background-color: white;
-    border: 1px solid var(--border);
-    color: var(--primary);
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
+    background: transparent;
+    border: 1px solid rgba(255,190,61,0.35);
+    color: var(--text-body);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
     font-weight: 600;
-    padding: 8px 16px;
+    padding: 7px 18px;
     cursor: pointer;
-    margin-left: 10px;
-    border-radius: 4px;
-    transition: all 0.2s;
+    border-radius: 6px;
+    transition: all 0.18s ease;
   }
   .controls button:hover {
-    background-color: var(--primary);
-    color: white;
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--bg);
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), #FFD980);
+    transition: width 0.4s cubic-bezier(0.22,1,0.36,1);
+    z-index: 3;
+  }
+
+  /* Slide number badge */
+  .slide-num-badge {
+    position: absolute;
+    top: 24px; right: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,190,61,0.45);
+    letter-spacing: 1.5px;
+    z-index: 2;
   }
 </style>
 </head>
 <body>
 
+<!-- SLIDE 1: Title -->
 <div class="slide-container active" id="slide-1">
   <div class="title-slide">
     <img src="isi_logo.png" alt="ISI Logo" class="logo">
-    <h1>Beyond the Deficit</h1>
+    <h1>Beyond the <span>Deficit</span></h1>
+    <div class="title-divider"></div>
     <h2>An Empirical Analysis of India's Foreign Trade Dynamics (1990–2025)</h2>
-    <div class="date">Indian Statistical Institute • May 2026</div>
+    <div class="authors-card">
+      <strong>Research Conducted by Group 24</strong>
+      <div class="authors-grid">
+        <div>Utkarsh Bharadwaj</div>
+        <div>Rabi Shankar Sah</div>
+        <div>Garg Parashar</div>
+        <div>Abhinav</div>
+        <div>Aarav Chugh</div>
+        <div>Maddikuntala Pavankumar</div>
+      </div>
+    </div>
+    <div class="date">Indian Statistical Institute &nbsp;·&nbsp; May 2026</div>
   </div>
 </div>
 
+<!-- SLIDE 2 -->
 <div class="slide-container" id="slide-2">
+  <div class="slide-num-badge">02 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Introduction</div>
-      <h1>Motivation & Methodology</h1>
+      <h1>Motivation &amp; Methodology</h1>
     </div>
   </div>
   <div class="slide-content">
@@ -246,7 +486,7 @@
       </div>
       <div>
         <div class="data-box">
-          <h3>Data & Transformation Protocol</h3>
+          <h3>Data &amp; Transformation Protocol</h3>
           <ul>
             <li><strong>Primary Source:</strong> RBI Database on the Indian Economy (Table No. 32: Foreign Trade).</li>
             <li><strong>Scope:</strong> 429 consecutive monthly observations (Jan 1990 – Dec 2025).</li>
@@ -258,7 +498,9 @@
   </div>
 </div>
 
+<!-- SLIDE 3 -->
 <div class="slide-container" id="slide-3">
+  <div class="slide-num-badge">03 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Analytical Scope</div>
@@ -287,7 +529,9 @@
   </div>
 </div>
 
+<!-- SLIDE 4 -->
 <div class="slide-container" id="slide-4">
+  <div class="slide-num-badge">04 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Part 1: The Currency Illusion</div>
@@ -318,7 +562,9 @@
   </div>
 </div>
 
+<!-- SLIDE 5 -->
 <div class="slide-container" id="slide-5">
+  <div class="slide-num-badge">05 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Part 1: The Currency Illusion</div>
@@ -332,11 +578,13 @@
   </div>
 </div>
 
+<!-- SLIDE 6 -->
 <div class="slide-container" id="slide-6">
+  <div class="slide-num-badge">06 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Part 1: Findings</div>
-      <h1>A 10x Mathematical Distortion</h1>
+      <h1>A 10× Mathematical Distortion</h1>
     </div>
   </div>
   <div class="slide-content">
@@ -361,7 +609,9 @@
   </div>
 </div>
 
+<!-- SLIDE 7 -->
 <div class="slide-container" id="slide-7">
+  <div class="slide-num-badge">07 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Part 2: The Energy Deficit</div>
@@ -392,7 +642,9 @@
   </div>
 </div>
 
+<!-- SLIDE 8 -->
 <div class="slide-container" id="slide-8">
+  <div class="slide-num-badge">08 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Part 2: The Energy Deficit</div>
@@ -406,7 +658,9 @@
   </div>
 </div>
 
+<!-- SLIDE 9 -->
 <div class="slide-container" id="slide-9">
+  <div class="slide-num-badge">09 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Part 2: Findings</div>
@@ -435,7 +689,9 @@
   </div>
 </div>
 
+<!-- SLIDE 10 -->
 <div class="slide-container" id="slide-10">
+  <div class="slide-num-badge">10 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Part 3: Federal Policy Efficacy</div>
@@ -467,7 +723,9 @@
   </div>
 </div>
 
+<!-- SLIDE 11 -->
 <div class="slide-container" id="slide-11">
+  <div class="slide-num-badge">11 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Part 3: Federal Policy Efficacy</div>
@@ -481,7 +739,9 @@
   </div>
 </div>
 
+<!-- SLIDE 12 -->
 <div class="slide-container" id="slide-12">
+  <div class="slide-num-badge">12 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Part 3: Findings</div>
@@ -492,12 +752,15 @@
     <div class="grid-2">
       <div>
         <div class="data-box alert">
-          <h3>Stagnant Growth Velocity (CAGR)</h3>
-          <p>Mathematical calculations reveal no meaningful acceleration in physical export velocity. The policy <span class="highlight">failed to significantly compound</span> physical export volumes above the pre-existing baseline trend.</p>
+          <h3>Severe Growth Deceleration (CAGR)</h3>
+          <p style="font-size: 20px; margin-bottom: 8px;">Pre-Policy (Era 1): <strong style="color:#FF7A7A;">10.26%</strong></p>
+          <p style="font-size: 20px; margin-bottom: 8px;">Make in India (Era 2): <strong style="color:#FF7A7A;">2.70%</strong></p>
+          <p style="font-size: 20px; margin-bottom: 14px;">Overall 13-Year Baseline: <strong style="color:#FF7A7A;">2.91%</strong></p>
+          <p>Mathematical calculations reveal a massive collapse in export velocity. The policy <span class="highlight">failed to sustain</span> the pre-existing baseline trend, presiding over a severe deceleration in physical export compounding.</p>
         </div>
         <div class="data-box">
-          <h3>Parallel Trajectory Slopes</h3>
-          <p>Visual inspection of the segmented regression confirms the Era 2 slope is remarkably flat and nearly parallel to Era 1. No structural breakout occurred prior to the pandemic.</p>
+          <h3>The Visual Recovery Illusion</h3>
+          <p>While the visual regression line for Era 2 appears to angle upward, it merely reflects a slow, sluggish recovery out of the severe 2015 global commodity crash. It completely failed to restore the double-digit momentum of the pre-policy years.</p>
         </div>
       </div>
       <div>
@@ -510,7 +773,9 @@
   </div>
 </div>
 
+<!-- SLIDE 13 -->
 <div class="slide-container" id="slide-13">
+  <div class="slide-num-badge">13 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Part 4: The Dependency Trap</div>
@@ -541,7 +806,9 @@
   </div>
 </div>
 
+<!-- SLIDE 14 -->
 <div class="slide-container" id="slide-14">
+  <div class="slide-num-badge">14 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Part 4: The Dependency Trap</div>
@@ -555,7 +822,9 @@
   </div>
 </div>
 
+<!-- SLIDE 15 -->
 <div class="slide-container" id="slide-15">
+  <div class="slide-num-badge">15 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Part 4: Findings</div>
@@ -586,7 +855,9 @@
   </div>
 </div>
 
+<!-- SLIDE 16 -->
 <div class="slide-container" id="slide-16">
+  <div class="slide-num-badge">16 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Executive Summary</div>
@@ -619,7 +890,9 @@
   </div>
 </div>
 
+<!-- SLIDE 17 -->
 <div class="slide-container" id="slide-17">
+  <div class="slide-num-badge">17 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Methodology</div>
@@ -653,84 +926,59 @@
   </div>
 </div>
 
+<!-- SLIDE 18 -->
 <div class="slide-container" id="slide-18">
+  <div class="slide-num-badge">18 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Methodological Defense</div>
-      <h1>Q&A: Calculating Growth Velocity</h1>
+      <h1>Q&amp;A: Calculating Growth Velocity</h1>
     </div>
   </div>
-  <div class="slide-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-    
-    <div style="width: 100%; text-align: center; margin-bottom: 30px;">
-      <h3 style="font-family: 'Lora', serif; font-size: 28px; color: var(--primary); font-style: italic; margin-bottom: 20px;">
-        "Why use CAGR for the policy assessment, and how is it mathematically derived?"
-      </h3>
-      <p style="font-size: 20px; color: var(--text-main); max-width: 900px; margin: 0 auto; line-height: 1.6;">
-        Compound Annual Growth Rate (CAGR) smooths out "noisy" middle volatility (e.g., the 2015 global slowdown) to isolate the true geometric progression of physical exports from the beginning to the end of a given era.
-      </p>
-    </div>
-      
-    <div style="background-color: #F1F5F9; padding: 40px 60px; border-radius: 12px; text-align: center; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: 800px; margin: 0 auto;">
-      <p style="font-family: 'Lora', serif; font-size: 26px; color: var(--primary); margin-bottom: 25px; font-weight: 700;">
-        The CAGR Formula
-      </p>
-      
-      <div style="font-size: 32px; margin-bottom: 30px; color: var(--text-main);">
+  <div class="slide-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div class="qa-question">"Why use CAGR for the policy assessment, and how is it mathematically derived?"</div>
+    <p class="qa-body">Compound Annual Growth Rate (CAGR) smooths out "noisy" middle volatility (e.g., the 2015 global slowdown) to isolate the true geometric progression of physical exports from the beginning to the end of a given era.</p>
+    <div class="formula-card">
+      <div class="formula-title">The CAGR Formula</div>
+      <div class="formula-eq">
         $$ \text{CAGR} = \left[ \left( \frac{V_{\text{final}}}{V_{\text{begin}}} \right)^{\frac{1}{t}} - 1 \right] \times 100 $$
       </div>
-      
-      <p style="font-size: 18px; color: var(--text-muted); margin-bottom: 0;">
-        Where \( V_{\text{begin}} \) is the starting volume, \( V_{\text{final}} \) is the ending volume, and \( t \) is the duration in years.
-      </p>
+      <div class="formula-note">Where \( V_{\text{begin}} \) is the starting volume, \( V_{\text{final}} \) is the ending volume, and \( t \) is the duration in years.</div>
     </div>
-    
   </div>
 </div>
 
+<!-- SLIDE 19 -->
 <div class="slide-container" id="slide-19">
+  <div class="slide-num-badge">19 / 20</div>
   <div class="header-bar">
     <div class="header-content">
       <div class="eyebrow">Methodological Defense</div>
-      <h1>Q&A: Controlling for Price Inflation</h1>
+      <h1>Q&amp;A: Controlling for Price Inflation</h1>
     </div>
   </div>
-  <div class="slide-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-    
-    <div style="width: 100%; text-align: center; margin-bottom: 30px;">
-      <h3 style="font-family: 'Lora', serif; font-size: 28px; color: var(--primary); font-style: italic; margin-bottom: 20px;">
-        "How did we mathematically eliminate the distortions of global price inflation across 35 years?"
-      </h3>
-      <p style="font-size: 20px; color: var(--text-main); max-width: 950px; margin: 0 auto; line-height: 1.6;">
-        To measure pure physical trade volumes, we must strip away decades of global price inflation. A nominal dollar in 1991 represented vastly more physical merchandise than a nominal dollar today. By applying a mathematical deflator based on the US Consumer Price Index (FRED: CPIAUCSL), we standardized all historical trade values to <strong>Constant December 2025 US Dollars</strong>.
-      </p>
-    </div>
-      
-    <div style="background-color: #F1F5F9; padding: 40px 60px; border-radius: 12px; text-align: center; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: 850px; margin: 0 auto;">
-      <p style="font-family: 'Lora', serif; font-size: 26px; color: var(--primary); margin-bottom: 25px; font-weight: 700;">
-        The Inflation Deflator Formula
-      </p>
-      
-      <div style="font-size: 32px; margin-bottom: 30px; color: var(--text-main);">
+  <div class="slide-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div class="qa-question">"How did we mathematically eliminate the distortions of global price inflation across 35 years?"</div>
+    <p class="qa-body">To measure pure physical trade volumes, we must strip away decades of global price inflation. A nominal dollar in 1991 represented vastly more physical merchandise than a nominal dollar today. By applying a mathematical deflator based on the US Consumer Price Index (FRED: CPIAUCSL), we standardized all historical trade values to <strong style="color:var(--white);">Constant December 2025 US Dollars</strong>.</p>
+    <div class="formula-card" style="width:860px;">
+      <div class="formula-title">The Inflation Deflator Formula</div>
+      <div class="formula-eq">
         $$ \text{Constant USD} = \text{Nominal USD} \times \left( \frac{\text{CPI}_{\text{Base}}}{\text{CPI}_{\text{Current}}} \right) $$
       </div>
-      
-      <p style="font-size: 18px; color: var(--text-muted); margin-bottom: 0;">
-        Where \( \text{CPI}_{\text{Base}} \) is the index value for December 2025 (326.031), and \( \text{CPI}_{\text{Current}} \) is the index value for the specific month the historical trade occurred.
-      </p>
+      <div class="formula-note">Where \( \text{CPI}_{\text{Base}} \) is the index value for December 2025 (326.031), and \( \text{CPI}_{\text{Current}} \) is the index value for the specific month the historical trade occurred.</div>
     </div>
-    
   </div>
 </div>
 
+<!-- SLIDE 20: Thank You -->
 <div class="slide-container" id="slide-20">
-  <div class="title-slide">
-    <h1 style="margin-bottom: 10px;">Thank You</h1>
-    <h2 style="font-size: 20px;">End of Presentation</h2>
-    <br><br>
-    <div class="authors" style="text-align: left; background-color: var(--box-bg); padding: 30px; border-left: 4px solid var(--primary); border-radius: 8px;">
-      <strong>Research Conducted By Group 24:</strong>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+  <div class="thankyou-slide">
+    <h1>Thank You</h1>
+    <div class="title-divider" style="margin-bottom:24px;"></div>
+    <h2>End of Presentation</h2>
+    <div class="authors-card" style="text-align:left;min-width:480px;">
+      <strong>Research Conducted by Group 24</strong>
+      <div class="authors-grid">
         <div>Utkarsh Bharadwaj</div>
         <div>Rabi Shankar Sah</div>
         <div>Garg Parashar</div>
@@ -739,20 +987,25 @@
         <div>Maddikuntala Pavankumar</div>
       </div>
     </div>
-    <div class="date" style="margin-top: 60px; font-size: 12px;">
-      Data Sources: Reserve Bank of India (Table 32) • FRED Economic Data (CPIAUCSL)
+    <div class="date" style="margin-top:48px;">
+      Data Sources: Reserve Bank of India (Table 32) &nbsp;·&nbsp; FRED Economic Data (CPIAUCSL)
     </div>
   </div>
 </div>
 
+<!-- Footer -->
 <div class="footer">
-  <div class="footer-text">ISI Kolkata • Group 24 Defense</div>
+  <div class="footer-left">
+    <div class="footer-dot"></div>
+    <div class="footer-text">ISI Kolkata &nbsp;·&nbsp; Group 24 Defense</div>
+  </div>
   <div class="controls">
-    <span id="slide-counter" style="margin-right: 20px; font-weight: 600; color: var(--primary);">1 / 19</span>
-    <button onclick="go(-1)">Previous</button>
-    <button onclick="go(1)">Next</button>
+    <span id="slide-counter">01 / 20</span>
+    <button onclick="go(-1)">← Prev</button>
+    <button onclick="go(1)">Next →</button>
     <button onclick="toggleFullScreen()">Fullscreen (F)</button>
   </div>
+  <div class="progress-bar" id="progress-bar" style="width:5%;"></div>
 </div>
 
 <script>
@@ -760,49 +1013,32 @@
   const totalSlides = 20;
 
   function showSlide(n) {
-    // Hide all slides
     document.querySelectorAll('.slide-container').forEach(s => s.classList.remove('active'));
-    // Show target slide
     document.getElementById('slide-' + n).classList.add('active');
-    // Update counter
-    document.getElementById('slide-counter').innerText = n + ' / ' + totalSlides;
+    const pad = String(n).padStart(2,'0');
+    document.getElementById('slide-counter').innerText = pad + ' / ' + totalSlides;
+    document.getElementById('progress-bar').style.width = ((n / totalSlides) * 100) + '%';
     currentSlide = n;
   }
 
   function go(direction) {
-    let nextSlide = currentSlide + direction;
-    if (nextSlide >= 1 && nextSlide <= totalSlides) {
-      showSlide(nextSlide);
-    }
+    let next = currentSlide + direction;
+    if (next >= 1 && next <= totalSlides) showSlide(next);
   }
 
   function toggleFullScreen() {
     if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => {
-            console.log(`Error attempting to enable fullscreen: ${err.message}`);
-        });
+      document.documentElement.requestFullscreen().catch(err => console.log(err));
     } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
+      if (document.exitFullscreen) document.exitFullscreen();
     }
   }
 
-  // Keyboard navigation
   document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
-      e.preventDefault();
-      go(1);
-    }
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      go(-1);
-    }
-    if (e.key === 'f' || e.key === 'F') {
-      toggleFullScreen();
-    }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                    { e.preventDefault(); go(-1); }
+    if (e.key === 'f' || e.key === 'F') toggleFullScreen();
   });
 </script>
-
 </body>
 </html>
