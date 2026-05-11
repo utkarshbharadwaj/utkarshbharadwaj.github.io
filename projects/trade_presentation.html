@@ -33,13 +33,17 @@
     font-family: 'DM Sans', sans-serif;
     color: var(--white);
     overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
   /* ── Slide Engine ── */
   .slide-container {
     display: none;
-    width: var(--slide-w);
-    height: var(--slide-h);
+    width: 100%;
+    flex: 1;
+    min-height: 0;
     flex-direction: column;
     position: relative;
     animation: slideIn 0.4s cubic-bezier(0.22,1,0.36,1);
@@ -65,7 +69,7 @@
 
   /* ── Header ── */
   .header-bar {
-    padding: 22px 56px 16px;
+    padding: 14px 56px 12px;
     border-bottom: 2px solid var(--border);
     display: flex;
     justify-content: space-between;
@@ -75,16 +79,16 @@
   }
   .header-content .eyebrow {
     font-family: 'DM Mono', monospace;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--gold);
     text-transform: uppercase;
     letter-spacing: 3.5px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     font-weight: 500;
   }
   .header-content h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 40px;
+    font-size: 32px;
     color: var(--white);
     font-weight: 800;
     line-height: 1.1;
@@ -93,44 +97,68 @@
   .header-content h1::after {
     content: '';
     display: block;
-    width: 56px; height: 3px;
+    width: 48px; height: 3px;
     background: var(--gold);
-    margin-top: 10px;
+    margin-top: 7px;
     border-radius: 2px;
   }
 
   /* ── Slide Content ── */
   .slide-content {
     flex: 1; min-height: 0;
-    padding: 32px 56px;
+    padding: 24px 56px 24px;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) rgba(255,190,61,0.1);
   }
+  .slide-content::-webkit-scrollbar { width: 7px; }
+  .slide-content::-webkit-scrollbar-track { background: rgba(255,190,61,0.07); border-radius: 4px; }
+  .slide-content::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; opacity: 0.7; }
 
-  /* ── Two-Column Grid ── */
+  /* ── Two-Column Grid — fills ALL available height ── */
   .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 32px;
-    height: 100%;
+    gap: 24px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* Each column is a flex column so cards grow to fill it */
+  .grid-2 > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-height: 0;
+  }
+
+  /* Cards grow equally to fill the column */
+  .grid-2 > div > .data-box {
+    flex: 1;
+    margin-bottom: 16px;
+  }
+  .grid-2 > div > .data-box:last-child {
+    margin-bottom: 0;
   }
 
   /* ── Body Text — LARGE for crowd readability ── */
   p {
-    font-size: 20px;
-    line-height: 1.7;
-    margin-bottom: 16px;
+    font-size: 26px;
+    line-height: 1.55;
+    margin-bottom: 10px;
     color: var(--text-body);
     font-weight: 400;
   }
   ul {
-    font-size: 20px;
-    line-height: 1.7;
-    margin-left: 24px;
-    margin-bottom: 16px;
+    font-size: 26px;
+    line-height: 1.55;
+    margin-left: 28px;
+    margin-bottom: 10px;
   }
   li {
-    margin-bottom: 11px;
+    margin-bottom: 8px;
     color: var(--text-body);
     font-weight: 400;
   }
@@ -138,9 +166,9 @@
 
   h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 26px;
+    font-size: 34px;
     color: var(--gold);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     font-weight: 700;
   }
   em { color: var(--text-muted); font-style: italic; }
@@ -159,9 +187,12 @@
     border: 1px solid var(--border-card);
     border-left: 4px solid var(--gold);
     border-radius: 10px;
-    padding: 20px 22px;
+    padding: 18px 22px;
     margin-bottom: 16px;
     transition: border-color 0.2s, background 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .data-box:hover {
     border-left-color: var(--gold);
@@ -169,9 +200,9 @@
   }
   .data-box h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 20px;
+    font-size: 26px;
     color: var(--gold);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-weight: 700;
   }
 
@@ -213,9 +244,13 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    height: 100%;
+    flex: 1;
+    min-height: 0;
     padding: 0 80px;
     position: relative;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) rgba(255,190,61,0.1);
   }
   .title-slide::before {
     content: '';
@@ -306,9 +341,13 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    height: 100%;
+    flex: 1;
+    min-height: 0;
     padding: 0 80px;
     position: relative;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) rgba(255,190,61,0.1);
   }
   .thankyou-slide h1 {
     font-family: 'Playfair Display', serif;
@@ -330,46 +369,46 @@
   /* ── Q&A Slides ── */
   .qa-question {
     font-family: 'Playfair Display', serif;
-    font-size: 28px;
+    font-size: 36px;
     color: var(--gold);
     font-style: italic;
     text-align: center;
-    margin-bottom: 20px;
-    line-height: 1.45;
+    margin-bottom: 24px;
+    line-height: 1.4;
   }
   .qa-body {
-    font-size: 20px;
+    font-size: 26px;
     color: var(--text-body);
-    max-width: 880px;
-    margin: 0 auto 32px;
+    max-width: 960px;
+    margin: 0 auto 28px;
     text-align: center;
-    line-height: 1.7;
+    line-height: 1.6;
     font-weight: 400;
   }
   .formula-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 40px 64px;
+    padding: 32px 56px;
     text-align: center;
-    width: 820px;
+    width: min(860px, 100%);
     margin: 0 auto;
     box-shadow: 0 8px 40px rgba(0,0,0,0.4);
   }
   .formula-card .formula-title {
     font-family: 'Playfair Display', serif;
-    font-size: 24px;
+    font-size: 28px;
     color: var(--gold);
-    margin-bottom: 28px;
+    margin-bottom: 22px;
     font-weight: 700;
   }
   .formula-card .formula-eq {
-    font-size: 32px;
-    margin-bottom: 28px;
+    font-size: 36px;
+    margin-bottom: 22px;
     color: var(--white);
   }
   .formula-card .formula-note {
-    font-size: 17px;
+    font-size: 22px;
     color: var(--text-muted);
     font-weight: 400;
   }
@@ -379,7 +418,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 11px 56px;
+    padding: 8px 56px;
     border-top: 1px solid var(--border);
     background: rgba(10,15,30,0.95);
     flex-shrink: 0;
@@ -440,6 +479,18 @@
     letter-spacing: 1.5px;
     z-index: 2;
   }
+
+  /* Content-right for two-column plot slides — stretches to fill column */
+  .content-right {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+  .content-right .plot-wrapper {
+    flex: 1;
+    min-height: 0;
+  }
 </style>
 </head>
 <body>
@@ -451,7 +502,7 @@
     <h1>Beyond the <span>Deficit</span></h1>
     <div class="title-divider"></div>
     <h2>An Empirical Analysis of India's Foreign Trade Dynamics (1990–2025)</h2>
-    <div class="date">Indian Statistical Institute &nbsp;·&nbsp; May 2026</div>
+    <h3>INDIAN STATISTICAL INSTITUTE &nbsp;·&nbsp; May 2026</h3>
   </div>
 </div>
 
@@ -496,24 +547,25 @@
       <h1>The Four-Part Structural Thesis</h1>
     </div>
   </div>
-  <div class="slide-content">
-    <p>By applying a constant-dollar methodology to 35 years of RBI data, we structured our empirical analysis to answer four critical questions regarding the Indian economy:</p>
-    <br>
-    <div class="data-box">
+  <div class="slide-content" style="display:flex;flex-direction:column;">
+    <p style="flex-shrink:0;">By applying a constant-dollar methodology to 35 years of RBI data, we structured our empirical analysis to answer four critical questions regarding the Indian economy:</p>
+    <div style="display:flex;flex-direction:column;flex:1;gap:16px;margin-top:16px;">
+    <div class="data-box" style="flex:1;margin-bottom:0;">
       <h3>1. The Currency Illusion</h3>
       <p>How much of the reported deficit "explosion" since 1991 is a genuine physical expansion versus a mathematical distortion caused by Rupee depreciation?</p>
     </div>
-    <div class="data-box">
+    <div class="data-box" style="flex:1;margin-bottom:0;">
       <h3>2. The Energy Deficit</h3>
       <p>If we strip away inelastic crude oil imports, is India's core domestic manufacturing sector actually failing on the global stage?</p>
     </div>
-    <div class="data-box">
+    <div class="data-box" style="flex:1;margin-bottom:0;">
       <h3>3. Federal Policy Efficacy</h3>
       <p>Did the "Make in India" initiative structurally accelerate physical export volumes prior to the pandemic, or merely sustain existing momentum?</p>
     </div>
-    <div class="data-box">
+    <div class="data-box" style="flex:1;margin-bottom:0;">
       <h3>4. The Dependency Trap</h3>
       <p>As India attempts to scale its manufacturing exports, is the non-oil sector becoming more self-reliant or increasingly trapped in an import-dependency loop?</p>
+    </div>
     </div>
   </div>
 </div>
@@ -530,8 +582,11 @@
   <div class="slide-content">
     <div class="grid-2">
       <div>
-        <p>Public reporting overwhelmingly denominates India's trade deficit in <strong>Nominal Indian Rupees (INR)</strong>.</p>
-        <p>Since 1991, the Rupee has experienced persistent, severe depreciation against the US Dollar. Concurrently, the global economy has experienced decades of compounding price inflation.</p>
+        <div class="data-box" style="flex:1;margin-bottom:16px;">
+          <h3>Context</h3>
+          <p>Public reporting overwhelmingly denominates India's trade deficit in <strong>Nominal Indian Rupees (INR)</strong>.</p>
+          <p style="margin-bottom:0;">Since 1991, the Rupee has experienced persistent, severe depreciation against the US Dollar. Concurrently, the global economy has experienced decades of compounding price inflation.</p>
+        </div>
         <div class="data-box">
           <h3>The Hypothesis</h3>
           <p>The apparent parabolic explosion of India's trade deficit is largely a mathematical illusion driven by a denominator effect (currency devaluation), rather than a geometric expansion of the physical trade gap.</p>
@@ -589,10 +644,11 @@
         </div>
       </div>
       <div>
-        <br><br>
-        <h2>Conclusion on Currency Reporting</h2>
-        <p>Evaluating India's macroeconomic health through nominal INR figures introduces catastrophic analytical bias. The perceived growth of the deficit is artificially magnified by a factor of ten.</p>
-        <p><strong>To ensure academic rigor, the remainder of this analysis utilizes Constant Dec 2025 USD exclusively.</strong></p>
+        <div class="data-box" style="flex:1;">
+          <h2 style="color:var(--gold);margin-bottom:16px;">Conclusion on Currency Reporting</h2>
+          <p>Evaluating India's macroeconomic health through nominal INR figures introduces catastrophic analytical bias. The perceived growth of the deficit is artificially magnified by a factor of ten.</p>
+          <p style="margin-bottom:0;"><strong>To ensure academic rigor, the remainder of this analysis utilizes Constant Dec 2025 USD exclusively.</strong></p>
+        </div>
       </div>
     </div>
   </div>
@@ -610,8 +666,11 @@
   <div class="slide-content">
     <div class="grid-2">
       <div>
-        <p>Having established the true volume of the deficit, we must identify its primary driver. The dominant narrative often attributes India's trade gap to a broad weakness in domestic manufacturing.</p>
-        <p>This ignores a critical structural reality: India is the world's <strong>third-largest importer of crude oil</strong>, an inelastic energy commodity.</p>
+        <div class="data-box" style="flex:1;margin-bottom:16px;">
+          <h3>Context</h3>
+          <p>Having established the true volume of the deficit, we must identify its primary driver. The dominant narrative often attributes India's trade gap to a broad weakness in domestic manufacturing.</p>
+          <p style="margin-bottom:0;">This ignores a critical structural reality: India is the world's <strong>third-largest importer of crude oil</strong>, an inelastic energy commodity.</p>
+        </div>
         <div class="data-box">
           <h3>The Hypothesis</h3>
           <p>When crude oil is stripped from the ledger, India's core manufacturing sectors will demonstrate a trade balance significantly closer to equilibrium.</p>
@@ -669,10 +728,11 @@
         </div>
       </div>
       <div>
-        <br><br>
-        <h2>Conclusion on Manufacturing Health</h2>
-        <p>Characterizing India's trade deficit as a broad failure of domestic manufacturing is empirically inaccurate. Stripped of petroleum imports, India's core merchandise trade demonstrates significant resilience.</p>
-        <p><strong>Policy Implication:</strong> Accelerating domestic energy transitions (renewables, nuclear) will yield a more dramatic impact on the trade balance than generic manufacturing incentives.</p>
+        <div class="data-box" style="flex:1;">
+          <h2 style="color:var(--gold);margin-bottom:16px;">Conclusion on Manufacturing Health</h2>
+          <p>Characterizing India's trade deficit as a broad failure of domestic manufacturing is empirically inaccurate. Stripped of petroleum imports, India's core merchandise trade demonstrates significant resilience.</p>
+          <p style="margin-bottom:0;"><strong>Policy Implication:</strong> Accelerating domestic energy transitions (renewables, nuclear) will yield a more dramatic impact on the trade balance than generic manufacturing incentives.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -690,8 +750,11 @@
   <div class="slide-content">
     <div class="grid-2">
       <div>
-        <p>If domestic manufacturing is not fundamentally failing, did major federal interventions successfully elevate it?</p>
-        <p>In September 2014, the Government launched "Make in India." Evaluating this policy requires strict methodological controls: converting to Constant USD to measure <em>physical</em> output, and excluding post-2019 data to prevent COVID-19 volatility from skewing the regression slopes.</p>
+        <div class="data-box" style="flex:1;margin-bottom:16px;">
+          <h3>Context</h3>
+          <p>If domestic manufacturing is not fundamentally failing, did major federal interventions successfully elevate it?</p>
+          <p style="margin-bottom:0;">In September 2014, the Government launched "Make in India." Evaluating this policy requires strict methodological controls: converting to Constant USD to measure <em>physical</em> output, and excluding post-2019 data to prevent COVID-19 volatility from skewing the regression slopes.</p>
+        </div>
         <div class="data-box">
           <h3>The Hypothesis</h3>
           <p>The trajectory slope and Compound Annual Growth Rate (CAGR) of inflation-adjusted non-oil exports will show a statistically significant upward acceleration in the post-policy era.</p>
@@ -742,10 +805,10 @@
       <div>
         <div class="data-box alert">
           <h3>Severe Growth Deceleration (CAGR)</h3>
-          <p style="font-size: 20px; margin-bottom: 8px;">Pre-Policy (Era 1): <strong style="color:#FF7A7A;">10.26%</strong></p>
-          <p style="font-size: 20px; margin-bottom: 8px;">Make in India (Era 2): <strong style="color:#FF7A7A;">2.70%</strong></p>
-          <p style="font-size: 20px; margin-bottom: 14px;">Overall 13-Year Baseline: <strong style="color:#FF7A7A;">2.91%</strong></p>
-          <p>Mathematical calculations reveal a massive collapse in export velocity. The policy <span class="highlight">failed to sustain</span> the pre-existing baseline trend, presiding over a severe deceleration in physical export compounding.</p>
+          <p>Pre-Policy (Era 1): <strong style="color:#FF7A7A;">10.26%</strong></p>
+          <p>Make in India (Era 2): <strong style="color:#FF7A7A;">2.70%</strong></p>
+          <p>Overall 13-Year Baseline: <strong style="color:#FF7A7A;">2.91%</strong></p>
+          <p style="margin-bottom:0;">Mathematical calculations reveal a massive collapse in export velocity. The policy <span class="highlight">failed to sustain</span> the pre-existing baseline trend, presiding over a severe deceleration in physical export compounding.</p>
         </div>
         <div class="data-box">
           <h3>The Visual Recovery Illusion</h3>
@@ -753,10 +816,11 @@
         </div>
       </div>
       <div>
-        <br><br>
-        <h2>Conclusion on Policy Impact</h2>
-        <p>During its first five years, the initiative failed to radically steepen India's manufacturing competitiveness trajectory. Stripped of pricing illusions, the policy's early footprint appears to be a mere continuation of momentum.</p>
-        <p><em>Caveat: Heavy manufacturing infrastructure requires substantial gestation. A 5-year window may capture implementation lags rather than ultimate efficacy.</em></p>
+        <div class="data-box" style="flex:1;">
+          <h2 style="color:var(--gold);margin-bottom:16px;">Conclusion on Policy Impact</h2>
+          <p>During its first five years, the initiative failed to radically steepen India's manufacturing competitiveness trajectory. Stripped of pricing illusions, the policy's early footprint appears to be a mere continuation of momentum.</p>
+          <p style="margin-bottom:0;"><em>Caveat: Heavy manufacturing infrastructure requires substantial gestation. A 5-year window may capture implementation lags rather than ultimate efficacy.</em></p>
+        </div>
       </div>
     </div>
   </div>
@@ -774,8 +838,11 @@
   <div class="slide-content">
     <div class="grid-2">
       <div>
-        <p>If export growth is relatively stagnant, what is occurring beneath the surface of the non-oil sector? A common assumption is that growing export volumes indicate a maturing, increasingly self-reliant manufacturing base.</p>
-        <p>This assumption fails if the sector exhibits <strong>high import elasticity</strong>. To produce one unit of manufactured export, India must import critical intermediate goods (semiconductors, APIs, machinery). Thus, scaling exports inherently scales imports.</p>
+        <div class="data-box" style="flex:1;margin-bottom:16px;">
+          <h3>Context</h3>
+          <p>If export growth is relatively stagnant, what is occurring beneath the surface of the non-oil sector? A common assumption is that growing export volumes indicate a maturing, increasingly self-reliant manufacturing base.</p>
+          <p style="margin-bottom:0;">This assumption fails if the sector exhibits <strong>high import elasticity</strong>. To produce one unit of manufactured export, India must import critical intermediate goods (semiconductors, APIs, machinery). Thus, scaling exports inherently scales imports.</p>
+        </div>
         <div class="data-box">
           <h3>The Hypothesis</h3>
           <p>If manufacturing were becoming self-reliant, the physical CAGR of non-oil exports should substantially outpace non-oil imports. We hypothesize the opposite.</p>
@@ -835,10 +902,11 @@
         </div>
       </div>
       <div>
-        <br><br>
-        <h2>Conclusion on Manufacturing Health</h2>
-        <p>India's domestic merchandise manufacturing remains deeply dependent on foreign capital goods and intermediate components.</p>
-        <p>As India attempts to scale its export volume, it structurally necessitates a simultaneous, disproportionate expansion of its import bill—effectively trapping the non-oil trade balance in an import-dependency loop.</p>
+        <div class="data-box" style="flex:1;">
+          <h2 style="color:var(--gold);margin-bottom:16px;">Conclusion on Manufacturing Health</h2>
+          <p>India's domestic merchandise manufacturing remains deeply dependent on foreign capital goods and intermediate components.</p>
+          <p style="margin-bottom:0;">As India attempts to scale its export volume, it structurally necessitates a simultaneous, disproportionate expansion of its import bill—effectively trapping the non-oil trade balance in an import-dependency loop.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -888,9 +956,9 @@
       <h1>Limitations of the Study</h1>
     </div>
   </div>
-  <div class="slide-content">
-    <p>While this empirical analysis provides significant structural insights, it operates within specific analytical constraints:</p>
-    <div class="grid-2" style="margin-top: 20px;">
+  <div class="slide-content" style="display:flex;flex-direction:column;">
+    <p style="flex-shrink:0;margin-bottom:16px;">While this empirical analysis provides significant structural insights, it operates within specific analytical constraints:</p>
+    <div class="grid-2" style="flex:1;">
       <div>
         <div class="data-box">
           <h3>Approximation of Physical Volume</h3>
@@ -949,7 +1017,7 @@
   <div class="slide-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
     <div class="qa-question">"How did we mathematically eliminate the distortions of global price inflation across 35 years?"</div>
     <p class="qa-body">To measure pure physical trade volumes, we must strip away decades of global price inflation. A nominal dollar in 1991 represented vastly more physical merchandise than a nominal dollar today. By applying a mathematical deflator based on the US Consumer Price Index (FRED: CPIAUCSL), we standardized all historical trade values to <strong style="color:var(--white);">Constant December 2025 US Dollars</strong>.</p>
-    <div class="formula-card" style="width:860px;">
+    <div class="formula-card" style="width:min(1100px, 100%); overflow-x:auto;">
       <div class="formula-title">The Inflation Deflator Formula</div>
       <div class="formula-eq">
         $$ \text{Constant USD} = \text{Nominal USD} \times \left( \frac{\text{CPI}_{\text{Base}}}{\text{CPI}_{\text{Current}}} \right) $$
@@ -969,16 +1037,17 @@
     </div>
   </div>
 
-  <div class="grid-2" style="gap:40px; align-items:start; padding-top:20px;">
-    <div class="slide-content">
-      <div class="qa-question" style="font-size:32px; margin-bottom:30px; text-align:left;">"Are these trends merely seasonal artifacts or structural realities?"</div>
+  <div class="slide-content">
+    <div class="grid-2" style="gap:24px; align-items:start;">
+      <div>
+        <div class="qa-question" style="font-size:30px; margin-bottom:16px; text-align:left;">"Are these trends merely seasonal artifacts or structural realities?"</div>
       
-      <div class="data-box" style="margin-bottom:20px;">
+      <div class="data-box" style="margin-bottom:12px;">
         <h3 style="color:var(--gold);">The Fiscal Year-End "March Spike"</h3>
         <p>Our boxplot analysis confirms a significant, recurring surge in exports every <strong style="color:var(--white);">March</strong>. This is not a structural boom, but a mechanical fiscal-year-end rush where firms front-load shipments to meet annual targets.</p>
       </div>
 
-      <div class="data-box" style="margin-bottom:20px;">
+      <div class="data-box" style="margin-bottom:12px;">
         <h3 style="color:var(--hot-coral);">Monsoon Logistics Dampening</h3>
         <p>A consistent dip is observed during <strong style="color:var(--white);">May and June</strong>. This seasonality reflects the physical reality of the Indian monsoon season, which historically hampers transport and port logistics.</p>
       </div>
@@ -987,11 +1056,12 @@
         <h3>Structural Persistence</h3>
         <p>Crucially, while seasonal cycles are volatile, the <strong>trendlines and deficits persist across all seasons.</strong> This proves our findings are structural, not just noise from the calendar.</p>
       </div>
-    </div>
+      </div>
 
-    <div class="content-right">
-      <div class="plot-wrapper" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px;">
-        <img src="plot_seasonality.png" alt="Seasonal Boxplot Analysis" style="width:100%; height:auto; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));">
+      <div class="content-right">
+        <div class="plot-wrapper" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px;">
+          <img src="plot_seasonality.png" alt="Seasonal Boxplot Analysis" style="width:100%; height:auto; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));">
+        </div>
       </div>
     </div>
   </div>
@@ -1008,16 +1078,17 @@
     </div>
   </div>
 
-  <div class="grid-2" style="gap:40px; align-items:start; padding-top:20px;">
-    <div class="slide-content">
-      <div class="qa-question" style="font-size:30px; margin-bottom:25px; text-align:left;">"How have external global crises dictated the rhythm of India's trade trajectory?"</div>
+  <div class="slide-content">
+    <div class="grid-2" style="gap:24px; align-items:start;">
+      <div>
+      <div class="qa-question" style="font-size:30px; margin-bottom:16px; text-align:left;">"How have external global crises dictated the rhythm of India's trade trajectory?"</div>
       
-      <div class="data-box" style="margin-bottom:15px;">
+      <div class="data-box" style="margin-bottom:12px;">
         <h3 style="color:var(--gold);">The 2008 Financial Crisis</h3>
         <p>The plot captures the first major structural deceleration of the 21st century. The global housing market collapse triggered a visible cooling period where the frantic growth of the early 2000s finally met global resistance.</p>
       </div>
 
-      <div class="data-box" style="margin-bottom:15px;">
+      <div class="data-box" style="margin-bottom:12px;">
         <h3 style="color:var(--hot-coral);">The 2020 Pandemic Shock</h3>
         <p>This is the most violent "V-shaped" event in the 35-year history. It represents a total synchronized shutdown of global demand followed by the massive inflationary surge we see in the 2022-2024 recovery phase.</p>
       </div>
@@ -1026,13 +1097,14 @@
         <h3>Analysis Independence</h3>
         <p>This overview stands independent of specific policy questions. It serves to prove that India is a <strong>deeply integrated global player</strong>; our trade balance is as much a victim of global health as it is a product of domestic initiative.</p>
       </div>
-    </div>
+      </div>
 
     <div class="content-right">
       <div class="plot-wrapper" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px;">
         <img src="plot_trend.png" alt="35-Year Trade Shocks" style="width:100%; height:auto; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));">
       </div>
     </div>
+  </div>
   </div>
 </div>
 
