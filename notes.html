@@ -85,6 +85,30 @@
   }
   nav a:hover, nav a.active { color: var(--text-main); text-shadow: 0 0 10px rgba(255,255,255,0.3); }
 
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 110;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--text-main);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
   main { position: relative; z-index: 1; padding-top: 8rem; }
 
   .page-header { text-align: center; max-width: 800px; margin: 0 auto 5rem; padding: 0 2rem; }
@@ -191,7 +215,21 @@
   @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
   @media (max-width: 768px) { 
     nav { padding: 1.2rem 5%; } 
-    nav ul { display: none; } 
+    nav ul {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      background: rgba(11, 17, 32, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 1.5rem 5%;
+      gap: 1.2rem;
+    }
+    nav ul.open { display: flex; }
+    .nav-toggle { display: flex; }
     .page-header h1 { font-size: 2.5rem; } 
     .semester-tile { padding: 1.2rem 1.5rem; }
     .glass-card { padding: 1.5rem; } 
@@ -202,7 +240,7 @@
 
 <nav>
   <a href="index.html" class="nav-logo">UB<span>.</span></a>
-  <ul>
+  <ul id="navLinks">
     <li><a href="index.html#education">Education</a></li>
     <li><a href="index.html#skills">Skills</a></li>
     <li><a href="index.html#projects">Projects</a></li>
@@ -210,6 +248,9 @@
     <li><a href="index.html#contact">Contact</a></li>
     <li><a href="notes.html" class="active">Study Material</a></li>
   </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <main>
@@ -386,6 +427,21 @@
       element.classList.add('active-tile');
     }
   }
+</script>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navToggle.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
 </script>
 
 </body>
