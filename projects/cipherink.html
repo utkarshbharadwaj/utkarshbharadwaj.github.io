@@ -1025,33 +1025,51 @@ function round4(x) { return Math.round(x * 10000) / 10000; }
 //   {"files": ["sample1.txt", "sample2.txt", "sample3.txt"]}
 // (GitHub Pages cannot list directories, so a manifest is required.)
 async function loadDefaultStudent(id) {
-  const base = `data/cipherink/${id}`;
+  // Use a root-relative path so this works regardless of which subfolder
+  // the HTML file is served from (e.g. /projects/cipherink.html).
+  const base = `/data/cipherink/${id}`;
   try {
     const manRes = await fetch(`${base}/manifest.json`);
-    if (!manRes.ok) return null;
+    if (!manRes.ok) {
+      console.warn(`[CipherInk] manifest.json not found for Student ${id} at ${base}/manifest.json (status ${manRes.status})`);
+      return null;
+    }
     const manifest = await manRes.json();
     const fileNames = manifest.files || [];
-    if (!fileNames.length) return null;
+    if (!fileNames.length) {
+      console.warn(`[CipherInk] manifest.json for Student ${id} has no "files" entries.`);
+      return null;
+    }
 
     let words = [];
     const names = [];
     for (const fn of fileNames) {
       try {
         const r = await fetch(`${base}/${fn}`);
-        if (!r.ok) continue;
+        if (!r.ok) {
+          console.warn(`[CipherInk] Could not fetch ${base}/${fn} (status ${r.status})`);
+          continue;
+        }
         const txt = await r.text();
         words = words.concat(processText(txt));
         names.push(fn);
-      } catch (e) { /* skip unreadable file */ }
+      } catch (e) {
+        console.warn(`[CipherInk] Error fetching ${base}/${fn}:`, e);
+      }
     }
-    if (words.length < 50) return null;
+    if (words.length < 50) {
+      console.warn(`[CipherInk] Student ${id}: only ${words.length} words loaded (need ≥50).`);
+      return null;
+    }
 
     const [rates, total] = calculateRates(words);
+    console.log(`[CipherInk] Student ${id} loaded: ${total} words from ${names.length} file(s).`);
     return {
       rates, total_words: total, files: names,
       is_default: true, added_at: new Date().toISOString()
     };
   } catch (e) {
+    console.warn(`[CipherInk] Error loading Student ${id}:`, e);
     return null;
   }
 }
