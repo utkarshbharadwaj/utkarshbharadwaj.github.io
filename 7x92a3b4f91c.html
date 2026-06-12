@@ -375,8 +375,8 @@
           <div class="ring-ctr">S2</div>
         </div>
         <div>
-          <div class="mc-num">82.2<span class="mc-pct">%</span></div>
-          <div class="mc-detail">411 / 500 marks</div>
+          <div class="mc-num">81.6<span class="mc-pct">%</span></div>
+          <div class="mc-detail">408 / 500 marks</div>
         </div>
       </div>
     </div>
@@ -392,7 +392,7 @@
           <div class="ring-ctr">Y1</div>
         </div>
         <div>
-          <div class="mc-num">76.3<span class="mc-pct">%</span></div>
+          <div class="mc-num">76<span class="mc-pct">%</span></div>
           <div class="mc-detail">Average of both semesters</div>
         </div>
       </div>
@@ -633,15 +633,15 @@
         <div class="sub-top">
           <div><div class="sub-name">DARP</div></div>
           <div class="sub-right">
-            <div class="sub-num c-md">71</div>
+            <div class="sub-num c-md">68</div>
             <div class="sub-den">/ 100</div>
           </div>
         </div>
-        <div class="sub-bar"><div class="sub-bar-fill" data-p="71" style="background:var(--gold)"></div></div>
+        <div class="sub-bar"><div class="sub-bar-fill" data-p="68" style="background:var(--gold)"></div></div>
         <div class="sub-bd">
           <div class="bd-item"><div class="bd-lbl">Mid-Sem</div><div class="bd-val">16</div></div>
-          <div class="bd-item"><div class="bd-lbl">Assignments</div><div class="bd-val">25</div></div>
-          <div class="bd-item"><div class="bd-lbl">End-Sem</div><div class="bd-val">30</div></div>
+          <div class="bd-item"><div class="bd-lbl">Assignments</div><div class="bd-val">26</div></div>
+          <div class="bd-item"><div class="bd-lbl">End-Sem</div><div class="bd-val">26</div></div>
         </div>
       </div>
 
@@ -656,7 +656,7 @@
           <div class="bar-col"><div class="bar-fill" data-v="89" style="background:linear-gradient(to top,var(--teal),rgba(45,212,191,.3))"></div></div>
           <div class="bar-col"><div class="bar-fill" data-v="67" style="background:linear-gradient(to top,var(--gold),rgba(240,180,41,.3))"></div></div>
           <div class="bar-col"><div class="bar-fill" data-v="95" style="background:linear-gradient(to top,var(--teal),rgba(45,212,191,.3))"></div></div>
-          <div class="bar-col"><div class="bar-fill" data-v="71" style="background:linear-gradient(to top,var(--gold),rgba(240,180,41,.3))"></div></div>
+          <div class="bar-col"><div class="bar-fill" data-v="68" style="background:linear-gradient(to top,var(--gold),rgba(240,180,41,.3))"></div></div>
         </div>
       </div>
       <div class="chart-labels">
@@ -671,7 +671,7 @@
     <!-- Sem II Summary -->
     <div class="sem-sum">
       <div class="ss-item">
-        <div class="ss-val" style="color:var(--teal)">411</div>
+        <div class="ss-val" style="color:var(--teal)">408</div>
         <div class="ss-lbl">Total Marks</div>
       </div>
       <div class="ss-div"></div>
@@ -681,12 +681,12 @@
       </div>
       <div class="ss-div"></div>
       <div class="ss-item">
-        <div class="ss-val" style="color:var(--teal)">82.2%</div>
+        <div class="ss-val" style="color:var(--teal)">81.6%</div>
         <div class="ss-lbl">Final %</div>
       </div>
       <div class="ss-div"></div>
       <div class="ss-item">
-        <div class="ss-val">82.2</div>
+        <div class="ss-val">81.6</div>
         <div class="ss-lbl">Avg / Subject</div>
       </div>
       <div class="ss-div"></div>
@@ -704,7 +704,7 @@
       <p>Combined result across Semester I &amp; II &nbsp;·&nbsp; Academic Year 2025–26</p>
     </div>
     <div class="yr-right">
-      <div class="yr-num">76.3<span class="yr-pct">%</span></div>
+      <div class="yr-num">76<span class="yr-pct">%</span></div>
     </div>
   </div>
 
@@ -802,7 +802,7 @@
     animBars(panel);
     const avgMap = {
       's1': [81, 85, 65, 66, 55],
-      's2': [89, 89, 67, 95, 71]
+      's2': [89, 89, 67, 95, 68]
     };
     animChart('chart-' + id, avgMap[id]);
   };
@@ -810,8 +810,8 @@
   /* ── Init on load ── */
   window.addEventListener('load', () => {
     animRing('rp-s1', 70.4);
-    animRing('rp-s2', 82.2);
-    animRing('rp-yr', 76.3);
+    animRing('rp-s2', 81.6);
+    animRing('rp-yr', 76);
     animBars();
     animChart('chart-s1', [81, 85, 65, 66, 55]);
   });
