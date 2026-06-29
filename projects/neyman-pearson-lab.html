@@ -129,7 +129,17 @@ input[type="range"]::-moz-range-thumb{
   width:18px; height:18px; border-radius:50%; background:var(--gold); border:3px solid var(--ink);
   box-shadow:0 0 0 1px var(--gold); cursor:pointer;
 }
-.alpha-ticks{display:flex; justify-content:space-between; font-family:var(--mono); font-size:0.68rem; color:var(--muted); margin-top:4px;}
+.alpha-ticks {
+  position: relative;
+  height: 14px; /* Maintains spacing since children are now absolute */
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.alpha-ticks span {
+  position: absolute;
+}
 
 /* ---------------- result column ---------------- */
 .result-panel{
@@ -337,7 +347,14 @@ document.getElementById('enterLabBtn').addEventListener('click', function () {
           <span class="lbl">&alpha; - Type I error rate</span>
         </div>
         <input type="range" id="alphaSlider" min="0.01" max="0.25" step="0.005" value="0.05">
-        <div class="alpha-ticks"><span>0.01</span><span>0.05</span><span>0.10</span><span>0.25</span></div>
+        <div class="alpha-ticks">
+          <span style="left: 0;">0.01</span>
+          <span style="left: 16.67%; transform: translateX(-50%);">0.05</span>
+          <span style="left: 37.5%; transform: translateX(-50%);">0.10</span>
+          <span style="left: 58.3%; transform: translateX(-50%);">0.15</span>
+          <span style="left: 79.2%; transform: translateX(-50%);">0.20</span>
+          <span style="right: 0%;">0.25</span>
+        </div>
       </div>
     </div>
 
