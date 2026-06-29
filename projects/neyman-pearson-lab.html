@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neyman&ndash;Pearson Lab - MP / UMP / UMPU Test Derivation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<style>
+:root{
+  --ink:#0A1420;
+  --surface:#121F30;
+  --surface-2:#16243F;
+  --surface-3:#1B2C4A;
+  --hairline:#283A58;
+  --hairline-soft:#1E2E48;
+  --paper:#ECE7DC;
+  --paper-dim:#C9C3B6;
+  --muted:#8B9AB3;
+  --gold:#D7A85D;
+  --gold-soft:rgba(215,168,93,0.16);
+  --teal:#5FC2BA;
+  --teal-soft:rgba(95,194,186,0.14);
+  --coral:#E0673F;
+  --coral-soft:rgba(224,103,63,0.16);
+  --display:'Fraunces', Georgia, 'Iowan Old Style', serif;
+  --body:'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono:'IBM Plex Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+  --radius:14px;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(95,194,186,0.07), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 0%, rgba(215,168,93,0.06), transparent 55%),
+    var(--ink);
+  color:var(--paper);
+  font-family:var(--body);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+a{color:var(--teal);}
+::selection{background:var(--gold-soft); color:var(--paper);}
+
+.shell{max-width:1320px; margin:0 auto; padding:0 26px 90px;}
+
+/* ---------------- header ---------------- */
+header.hero{
+  padding:48px 0 30px;
+  border-bottom:1px solid var(--hairline);
+  display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:22px;
+}
+.hero-text{max-width:680px;}
+.eyebrow{
+  font-family:var(--mono); font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase;
+  color:var(--gold); margin:0 0 14px;
+  display:flex; align-items:center; gap:10px;
+}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--gold); box-shadow:0 0 0 4px var(--gold-soft);}
+h1.title{
+  font-family:var(--display); font-weight:560; font-size:clamp(1.9rem,3.4vw,2.65rem);
+  line-height:1.08; margin:0 0 14px; color:var(--paper); letter-spacing:-0.01em;
+}
+.subtitle{color:var(--muted); font-size:1.0rem; line-height:1.6; margin:0; max-width:600px;}
+.scope-note{
+  font-size:0.82rem; color:var(--muted); max-width:300px; text-align:right; line-height:1.55;
+  border-left:1px solid var(--hairline); padding-left:18px;
+}
+.scope-note strong{color:var(--paper-dim); font-weight:600;}
+
+/* ---------------- layout ---------------- */
+.workspace{display:grid; grid-template-columns:368px 1fr; gap:26px; margin-top:34px; align-items:start;}
+@media (max-width:980px){ .workspace{grid-template-columns:1fr;} }
+
+.panel{
+  background:var(--surface); border:1px solid var(--hairline); border-radius:var(--radius);
+  padding:20px 20px 22px; margin-bottom:16px;
+}
+.panel-head{display:flex; align-items:baseline; gap:10px; margin-bottom:14px;}
+.panel-num{font-family:var(--mono); color:var(--gold); font-size:0.74rem; letter-spacing:0.1em;}
+.panel h2{font-family:var(--display); font-size:1.04rem; font-weight:560; margin:0; color:var(--paper);}
+
+.field{margin-bottom:14px;}
+.field:last-child{margin-bottom:0;}
+.field label{
+  display:block; font-size:0.78rem; color:var(--muted); margin-bottom:6px;
+  font-family:var(--mono); letter-spacing:0.01em;
+}
+select, input[type="number"], input[type="text"]{
+  width:100%; background:var(--surface-2); border:1px solid var(--hairline);
+  color:var(--paper); border-radius:9px; padding:9px 11px; font-family:var(--body);
+  font-size:0.92rem; outline:none; transition:border-color .15s, box-shadow .15s;
+  appearance:none; -webkit-appearance:none;
+}
+select{
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1L7 7L13 1' stroke='%238B9AB3' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat:no-repeat; background-position:right 12px center; padding-right:32px;
+}
+select:focus, input:focus{border-color:var(--gold); box-shadow:0 0 0 3px var(--gold-soft);}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none; margin:0;}
+input[type="number"]{-moz-appearance:textfield;}
+.row2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+
+.htext{font-family:var(--mono); color:var(--paper-dim); font-size:0.84rem;}
+
+/* alpha slider */
+.alpha-readout{
+  display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px;
+}
+.alpha-readout .num{font-family:var(--display); font-size:1.9rem; color:var(--gold); font-weight:560;}
+.alpha-readout .lbl{font-family:var(--mono); font-size:0.78rem; color:var(--muted);}
+input[type="range"]{
+  -webkit-appearance:none; width:100%; height:6px; border-radius:4px;
+  background:linear-gradient(90deg, var(--gold) 0%, var(--gold) var(--fill,20%), var(--hairline) var(--fill,20%), var(--hairline) 100%);
+  outline:none; margin:6px 0 2px;
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none; width:18px; height:18px; border-radius:50%;
+  background:var(--gold); border:3px solid var(--ink); box-shadow:0 0 0 1px var(--gold), 0 2px 6px rgba(0,0,0,0.4);
+  cursor:pointer; margin-top:0px;
+}
+input[type="range"]::-moz-range-thumb{
+  width:18px; height:18px; border-radius:50%; background:var(--gold); border:3px solid var(--ink);
+  box-shadow:0 0 0 1px var(--gold); cursor:pointer;
+}
+.alpha-ticks{display:flex; justify-content:space-between; font-family:var(--mono); font-size:0.68rem; color:var(--muted); margin-top:4px;}
+
+/* ---------------- result column ---------------- */
+.result-panel{
+  background:var(--surface); border:1px solid var(--hairline); border-radius:var(--radius);
+  padding:26px 28px 28px;
+}
+.badge-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:18px;}
+.badge{
+  font-family:var(--mono); font-size:0.74rem; letter-spacing:0.08em; text-transform:uppercase;
+  padding:6px 13px; border-radius:99px; border:1px solid;
+}
+.badge.mp{color:var(--teal); border-color:var(--teal); background:var(--teal-soft);}
+.badge.ump{color:var(--teal); border-color:var(--teal); background:var(--teal-soft);}
+.badge.umpu{color:var(--gold); border-color:var(--gold); background:var(--gold-soft);}
+.badge.none{color:var(--coral); border-color:var(--coral); background:var(--coral-soft);}
+.badge-sub{color:var(--muted); font-size:0.86rem;}
+
+.hyp-line{
+  font-family:var(--mono); font-size:1.18rem; color:var(--paper); margin:0 0 22px;
+  padding:14px 18px; background:var(--surface-2); border-radius:10px; border:1px solid var(--hairline-soft);
+  line-height:1.5;
+}
+.hyp-line .vs{color:var(--muted); margin:0 10px; font-style:italic;}
+.hyp-line .h0{color:var(--paper-dim);}
+.hyp-line .h1{color:var(--gold);}
+
+h3.section-title{
+  font-family:var(--display); font-size:0.98rem; font-weight:560; color:var(--paper);
+  margin:26px 0 12px; display:flex; align-items:center; gap:10px;
+}
+h3.section-title::after{content:''; flex:1; height:1px; background:var(--hairline);}
+
+ol.steps{list-style:none; margin:0; padding:0; counter-reset:step;}
+ol.steps li{
+  counter-increment:step; display:grid; grid-template-columns:30px 1fr; gap:12px;
+  padding:10px 0; border-bottom:1px solid var(--hairline-soft); font-size:0.92rem; line-height:1.62; color:var(--paper-dim);
+}
+ol.steps li:last-child{border-bottom:none;}
+ol.steps li::before{
+  content:counter(step, decimal-leading-zero); font-family:var(--mono); color:var(--gold); font-size:0.82rem; padding-top:1px;
+}
+ol.steps li b, ol.steps li strong{color:var(--paper); font-weight:600;}
+ol.steps li .formula{color:var(--teal); font-family:var(--mono);}
+
+.testfn-card{
+  background:var(--surface-2); border:1px solid var(--hairline-soft); border-radius:12px;
+  padding:18px 20px 16px; margin-top:6px;
+}
+.testfn-card .katex-display{margin:2px 0 14px;}
+.testfn-card .katex{color:var(--paper); font-size:1.05em;}
+.accept-line{
+  font-size:0.92rem; color:var(--paper-dim); line-height:1.6;
+  padding-top:14px; border-top:1px solid var(--hairline-soft); margin:0;
+}
+.accept-line b{color:var(--gold); font-family:var(--mono); font-weight:600;}
+
+.chart-card{
+  background:var(--surface-2); border:1px solid var(--hairline-soft); border-radius:12px;
+  padding:16px 16px 8px; margin-top:6px;
+}
+.chart-card svg{display:block; width:100%; height:auto;}
+.legend{display:flex; gap:18px; flex-wrap:wrap; padding:10px 4px 2px; font-size:0.78rem; color:var(--muted); font-family:var(--mono);}
+.legend span{display:inline-flex; align-items:center; gap:7px; margin-right:16px;}
+.legend i{width:11px; height:11px; border-radius:3px; display:inline-block;}
+
+.stats-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-top:18px;}
+.stat{background:var(--surface-2); border:1px solid var(--hairline-soft); border-radius:10px; padding:12px 14px;}
+.stat .k{font-family:var(--mono); font-size:0.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:5px;}
+.stat .v{font-family:var(--display); font-size:1.28rem; color:var(--paper); font-weight:560;}
+.stat .v small{font-family:var(--mono); font-size:0.72rem; color:var(--muted); font-weight:400; margin-left:4px;}
+
+.callout{
+  margin-top:18px; padding:14px 16px; border-radius:10px; border:1px dashed var(--hairline);
+  font-size:0.87rem; color:var(--paper-dim); line-height:1.6;
+}
+.callout.gold{border-color:var(--gold); background:var(--gold-soft);}
+.callout.coral{border-color:var(--coral); background:var(--coral-soft);}
+.callout b{color:var(--paper);}
+.callout .compare-row{display:flex; gap:28px; margin-top:8px; flex-wrap:wrap;}
+.callout .compare-row div{font-family:var(--mono); font-size:0.84rem;}
+.callout .compare-row .tag{display:block; color:var(--muted); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+
+footer.note{
+  margin-top:40px; padding-top:20px; border-top:1px solid var(--hairline);
+  color:var(--muted); font-size:0.82rem; line-height:1.6; max-width:880px;
+}
+
+@media (prefers-reduced-motion:no-preference){
+  .panel, .result-panel{transition:border-color .2s;}
+}
+
+.landing{
+  position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center;
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(95,194,186,0.08), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 10%, rgba(215,168,93,0.07), transparent 55%),
+    var(--ink);
+  flex-direction:column; text-align:center; padding:40px; overflow:hidden;
+  transition:opacity .5s ease;
+}
+.landing.hidden{opacity:0; pointer-events:none;}
+.landing-bg{position:absolute; left:0; right:0; bottom:0; width:100%; height:62%; pointer-events:none;}
+.landing-content{position:relative; z-index:1; max-width:620px;}
+.landing-title{
+  font-family:var(--display); font-weight:560; font-size:clamp(2.6rem,7vw,4.6rem);
+  line-height:1.05; margin:22px 0 18px; color:var(--paper); letter-spacing:-0.01em;
+}
+.landing-title .accent{color:var(--gold);}
+.landing-sub{color:var(--muted); font-size:1.02rem; line-height:1.65; margin:0 auto 38px; max-width:480px;}
+.enter-btn{
+  font-family:var(--mono); font-size:0.92rem; letter-spacing:0.03em; color:var(--ink); background:var(--gold);
+  border:none; padding:15px 32px; border-radius:99px; cursor:pointer; font-weight:600;
+  display:inline-flex; align-items:center; gap:10px; transition:transform .15s ease, box-shadow .15s ease;
+}
+.enter-btn:hover{transform:translateY(-2px); box-shadow:0 10px 28px rgba(215,168,93,0.32);}
+.enter-btn .arrow{display:inline-block; transition:transform .15s ease;}
+.enter-btn:hover .arrow{transform:translateX(4px);}
+.landing-meta{margin-top:26px; color:var(--muted); font-size:0.76rem; font-family:var(--mono); letter-spacing:0.04em;}
+
+</style>
+</head>
+<body>
+<div id="landingPage" class="landing">
+  <svg class="landing-bg" viewBox="0 0 1200 460" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 937.5 450.0 L 937.5 292.2 L 942.8 301.8 L 948.0 311.2 L 953.3 320.3 L 958.5 329.1 L 963.8 337.5 L 969.0 345.5 L 974.3 353.2 L 979.5 360.5 L 984.7 367.5 L 990.0 374.0 L 995.3 380.2 L 1000.5 386.1 L 1005.8 391.5 L 1011.0 396.6 L 1016.3 401.4 L 1021.5 405.9 L 1026.8 410.0 L 1032.0 413.8 L 1037.3 417.3 L 1042.5 420.6 L 1047.8 423.6 L 1053.0 426.3 L 1058.3 428.8 L 1063.5 431.1 L 1068.8 433.1 L 1074.0 435.0 L 1079.3 436.7 L 1084.5 438.2 L 1089.8 439.6 L 1095.0 440.8 L 1100.3 441.9 L 1105.5 442.9 L 1110.8 443.8 L 1116.0 444.6 L 1121.3 445.3 L 1126.5 445.9 L 1131.8 446.4 L 1137.0 446.9 L 1142.3 447.3 L 1147.5 447.7 L 1152.8 448.0 L 1158.0 448.3 L 1163.3 448.5 L 1168.5 448.8 L 1173.8 448.9 L 1179.0 449.1 L 1184.3 449.2 L 1189.5 449.4 L 1194.8 449.5 L 1200.0 449.5 L 1200.0 450.0 Z" fill="var(--coral)" opacity="0.10"/>
+    <path d="M 0.0 449.5 L 60.0 448.3 L 120.0 444.7 L 180.0 435.6 L 240.0 416.3 L 300.0 381.6 L 360.0 330.0 L 420.0 267.9 L 480.0 210.9 L 540.0 178.5 L 565.0 175.8 L 600.0 183.4 L 660.0 223.6 L 720.0 283.7 L 780.0 344.3 L 840.0 391.9 L 900.0 422.4 L 960.0 438.7 L 1020.0 446.0 L 1080.0 448.8 L 1140.0 449.7 L 1200.0 449.9" fill="none" stroke="var(--teal)" stroke-width="2.2" opacity="0.22"/>
+    <path d="M 0.0 450.0 L 60.0 450.0 L 120.0 450.0 L 180.0 450.0 L 240.0 450.0 L 300.0 450.0 L 360.0 450.0 L 420.0 448.2 L 480.0 440.8 L 540.0 415.9 L 600.0 354.3 L 660.0 248.0 L 720.0 129.3 L 750.0 86.8 L 787.5 66.2 L 825.0 86.8 L 855.0 129.3 L 915.0 248.0 L 975.0 354.3 L 1035.0 415.9 L 1095.0 440.8 L 1155.0 448.2 L 1200.0 449.5" fill="none" stroke="var(--gold)" stroke-width="2.2" opacity="0.30"/>
+    <line x1="0" y1="450" x2="1200" y2="450" stroke="var(--hairline)" stroke-width="1.5" opacity="0.5"/>
+  </svg>
+  <div class="landing-content">
+    <p class="eyebrow"><span class="dot"></span>Hypothesis Testing Instrument</p>
+    <h1 class="landing-title">Neyman&ndash;Pearson<br><span class="accent">Lab</span></h1>
+    <p class="landing-sub">Most powerful, UMP, and UMPU test derivation, built live from the Neyman&ndash;Pearson lemma - with the full proof, the test function, and the critical region for every distribution.</p>
+    <button id="enterLabBtn" class="enter-btn">Enter the lab <span class="arrow">&rarr;</span></button>
+    <p class="landing-meta">9 distributions &middot; exact derivations &middot; live critical regions</p>
+  </div>
+</div>
+<script>
+document.getElementById('enterLabBtn').addEventListener('click', function () {
+  var landing = document.getElementById('landingPage');
+  landing.classList.add('hidden');
+  document.getElementById('mainShell').style.display = '';
+  setTimeout(function () { landing.style.display = 'none'; }, 500);
+});
+</script>
+<div class="shell" id="mainShell" style="display:none;">
+  <header class="hero">
+    <div class="hero-text">
+      <p class="eyebrow"><span class="dot"></span>Hypothesis Testing Instrument</p>
+      <h1 class="title">Find the most powerful test.</h1>
+      <p class="subtitle">Choose a distribution and a pair of hypotheses. The Neyman&ndash;Pearson lemma, the Karlin&ndash;Rubin theorem, and the unbiasedness condition for UMPU tests build the optimal rejection region in front of you - live, with the full derivation.</p>
+    </div>
+    <p class="scope-note"><strong>Scope.</strong> Exact for nine one-parameter families with closed-form sampling distributions for their sufficient statistic. Two-sided UMPU is solved numerically for continuous families; discrete two-sided tests are flagged, not silently approximated.</p>
+  </header>
+
+  <div class="workspace">
+    <div class="setup-col">
+      <div class="panel">
+        <div class="panel-head"><span class="panel-num">01</span><h2>Distribution</h2></div>
+        <div class="field">
+          <label for="familySelect">Distribution family</label>
+          <select id="familySelect"></select>
+        </div>
+        <div class="field">
+          <label for="paramSelect">Parameter under test</label>
+          <select id="paramSelect"></select>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><span class="panel-num">02</span><h2>Sample</h2></div>
+        <div class="field">
+          <label for="nInput">Sample size n</label>
+          <input type="number" id="nInput" min="2" max="500" step="1">
+        </div>
+        <div id="nuisanceFields"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><span class="panel-num">03</span><h2>Hypotheses</h2></div>
+        <div class="field">
+          <label id="theta0Label" for="theta0Input">&theta;&#8320;</label>
+          <input type="number" id="theta0Input" step="0.1">
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="h0Select">Null H&#8320;</label>
+            <select id="h0Select"></select>
+          </div>
+          <div class="field">
+            <label for="h1Select">Alternative H&#8321;</label>
+            <select id="h1Select"></select>
+          </div>
+        </div>
+        <div class="field" id="theta1Field" style="display:none;">
+          <label id="theta1Label" for="theta1Input">&theta;&#8321;</label>
+          <input type="number" id="theta1Input" step="0.1">
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><span class="panel-num">04</span><h2>Significance level</h2></div>
+        <div class="alpha-readout">
+          <span class="num" id="alphaNum">0.050</span>
+          <span class="lbl">&alpha; - Type I error rate</span>
+        </div>
+        <input type="range" id="alphaSlider" min="0.01" max="0.25" step="0.005" value="0.05">
+        <div class="alpha-ticks"><span>0.01</span><span>0.05</span><span>0.10</span><span>0.25</span></div>
+      </div>
+    </div>
+
+    <div class="result-col">
+      <div class="result-panel">
+        <div class="badge-row">
+          <span class="badge mp" id="testBadge">-</span>
+          <span class="badge-sub" id="badgeSub"></span>
+        </div>
+        <div class="hyp-line" id="hypLine"></div>
+
+        <h3 class="section-title">Derivation</h3>
+        <ol class="steps" id="stepsList"></ol>
+
+        <h3 class="section-title">Test function</h3>
+        <div class="testfn-card">
+          <div id="phiLatex"></div>
+          <p class="accept-line" id="acceptLine"></p>
+        </div>
+
+        <h3 class="section-title">Sampling distribution &amp; critical region</h3>
+        <div class="chart-card" id="chartCard"></div>
+        <div class="legend" id="legendRow"></div>
+
+        <div class="stats-grid" id="statsGrid"></div>
+
+        <div id="extraCallouts"></div>
+      </div>
+
+      <footer class="note">
+        This tool covers nine classical one-parameter families, chosen because each has a sufficient statistic with a closed-form sampling distribution: Normal mean &amp; variance, Exponential rate, Poisson mean, Binomial p, Gamma rate, Uniform upper bound, Lognormal log-mean, and Beta(&alpha;,1) shape. Critical values for discrete statistics (Poisson, Binomial) use a randomized boundary test to hit the target &alpha; exactly - shown as a split-coloured bar. Two-sided UMPU tests are solved numerically from the unbiasedness condition &beta;&prime;(&theta;&#8320;) = 0 for continuous families; for Poisson/Binomial and the Uniform boundary parameter, an exact two-sided UMPU test requires further randomized-boundary machinery this tool flags rather than approximates silently.
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- core special functions ----------
+function lgamma(x) {
+  const g = 7;
+  const c = [0.99999999999980993, 676.5203681218851, -1259.1392167224028,
+    771.32342877765313, -176.61502916214059, 12.507343278686905,
+    -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+  if (x < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * x)) - lgamma(1 - x);
+  x -= 1;
+  let a = c[0];
+  let t = x + g + 0.5;
+  for (let i = 1; i < g + 2; i++) a += c[i] / (x + i);
+  return 0.5 * Math.log(2 * Math.PI) + (x + 0.5) * Math.log(t) - t + Math.log(a);
+}
+
+function erf(x) {
+  const sign = x < 0 ? -1 : 1; x = Math.abs(x);
+  const a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=0.3275911;
+  const t = 1/(1+p*x);
+  const y = 1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x);
+  return sign*y;
+}
+
+function normalCDF(x, mu, sigma) { return 0.5*(1+erf((x-mu)/(sigma*Math.SQRT2))); }
+function normalPDF(x, mu, sigma) { return Math.exp(-0.5*Math.pow((x-mu)/sigma,2))/(sigma*Math.sqrt(2*Math.PI)); }
+
+function gser(s, x) { // series, x < s+1
+  let sum = 1/s, term = 1/s, ap = s;
+  for (let i=0;i<500;i++){ ap+=1; term*=x/ap; sum+=term; if (Math.abs(term)<Math.abs(sum)*1e-15) break; }
+  return sum*Math.exp(-x+s*Math.log(x)-lgamma(s));
+}
+function gcf(s, x) { // continued fraction -> Q(s,x), x >= s+1
+  const FPMIN=1e-300; let b=x+1-s, c=1/FPMIN, d=1/b, h=d;
+  for (let i=1;i<500;i++){
+    const an=-i*(i-s); b+=2; d=an*d+b; if (Math.abs(d)<FPMIN) d=FPMIN;
+    c=b+an/c; if (Math.abs(c)<FPMIN) c=FPMIN;
+    d=1/d; const del=d*c; h*=del; if (Math.abs(del-1)<1e-15) break;
+  }
+  return Math.exp(-x+s*Math.log(x)-lgamma(s))*h;
+}
+function regLowerIncGamma(s, x) {
+  if (x<=0) return 0;
+  if (x < s+1) return gser(s,x);
+  return 1-gcf(s,x);
+}
+function gammaCDF(x, shape, rate) { if (x<=0) return 0; return regLowerIncGamma(shape, rate*x); }
+function gammaPDF(x, shape, rate) {
+  if (x<=0) return 0;
+  return Math.exp(shape*Math.log(rate) + (shape-1)*Math.log(x) - rate*x - lgamma(shape));
+}
+
+function poissonPMF(k, lambda) {
+  if (lambda<=0) return k===0?1:0;
+  return Math.exp(k*Math.log(lambda) - lambda - lgamma(k+1));
+}
+function poissonCDF(k, lambda) {
+  if (k<0) return 0;
+  let s=0; for (let i=0;i<=Math.floor(k);i++) s+=poissonPMF(i,lambda);
+  return Math.min(s,1);
+}
+function binomialPMF(k, n, p) {
+  if (k<0||k>n) return 0;
+  if (p<=0) return k===0?1:0;
+  if (p>=1) return k===n?1:0;
+  const logC = lgamma(n+1)-lgamma(k+1)-lgamma(n-k+1);
+  return Math.exp(logC + k*Math.log(p) + (n-k)*Math.log(1-p));
+}
+function binomialCDF(k, n, p) {
+  if (k<0) return 0; if (k>=n) return 1;
+  let s=0; for (let i=0;i<=Math.floor(k);i++) s+=binomialPMF(i,n,p);
+  return Math.min(s,1);
+}
+
+const MC = { lgamma, erf, normalCDF, normalPDF, gammaCDF, gammaPDF, poissonPMF, poissonCDF, binomialPMF, binomialCDF };
+if (typeof module !== 'undefined') module.exports = MC;
+
+// ============================================================
+// engine.js - generic numeric solvers for NP / UMP / UMPU tests
+// All functions here operate on already-theta-fixed pdf/cdf closures.
+// ============================================================
+
+function bisectGeneric(f, target, lo, hi, iters = 200) {
+  let flo = f(lo) - target, fhi = f(hi) - target, tries = 0;
+  while (flo * fhi > 0 && tries < 80) {
+    lo -= (Math.abs(lo) + 1); hi += (Math.abs(hi) + 1);
+    flo = f(lo) - target; fhi = f(hi) - target; tries++;
+  }
+  for (let i = 0; i < iters; i++) {
+    const mid = (lo + hi) / 2, fm = f(mid) - target;
+    if (Math.abs(fm) < 1e-12) return mid;
+    if ((flo < 0) === (fm < 0)) { lo = mid; flo = fm; } else { hi = mid; fhi = fm; }
+  }
+  return (lo + hi) / 2;
+}
+
+function detectDirectionGeneric(pdfOrPmf, theta0, theta1, domain, discrete) {
+  const span = domain[1] - domain[0];
+  const t1 = domain[0] + 0.3 * span, t2 = domain[0] + 0.7 * span;
+  const f0a = pdfOrPmf(t1, theta0), f0b = pdfOrPmf(t2, theta0);
+  const f1a = pdfOrPmf(t1, theta1), f1b = pdfOrPmf(t2, theta1);
+  const ra = f0a > 1e-300 ? f1a / f0a : 0;
+  const rb = f0b > 1e-300 ? f1b / f0b : 0;
+  return rb >= ra ? 'upper' : 'lower';
+}
+
+function continuousOneSidedCriticalGeneric(cdf0, alpha, direction, lo, hi) {
+  if (direction === 'upper') {
+    const c = bisectGeneric((t) => 1 - cdf0(t), alpha, lo, hi);
+    return { c, randomized: false };
+  } else {
+    const c = bisectGeneric((t) => cdf0(t), alpha, lo, hi);
+    return { c, randomized: false };
+  }
+}
+
+function discreteOneSidedCriticalGeneric(pmf0, cdf0, alpha, direction, kmax) {
+  if (direction === 'upper') {
+    // binary search for smallest m with cdf0(m) >= 1-alpha; reject region is then T >= m+1
+    let lo = -1, hi = kmax + 1;
+    while (hi - lo > 1) {
+      const mid = Math.floor((lo + hi) / 2);
+      if (cdf0(mid) >= 1 - alpha) hi = mid; else lo = mid;
+    }
+    const m = hi, c = m + 1;
+    const pGE = 1 - cdf0(m);
+    const pAt = pmf0(m);
+    const gamma = pAt > 1e-15 ? (alpha - pGE) / pAt : 0;
+    return { c, boundary: m, gamma: Math.max(0, Math.min(1, gamma)), achievedNonRandom: pGE, randomized: gamma > 1e-9 };
+  } else {
+    // binary search for largest c with cdf0(c) <= alpha
+    let lo = -1, hi = kmax + 1;
+    while (hi - lo > 1) {
+      const mid = Math.floor((lo + hi) / 2);
+      if (cdf0(mid) <= alpha) lo = mid; else hi = mid;
+    }
+    const c = lo;
+    const pLE = cdf0(c);
+    const pAt = pmf0(c + 1);
+    const gamma = pAt > 1e-15 ? (alpha - pLE) / pAt : 0;
+    return { c, boundary: c + 1, gamma: Math.max(0, Math.min(1, gamma)), achievedNonRandom: pLE, randomized: gamma > 1e-9 };
+  }
+}
+
+function partialMomentGeneric(pdf0, c1, c2, steps = 4000) {
+  if (c2 <= c1) return 0;
+  const n = steps % 2 === 0 ? steps : steps + 1;
+  const h = (c2 - c1) / n;
+  let s = c1 * pdf0(c1) + c2 * pdf0(c2);
+  for (let i = 1; i < n; i++) { const x = c1 + i * h; s += (i % 2 === 0 ? 2 : 4) * x * pdf0(x); }
+  return s * h / 3;
+}
+
+function twoSidedUMPUGeneric(cdf0, pdf0, mean0, alpha, lo, hi, c1Guess, c2Guess) {
+  let c1 = c1Guess, c2 = c2Guess;
+  for (let iter = 0; iter < 120; iter++) {
+    const F1 = cdf0(c1), F2 = cdf0(c2);
+    const A = F2 - F1 - (1 - alpha);
+    const Bm = partialMomentGeneric(pdf0, c1, c2) - (1 - alpha) * mean0;
+    const f1 = pdf0(c1), f2 = pdf0(c2);
+    const J11 = -f1, J12 = f2, J21 = -c1 * f1, J22 = c2 * f2;
+    const det = J11 * J22 - J12 * J21;
+    if (Math.abs(det) < 1e-14) break;
+    const dc1 = -(J22 * A - J12 * Bm) / det;
+    const dc2 = -(-J21 * A + J11 * Bm) / det;
+    let step = 1.0, nc1 = c1, nc2 = c2;
+    for (let tries = 0; tries < 30; tries++) {
+      nc1 = c1 + step * dc1; nc2 = c2 + step * dc2;
+      if (nc1 > lo && nc2 < hi && nc2 > nc1) break;
+      step /= 2;
+    }
+    c1 = nc1; c2 = nc2;
+    if (Math.abs(A) < 1e-10 && Math.abs(Bm) < 1e-8 * Math.max(1, Math.abs(mean0))) break;
+  }
+  return { c1, c2 };
+}
+
+const EN = {
+  bisectGeneric, detectDirectionGeneric, continuousOneSidedCriticalGeneric,
+  discreteOneSidedCriticalGeneric, twoSidedUMPUGeneric, partialMomentGeneric,
+};
+
+if (typeof module !== 'undefined') module.exports = EN;
+
+// ============================================================
+// statlib.js  - distribution catalog + unified derivation engine
+// (depends on mathcore.js + engine.js being loaded first when bundled)
+// ============================================================
+
+// ---------- T-statistic families ----------
+const Families = {
+  normal: {
+    discrete: false,
+    pdf: (t, p) => MC.normalPDF(t, p.mean, p.sd),
+    cdf: (t, p) => MC.normalCDF(t, p.mean, p.sd),
+    mean: (p) => p.mean,
+    domain: (p) => [p.mean - 5.5 * p.sd, p.mean + 5.5 * p.sd],
+  },
+  gamma: {
+    discrete: false,
+    pdf: (t, p) => MC.gammaPDF(t, p.shape, p.rate),
+    cdf: (t, p) => MC.gammaCDF(t, p.shape, p.rate),
+    mean: (p) => p.shape / p.rate,
+    domain: (p) => {
+      const mu = p.shape / p.rate, sd = Math.sqrt(p.shape) / p.rate;
+      return [Math.max(0, mu - 5.5 * sd), mu + 6 * sd + 1e-6];
+    },
+  },
+  poisson: {
+    discrete: true,
+    pmf: (k, p) => MC.poissonPMF(k, p.lambda),
+    cdf: (k, p) => MC.poissonCDF(k, p.lambda),
+    mean: (p) => p.lambda,
+    domain: (p) => [0, Math.ceil(p.lambda + 6 * Math.sqrt(p.lambda) + 4)],
+  },
+  binomial: {
+    discrete: true,
+    pmf: (k, p) => MC.binomialPMF(k, p.n, p.p),
+    cdf: (k, p) => MC.binomialCDF(k, p.n, p.p),
+    mean: (p) => p.n * p.p,
+    domain: (p) => [0, p.n],
+  },
+  maxuniform: {
+    discrete: false,
+    pdf: (t, p) => (t > 0 && t < p.theta) ? p.n * Math.pow(t / p.theta, p.n - 1) / p.theta : 0,
+    cdf: (t, p) => (t <= 0 ? 0 : t >= p.theta ? 1 : Math.pow(t / p.theta, p.n)),
+    mean: (p) => p.n * p.theta / (p.n + 1),
+    domain: (p) => [0, p.theta * 1.05],
+  },
+};
+
+// ---------- Distribution / parameter cases ----------
+// each case: family, paramsFor(theta, nuis, n), labels, defaults, statistic description
+const Cases = {
+  normal_mean: {
+    id: 'normal_mean',
+    familyLabel: 'Normal (Gaussian)',
+    paramLabel: 'Mean μ  (σ known)',
+    thetaSymbol: 'μ',
+    family: 'normal',
+    nuisance: [{ key: 'sigma', label: 'Known σ', default: 2, min: 0.1, max: 20, step: 0.1 }],
+    nDefault: 25, theta0Default: 10, theta1Default: 11,
+    paramsFor: (theta, nu, n) => ({ mean: theta, sd: nu.sigma / Math.sqrt(n) }),
+    statisticHTML: 'T = X&#772; = (1/n) &Sigma; X<sub>i</sub>',
+    sampleDistHTML: (nu, n) => `X&#772; ~ N(&mu;, &sigma;&sup2;/n) &nbsp; with &sigma;&sup2;/n = ${(nu.sigma * nu.sigma / n).toFixed(4)}`,
+  },
+  normal_var: {
+    id: 'normal_var',
+    thetaMin: 0.01,
+familyLabel: 'Normal (Gaussian)',
+    paramLabel: 'Variance σ²  (μ known)',
+    thetaSymbol: 'σ²',
+    family: 'gamma',
+    nuisance: [{ key: 'mu', label: 'Known μ', default: 0, min: -20, max: 20, step: 0.1 }],
+    nDefault: 16, theta0Default: 4, theta1Default: 6,
+    paramsFor: (theta, nu, n) => ({ shape: n / 2, rate: 1 / (2 * theta) }),
+    statisticHTML: 'T = &Sigma; (X<sub>i</sub> &minus; &mu;)&sup2;',
+    sampleDistHTML: (nu, n) => `T / &sigma;&sup2; ~ &chi;&sup2;<sub>${n}</sub>, i.e. T ~ Gamma(shape = n/2, rate = 1/2&sigma;&sup2;)`,
+  },
+  exponential_rate: {
+    id: 'exponential_rate',
+    thetaMin: 0.01,
+familyLabel: 'Exponential',
+    paramLabel: 'Rate λ',
+    thetaSymbol: 'λ',
+    family: 'gamma',
+    nuisance: [],
+    nDefault: 15, theta0Default: 1, theta1Default: 1.6,
+    paramsFor: (theta, nu, n) => ({ shape: n, rate: theta }),
+    statisticHTML: 'T = &Sigma; X<sub>i</sub>',
+    sampleDistHTML: (nu, n) => `T ~ Gamma(shape = n = ${n}, rate = &lambda;)`,
+  },
+  poisson_mean: {
+    id: 'poisson_mean',
+    thetaMin: 0.01,
+familyLabel: 'Poisson',
+    paramLabel: 'Mean λ',
+    thetaSymbol: 'λ',
+    family: 'poisson',
+    nuisance: [],
+    nDefault: 15, theta0Default: 5, theta1Default: 7,
+    paramsFor: (theta, nu, n) => ({ lambda: n * theta }),
+    statisticHTML: 'T = &Sigma; X<sub>i</sub>',
+    sampleDistHTML: (nu, n) => `T ~ Poisson(n&lambda;), n&lambda;&#8320; = ${n} &times; &lambda;&#8320;`,
+  },
+  binomial_p: {
+    id: 'binomial_p',
+    familyLabel: 'Bernoulli / Binomial',
+    paramLabel: 'Success probability p',
+    thetaSymbol: 'p',
+    family: 'binomial',
+    nuisance: [],
+    nDefault: 30, theta0Default: 0.5, theta1Default: 0.65,
+    thetaBounds: [0.001, 0.999],
+    paramsFor: (theta, nu, n) => ({ n: n, p: theta }),
+    statisticHTML: 'T = &Sigma; X<sub>i</sub> &nbsp; (# of successes)',
+    sampleDistHTML: (nu, n) => `T ~ Binomial(n = ${n}, p)`,
+  },
+  gamma_rate: {
+    id: 'gamma_rate',
+    thetaMin: 0.01,
+familyLabel: 'Gamma',
+    paramLabel: 'Rate β  (shape k known)',
+    thetaSymbol: 'β',
+    family: 'gamma',
+    nuisance: [{ key: 'k', label: 'Known shape k', default: 2, min: 0.2, max: 20, step: 0.1 }],
+    nDefault: 12, theta0Default: 1, theta1Default: 1.7,
+    paramsFor: (theta, nu, n) => ({ shape: n * nu.k, rate: theta }),
+    statisticHTML: 'T = &Sigma; X<sub>i</sub>',
+    sampleDistHTML: (nu, n) => `T ~ Gamma(shape = nk = ${(n * nu.k).toFixed(2)}, rate = &beta;)`,
+  },
+  uniform_theta: {
+    id: 'uniform_theta',
+    thetaMin: 0.01,
+familyLabel: 'Uniform (0, θ)',
+    paramLabel: 'Upper bound θ',
+    thetaSymbol: 'θ',
+    family: 'maxuniform',
+    nuisance: [],
+    nDefault: 10, theta0Default: 5, theta1Default: 7,
+    noTwoSided: true,
+    paramsFor: (theta, nu, n) => ({ theta: theta, n: n }),
+    statisticHTML: 'T = max(X&#8321;, &hellip;, X<sub>n</sub>)',
+    sampleDistHTML: (nu, n) => `F<sub>T</sub>(t) = (t/&theta;)<sup>n</sup>, &nbsp; n = ${n}`,
+  },
+  lognormal_mean: {
+    id: 'lognormal_mean',
+    familyLabel: 'Lognormal',
+    paramLabel: 'log-mean μ  (σ known)',
+    thetaSymbol: 'μ',
+    family: 'normal',
+    nuisance: [{ key: 'sigma', label: 'Known σ (of log X)', default: 1, min: 0.1, max: 10, step: 0.1 }],
+    nDefault: 20, theta0Default: 0, theta1Default: 0.7,
+    paramsFor: (theta, nu, n) => ({ mean: n * theta, sd: Math.sqrt(n) * nu.sigma }),
+    statisticHTML: 'T = &Sigma; ln X<sub>i</sub>',
+    sampleDistHTML: (nu, n) => `ln X<sub>i</sub> ~ N(&mu;, &sigma;&sup2;) &rArr; T ~ N(n&mu;, n&sigma;&sup2;)`,
+  },
+  beta_alpha: {
+    id: 'beta_alpha',
+    thetaMin: 0.01,
+familyLabel: 'Beta (β = 1 fixed)',
+    paramLabel: 'Shape α',
+    thetaSymbol: 'α',
+    family: 'gamma',
+    nuisance: [],
+    nDefault: 15, theta0Default: 2, theta1Default: 3,
+    paramsFor: (theta, nu, n) => ({ shape: n, rate: theta }),
+    statisticHTML: 'T = &minus;&Sigma; ln X<sub>i</sub>',
+    sampleDistHTML: (nu, n) => `X ~ Beta(&alpha;,1) &rArr; &minus;ln X ~ Exp(&alpha;) &rArr; T ~ Gamma(n=${n}, rate=&alpha;)`,
+  },
+};
+
+// ---------- unified result builder ----------
+function buildTest(caseId, opts) {
+  const cfg = Cases[caseId];
+  const fam = Families[cfg.family];
+  const { theta0, theta1, h0Type, h1Type, alpha, nuisance, n } = opts;
+
+  const paramsFor = (theta) => cfg.paramsFor(theta, nuisance, n);
+  const cdf = (t, theta) => fam.cdf(t, paramsFor(theta));
+  const pdfOrPmf = (t, theta) => (fam.discrete ? fam.pmf(t, paramsFor(theta)) : fam.pdf(t, paramsFor(theta)));
+  const meanFn = (theta) => fam.mean(paramsFor(theta));
+  const domain0 = fam.domain(paramsFor(theta0));
+
+  const result = { caseId, cfg, fam, cdf, pdfOrPmf, meanFn, domain0, theta0, alpha, h0Type, h1Type };
+
+  if (h1Type === 'simple') {
+    // ---- Neyman-Pearson, simple vs simple ----
+    const dir = EN.detectDirectionGeneric(pdfOrPmf, theta0, theta1, domain0, fam.discrete);
+    result.testType = 'NP';
+    result.direction = dir;
+    if (fam.discrete) {
+      const r = EN.discreteOneSidedCriticalGeneric((k) => pdfOrPmf(k, theta0), (k) => cdf(k, theta0), alpha, dir, domain0[1]);
+      Object.assign(result, r);
+    } else {
+      const r = EN.continuousOneSidedCriticalGeneric((t) => cdf(t, theta0), alpha, dir, domain0[0] - 1, domain0[1] + 1);
+      Object.assign(result, r);
+    }
+  } else if (h1Type === 'gt' || h1Type === 'lt') {
+    // ---- UMP via Karlin-Rubin (MLR) ----
+    // Direction of the rejection region depends on how T's distribution actually
+    // moves as theta increases (NOT simply h1Type) - e.g. for a *rate* parameter,
+    // increasing theta SHRINKS T, so theta>theta0 rejects for SMALL T.
+    const eps = Math.max(1e-3, Math.abs(theta0) * 1e-3);
+    const dirForGt = EN.detectDirectionGeneric(pdfOrPmf, theta0, theta0 + eps, domain0, fam.discrete);
+    const flip = (d) => (d === 'upper' ? 'lower' : 'upper');
+    const dir = h1Type === 'gt' ? dirForGt : flip(dirForGt);
+    result.testType = 'UMP';
+    result.direction = dir;
+    if (fam.discrete) {
+      const r = EN.discreteOneSidedCriticalGeneric((k) => pdfOrPmf(k, theta0), (k) => cdf(k, theta0), alpha, dir, domain0[1]);
+      Object.assign(result, r);
+    } else {
+      const r = EN.continuousOneSidedCriticalGeneric((t) => cdf(t, theta0), alpha, dir, domain0[0] - 1, domain0[1] + 1);
+      Object.assign(result, r);
+    }
+  } else if (h1Type === 'neq') {
+    result.testType = 'UMPU';
+    if (fam.discrete) {
+      result.unsupported = true;
+    } else {
+      const mean0 = meanFn(theta0);
+      const pdf0 = (t) => pdfOrPmf(t, theta0);
+      const cdf0 = (t) => cdf(t, theta0);
+      const lo = domain0[0], hi = domain0[1];
+      const guess1 = mean0 - (mean0 - lo) * 0.35;
+      const guess2 = mean0 + (hi - mean0) * 0.35;
+      const { c1, c2 } = EN.twoSidedUMPUGeneric(cdf0, pdf0, mean0, alpha, lo - (mean0 - lo), hi + (hi - mean0), guess1, guess2);
+      result.c1 = c1; result.c2 = c2; result.mean0 = mean0;
+      // also compute naive equal-tailed for comparison
+      result.naiveC1 = EN.bisectGeneric(cdf0, alpha / 2, lo - (mean0 - lo) * 2, hi + (hi - mean0) * 2);
+      result.naiveC2 = EN.bisectGeneric(cdf0, 1 - alpha / 2, lo - (mean0 - lo) * 2, hi + (hi - mean0) * 2);
+    }
+  }
+  return result;
+}
+
+if (typeof module !== 'undefined') module.exports = { Families, Cases, buildTest };
+
+// ============================================================
+// chart.js - renders the pdf/pmf with shaded critical region(s) as an SVG string
+// Pure function: buildChartSVG(opts) -> svg markup (string)
+// ============================================================
+
+function buildChartSVG(opts) {
+  const {
+    pdfOrPmf,      // (t) => density/mass at theta0
+    pdfOrPmf1,     // optional (t) => density/mass at theta1 (simple-vs-simple overlay)
+    discrete,
+    lo, hi,
+    region,        // {type:'upper', c} | {type:'lower', c} | {type:'two', c1, c2}
+    randomized,    // {boundary, gamma, direction} or null
+    theta0Label, theta1Label,
+    width = 720, height = 380,
+    colors = {},
+  } = opts;
+
+  const C = Object.assign({
+    curve0: '#5FC2BA', curve1: '#D7A85D', reject: '#E0673F',
+    accept: 'rgba(95,194,186,0.10)', axis: '#33455F', text: '#9FB0C7',
+    grid: '#1E2E45', critLine: '#D7A85D',
+  }, colors);
+
+  const M = { top: 26, right: 28, bottom: 40, left: 18 };
+  const plotW = width - M.left - M.right;
+  const plotH = height - M.top - M.bottom;
+
+  // --- sample the curve(s) to find a y-scale ---
+  const N = discrete ? Math.max(1, Math.round(hi - lo)) : 320;
+  let xs = [];
+  if (discrete) { for (let k = Math.round(lo); k <= Math.round(hi); k++) xs.push(k); }
+  else { for (let i = 0; i <= N; i++) xs.push(lo + (i / N) * (hi - lo)); }
+
+  let ys0 = xs.map((x) => pdfOrPmf(x));
+  let ys1 = pdfOrPmf1 ? xs.map((x) => pdfOrPmf1(x)) : null;
+  let ymax = Math.max(...ys0, ...(ys1 || [0])) * 1.18;
+  if (!isFinite(ymax) || ymax <= 0) ymax = 1;
+
+  const mapX = (x) => M.left + ((x - lo) / (hi - lo)) * plotW;
+  const mapY = (y) => M.top + plotH - (y / ymax) * plotH;
+  const baseY = mapY(0);
+
+  // --- helpers ---
+  function curvePath(ysArr) {
+    return xs.map((x, i) => `${i === 0 ? 'M' : 'L'} ${mapX(x).toFixed(2)} ${mapY(ysArr[i]).toFixed(2)}`).join(' ');
+  }
+
+  function shadedArea(aRaw, bRaw) {
+    const a = Math.max(lo, aRaw), b = Math.min(hi, bRaw);
+    if (b <= a) return '';
+    const pts = [];
+    const steps = 60;
+    for (let i = 0; i <= steps; i++) {
+      const x = a + (i / steps) * (b - a);
+      pts.push(`${mapX(x).toFixed(2)} ${mapY(pdfOrPmf(x)).toFixed(2)}`);
+    }
+    return `M ${mapX(a).toFixed(2)} ${baseY.toFixed(2)} L ${pts.join(' L ')} L ${mapX(b).toFixed(2)} ${baseY.toFixed(2)} Z`;
+  }
+
+  let svgParts = [];
+
+  // grid baseline
+  svgParts.push(`<line x1="${M.left}" y1="${baseY.toFixed(2)}" x2="${width - M.right}" y2="${baseY.toFixed(2)}" stroke="${C.axis}" stroke-width="1.4"/>`);
+
+  // ===================== CONTINUOUS =====================
+  if (!discrete) {
+    if (region.type === 'two') {
+      svgParts.push(`<path d="${shadedArea(lo, region.c1)}" fill="${C.reject}" opacity="0.55"/>`);
+      svgParts.push(`<path d="${shadedArea(region.c2, hi)}" fill="${C.reject}" opacity="0.55"/>`);
+    } else if (region.type === 'upper') {
+      svgParts.push(`<path d="${shadedArea(region.c, hi)}" fill="${C.reject}" opacity="0.55"/>`);
+    } else if (region.type === 'lower') {
+      svgParts.push(`<path d="${shadedArea(lo, region.c)}" fill="${C.reject}" opacity="0.55"/>`);
+    }
+
+    if (ys1) svgParts.push(`<path d="${curvePath(ys1)}" fill="none" stroke="${C.curve1}" stroke-width="2.4" stroke-dasharray="6,4" opacity="0.95"/>`);
+    svgParts.push(`<path d="${curvePath(ys0)}" fill="none" stroke="${C.curve0}" stroke-width="2.6"/>`);
+
+    // critical value lines
+    const lines = region.type === 'two' ? [region.c1, region.c2] : [region.c];
+    lines.forEach((c) => {
+      const x = mapX(c);
+      svgParts.push(`<line x1="${x.toFixed(2)}" y1="${(M.top - 4).toFixed(2)}" x2="${x.toFixed(2)}" y2="${baseY.toFixed(2)}" stroke="${C.critLine}" stroke-width="1.6" stroke-dasharray="3,3"/>`);
+      svgParts.push(`<text x="${x.toFixed(2)}" y="${(M.top - 10).toFixed(2)}" fill="${C.critLine}" font-size="13" font-family="var(--mono)" text-anchor="middle">${c.toFixed(3)}</text>`);
+    });
+  } else {
+    // ===================== DISCRETE (bars) =====================
+    const bw = Math.max(3, (plotW / xs.length) * 0.62);
+    const randList = randomized ? (randomized.list || [randomized]) : [];
+    const randMap = {};
+    randList.forEach((r) => { if (r.gamma > 1e-6) randMap[r.boundary] = r; });
+
+    xs.forEach((k, i) => {
+      const x = mapX(k);
+      const yTop = mapY(ys0[i]);
+      const rb = randMap[k];
+      let inReject;
+      if (region.type === 'upper') inReject = k >= region.c;
+      else if (region.type === 'lower') inReject = k <= region.c;
+      else if (region.type === 'twoDiscrete') inReject = (k <= region.cLow) || (k >= region.cHigh);
+      else inReject = false;
+
+      if (rb) {
+        const fullH = baseY - yTop;
+        const rejH = fullH * rb.gamma;
+        svgParts.push(`<rect x="${(x - bw / 2).toFixed(2)}" y="${yTop.toFixed(2)}" width="${bw.toFixed(2)}" height="${(fullH - rejH).toFixed(2)}" fill="${C.curve0}" opacity="0.85"/>`);
+        svgParts.push(`<rect x="${(x - bw / 2).toFixed(2)}" y="${(yTop + fullH - rejH).toFixed(2)}" width="${bw.toFixed(2)}" height="${rejH.toFixed(2)}" fill="${C.reject}" opacity="0.85"/>`);
+      } else {
+        svgParts.push(`<rect x="${(x - bw / 2).toFixed(2)}" y="${yTop.toFixed(2)}" width="${bw.toFixed(2)}" height="${(baseY - yTop).toFixed(2)}" fill="${inReject ? C.reject : C.curve0}" opacity="0.85"/>`);
+      }
+    });
+
+    const critPoints = region.type === 'twoDiscrete' ? [region.cLow, region.cHigh] : [region.c];
+    critPoints.forEach((c) => {
+      const xc = mapX(c);
+      svgParts.push(`<line x1="${xc.toFixed(2)}" y1="${(M.top - 4).toFixed(2)}" x2="${xc.toFixed(2)}" y2="${baseY.toFixed(2)}" stroke="${C.critLine}" stroke-width="1.6" stroke-dasharray="3,3"/>`);
+      svgParts.push(`<text x="${xc.toFixed(2)}" y="${(M.top - 10).toFixed(2)}" fill="${C.critLine}" font-size="13" font-family="var(--mono)" text-anchor="middle">${c}</text>`);
+    });
+  }
+
+  // x-axis ticks (5 evenly spaced)
+  for (let i = 0; i <= 4; i++) {
+    const x = lo + (i / 4) * (hi - lo);
+    const xp = mapX(x);
+    svgParts.push(`<text x="${xp.toFixed(2)}" y="${(height - M.bottom + 18).toFixed(2)}" fill="${C.text}" font-size="12" font-family="var(--mono)" text-anchor="middle">${x.toFixed(discrete ? 0 : 2)}</text>`);
+  }
+
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">${svgParts.join('')}</svg>`;
+}
+
+if (typeof module !== 'undefined') module.exports = { buildChartSVG };
+
+// ============================================================
+// uiapp.js - UI wiring + derivation text generation
+// Depends on: MC, EN, Families, Cases, buildTest, buildChartSVG (already in scope)
+// ============================================================
+
+const FamilyGroups = [
+  { key: 'normal', label: 'Normal (Gaussian)', cases: ['normal_mean', 'normal_var'] },
+  { key: 'exponential', label: 'Exponential', cases: ['exponential_rate'] },
+  { key: 'poisson', label: 'Poisson', cases: ['poisson_mean'] },
+  { key: 'binomial', label: 'Bernoulli / Binomial', cases: ['binomial_p'] },
+  { key: 'gamma', label: 'Gamma', cases: ['gamma_rate'] },
+  { key: 'uniform', label: 'Uniform (0, θ)', cases: ['uniform_theta'] },
+  { key: 'lognormal', label: 'Lognormal', cases: ['lognormal_mean'] },
+  { key: 'beta', label: 'Beta (β = 1 fixed)', cases: ['beta_alpha'] },
+];
+
+function thetaSub(symbol, sub) {
+  if (symbol.indexOf('²') !== -1) return symbol.replace('²', '') + sub + '²';
+  return symbol + sub;
+}
+function fmt(x, d = 4) {
+  if (x === undefined || x === null || !isFinite(x)) return '-';
+  return Number(x).toFixed(d);
+}
+function fmtSmart(x, discrete) {
+  if (discrete) return Math.round(x).toString();
+  return fmt(x, Math.abs(x) >= 100 ? 2 : 4);
+}
+
+const els = {};
+['familySelect','paramSelect','nInput','nuisanceFields','theta0Input','theta0Label',
+ 'h0Select','h1Select','theta1Field','theta1Input','theta1Label','alphaSlider','alphaNum',
+ 'testBadge','badgeSub','hypLine','stepsList','chartCard','legendRow','statsGrid','extraCallouts'
+].forEach(id => els[id] = document.getElementById(id));
+
+let currentCaseId = 'normal_mean';
+
+function populateFamilySelect() {
+  els.familySelect.innerHTML = FamilyGroups.map(g => `<option value="${g.key}">${g.label}</option>`).join('');
+}
+function populateParamSelect(familyKey) {
+  const group = FamilyGroups.find(g => g.key === familyKey);
+  els.paramSelect.innerHTML = group.cases.map(cid => `<option value="${cid}">${Cases[cid].paramLabel}</option>`).join('');
+}
+function groupKeyForCase(caseId) {
+  return FamilyGroups.find(g => g.cases.includes(caseId)).key;
+}
+
+function buildNuisanceFields(cfg) {
+  els.nuisanceFields.innerHTML = (cfg.nuisance || []).map(nu => `
+    <div class="field">
+      <label for="nu_${nu.key}">${nu.label}</label>
+      <input type="number" id="nu_${nu.key}" data-key="${nu.key}" value="${nu.default}" min="${nu.min}" max="${nu.max}" step="${nu.step}">
+    </div>`).join('');
+  Array.prototype.forEach.call(els.nuisanceFields.querySelectorAll('input'), function(inp){ inp.addEventListener('input', render); });
+}
+
+function h0OptionsFor(cfg) {
+  const s = cfg.thetaSymbol, s0 = thetaSub(s, '\u2080');
+  return [
+    { v: 'simple', t: `${s} = ${s0}` },
+    { v: 'leq', t: `${s} \u2264 ${s0}` },
+    { v: 'geq', t: `${s} \u2265 ${s0}` },
+  ];
+}
+function h1OptionsFor(cfg, h0Type) {
+  const s = cfg.thetaSymbol, s0 = thetaSub(s, '\u2080'), s1 = thetaSub(s, '\u2081');
+  if (h0Type === 'leq') return [{ v: 'gt', t: `${s} > ${s0}` }];
+  if (h0Type === 'geq') return [{ v: 'lt', t: `${s} < ${s0}` }];
+  const opts = [
+    { v: 'gt', t: `${s} > ${s0}` },
+    { v: 'lt', t: `${s} < ${s0}` },
+  ];
+  if (!cfg.noTwoSided) opts.push({ v: 'neq', t: `${s} \u2260 ${s0}` });
+  opts.push({ v: 'simple', t: `${s} = ${s1}  (specific value)` });
+  return opts;
+}
+
+function rebuildH0H1(cfg) {
+  els.h0Select.innerHTML = h0OptionsFor(cfg).map(o => `<option value="${o.v}">${o.t}</option>`).join('');
+  rebuildH1(cfg);
+}
+function rebuildH1(cfg) {
+  const h0Type = els.h0Select.value;
+  const opts = h1OptionsFor(cfg, h0Type);
+  const prev = els.h1Select.value;
+  els.h1Select.innerHTML = opts.map(o => `<option value="${o.v}">${o.t}</option>`).join('');
+  if (opts.some(o => o.v === prev)) els.h1Select.value = prev;
+  toggleTheta1Field(cfg);
+}
+function toggleTheta1Field(cfg) {
+  const show = els.h1Select.value === 'simple';
+  els.theta1Field.style.display = show ? '' : 'none';
+  const s = cfg.thetaSymbol;
+  els.theta1Label.innerHTML = `${thetaSub(s, '\u2081')} (specific alternative value)`;
+}
+
+function applyCaseDefaults(caseId) {
+  currentCaseId = caseId;
+  const cfg = Cases[caseId];
+  buildNuisanceFields(cfg);
+  els.nInput.value = cfg.nDefault;
+  els.theta0Input.value = cfg.theta0Default;
+  els.theta0Label.innerHTML = thetaSub(cfg.thetaSymbol, '\u2080');
+  els.theta1Input.value = cfg.theta1Default;
+  rebuildH0H1(cfg);
+  els.h0Select.value = 'simple';
+  rebuildH1(cfg);
+  els.h1Select.value = 'gt';
+  toggleTheta1Field(cfg);
+  render();
+}
+
+function readNuisance(cfg) {
+  const nu = {};
+  (cfg.nuisance || []).forEach(spec => {
+    const inp = document.getElementById('nu_' + spec.key);
+    let v = parseFloat(inp.value);
+    if (!isFinite(v)) v = spec.default;
+    v = Math.max(spec.min, Math.min(spec.max, v));
+    nu[spec.key] = v;
+  });
+  return nu;
+}
+
+function clampTheta(cfg, v) {
+  if (!isFinite(v)) v = cfg.theta0Default;
+  if (cfg.thetaBounds) v = Math.max(cfg.thetaBounds[0], Math.min(cfg.thetaBounds[1], v));
+  else if (cfg.thetaMin !== undefined) v = Math.max(cfg.thetaMin, v);
+  return v;
+}
+
+// ---------------- derivation text ----------------
+function dirWord(dir) { return dir === 'upper' ? 'large' : 'small'; }
+function dirSym(dir) { return dir === 'upper' ? '&gt;' : '&lt;'; }
+
+function buildSteps(result, cfg, ctx) {
+  const s = cfg.thetaSymbol, s0 = thetaSub(s, '\u2080'), s1 = thetaSub(s, '\u2081');
+  const th0 = fmt(ctx.theta0, 3), th1 = ctx.theta1 !== undefined ? fmt(ctx.theta1, 3) : '';
+  const sampleDist = cfg.sampleDistHTML(ctx.nuisance, ctx.n);
+  const steps = [];
+
+  if (result.testType === 'NP') {
+    steps.push(`Since <span class="formula">${cfg.statisticHTML}</span> is sufficient for ${s}, the likelihood ratio &Lambda;(x) = L(${s1}=${th1}; x) / L(${s0}=${th0}; x) depends on the data only through T. Under H&#8320;, ${sampleDist}.`);
+    steps.push(`<b>Neyman&ndash;Pearson Lemma.</b> The most powerful level-&alpha; test rejects H&#8320; when &Lambda;(x) &gt; k, with k chosen so that P<sub>${s0}</sub>(reject) = &alpha;.`);
+    steps.push(`Simplifying &Lambda;(x) shows it is monotone <b>${result.direction === 'upper' ? 'increasing' : 'decreasing'}</b> in T - the rejection region reduces to <span class="formula">T ${dirSym(result.direction)} c</span>.`);
+    let cstep = `Solving P<sub>${s0}</sub>(reject) = &alpha; numerically: <b>c = ${fmtSmart(result.c, result.fam.discrete)}</b>.`;
+    if (result.gamma > 1e-6) cstep += ` Since T is discrete no non-randomized c hits &alpha; exactly - reject outright past c, and reject with probability <b>&gamma; = ${fmt(result.gamma, 4)}</b> when T = ${result.boundary}.`;
+    steps.push(cstep);
+    steps.push(`<b>Most powerful test against this &theta;&#8321;:</b> &phi;(x) = 1 if T ${dirSym(result.direction)} c${result.gamma > 1e-6 ? ', randomized at the boundary as above' : ''}. This is MP for &theta;&#8321; = ${th1} specifically - not yet shown to be UMP against the whole alternative.`);
+  }
+
+  if (result.testType === 'UMP') {
+    steps.push(`<span class="formula">${cfg.statisticHTML}</span> is sufficient for ${s}; under H&#8320;, ${sampleDist}. This one-parameter family has a <b>monotone likelihood ratio (MLR)</b> in T.`);
+    steps.push(`<b>Karlin&ndash;Rubin theorem.</b> Because the MLR direction is the same regardless of which &theta;&#8321; on H&#8321;'s side is used, the Neyman&ndash;Pearson test against any such &theta;&#8321; gives the <i>same</i> rejection region - so this single test is simultaneously most powerful against every alternative: it is <b>UMP</b>.`);
+    steps.push(`The MLR direction detected here is <b>${result.direction}</b> - larger ${s} shifts T toward ${dirWord(result.direction === 'upper' ? 'upper':'lower')} values in the H&#8321; direction, so the UMP rejection region is <span class="formula">T ${dirSym(result.direction)} c</span>.`);
+    let cstep = `Solving P<sub>${s0}</sub>(reject) = &alpha;: <b>c = ${fmtSmart(result.c, result.fam.discrete)}</b>.`;
+    if (result.gamma > 1e-6) cstep += ` T is discrete, so reject outright past c and reject with probability <b>&gamma; = ${fmt(result.gamma, 4)}</b> at T = ${result.boundary} to hit &alpha; exactly.`;
+    steps.push(cstep);
+    let last = `<b>UMP level-&alpha; test:</b> &phi;(x) = 1 if T ${dirSym(result.direction)} c${result.gamma > 1e-6 ? ' (with boundary randomization)' : ''}; 0 otherwise.`;
+    if (ctx.h0Type !== 'simple') last += ` Although H&#8320; is composite here, this test's power function is monotone in ${s}, so it remains UMP for the composite null too - not only against the simple boundary point ${s0}.`;
+    steps.push(last);
+  }
+
+  if (result.testType === 'UMPU' && !result.unsupported) {
+    steps.push(`No UMP test exists against H&#8321;: ${s} &ne; ${s0}. The UMP test against ${s} &gt; ${s0} rejects for ${dirWord('upper')} T, while the UMP test against ${s} &lt; ${s0} rejects for ${dirWord('lower')} T - no single rejection region maximizes power in both directions at once.`);
+    steps.push(`Restricting to <b>unbiased</b> tests (power &ge; &alpha; everywhere) requires the power function &beta;(&theta;) to have a minimum at &theta;&#8320;: &beta;(${s0}) = &alpha; and &beta;&prime;(${s0}) = 0.`);
+    steps.push(`For a one-parameter exponential family this reduces to two equations in c&#8321;, c&#8322;: <span class="formula">P<sub>${s0}</sub>(c&#8321; &le; T &le; c&#8322;) = 1&minus;&alpha;</span> and <span class="formula">E<sub>${s0}</sub>[T &middot; 1(c&#8321;&le;T&le;c&#8322;)] = (1&minus;&alpha;)&middot;E<sub>${s0}</sub>[T]</span>.`);
+    steps.push(`Solving numerically (Newton&ndash;Raphson on both equations): <b>c&#8321; = ${fmtSmart(result.c1, false)}, c&#8322; = ${fmtSmart(result.c2, false)}</b>.`);
+    steps.push(`<b>UMPU test:</b> reject H&#8320; when T &lt; c&#8321; or T &gt; c&#8322;.`);
+  }
+
+  if (result.testType === 'UMPU' && result.unsupported) {
+    steps.push(`No UMP test exists against H&#8321;: ${s} &ne; ${s0}, for the same reason as in the continuous case: the optimal direction flips depending on the side of ${s0}.`);
+    steps.push(`Because T is discrete, the exact UMPU test needs <i>randomized</i> rejection at both tail boundaries simultaneously, solving the unbiasedness condition &beta;&prime;(${s0})=0 with two randomization probabilities. That joint solve is outside this tool's current scope.`);
+    steps.push(`Shown instead below is a common practical stand-in: independently optimal tails at level &alpha;/2 each (with their own boundary randomization). It controls the size at &alpha;, but is <b>not</b> proven unbiased or UMPU.`);
+  }
+
+  return steps;
+}
+
+function buildLegend(result) {
+  const items = [];
+  if (result.testType === 'NP') {
+    items.push(`<span><i style="background:var(--teal)"></i>density under &theta;&#8320;</span>`);
+    items.push(`<span><i style="background:var(--gold); border-radius:0;height:2px;margin-top:5px;"></i>density under &theta;&#8321;</span>`);
+  } else {
+    items.push(`<span><i style="background:var(--teal)"></i>density / mass under H&#8320;</span>`);
+  }
+  items.push(`<span><i style="background:var(--coral)"></i>rejection region</span>`);
+  return items.join('');
+}
+
+function statCard(k, v, sub) {
+  return `<div class="stat"><div class="k">${k}</div><div class="v">${v}${sub ? `<small>${sub}</small>` : ''}</div></div>`;
+}
+
+function fmtNum(x, discrete) { return discrete ? Math.round(x).toString() : fmt(x, 3); }
+
+// Builds the LaTeX source for the test function phi(x), with actual computed numbers plugged in.
+function buildPhiLatex(result, region, randomized, fam) {
+  const d = fam.discrete;
+  if (region.type === 'two') {
+    const c1 = fmtNum(region.c1, d), c2 = fmtNum(region.c2, d);
+    return `\\varphi(x) = \\begin{cases} 1 & T(x) < ${c1} \\ \\text{or} \\ T(x) > ${c2} \\\\[6pt] 0 & ${c1} \\le T(x) \\le ${c2} \\end{cases}`;
+  }
+  if (region.type === 'twoDiscrete') {
+    const { lowRes, highRes } = result._adhoc;
+    const rows = [`1 & T(x) \\le ${lowRes.c} \\ \\text{or} \\ T(x) \\ge ${highRes.c}`];
+    if (lowRes.gamma > 1e-6) rows.push(`${fmt(lowRes.gamma, 4)} & T(x) = ${lowRes.boundary}`);
+    if (highRes.gamma > 1e-6) rows.push(`${fmt(highRes.gamma, 4)} & T(x) = ${highRes.boundary}`);
+    rows.push(`0 & \\text{otherwise}`);
+    return `\\varphi(x) = \\begin{cases} ${rows.join(' \\\\[6pt] ')} \\end{cases}`;
+  }
+  const gt = region.type === 'upper' ? '>' : '<';
+  const le = region.type === 'upper' ? '\\le' : '\\ge';
+  if (randomized && randomized.gamma > 1e-6) {
+    const b = randomized.boundary;
+    const ltOpp = region.type === 'upper' ? '<' : '>';
+    return `\\varphi(x) = \\begin{cases} 1 & T(x) ${gt} ${b} \\\\[6pt] ${fmt(randomized.gamma, 4)} & T(x) = ${b} \\\\[6pt] 0 & T(x) ${ltOpp} ${b} \\end{cases}`;
+  }
+  const c = fmtNum(region.c, d);
+  return `\\varphi(x) = \\begin{cases} 1 & T(x) ${gt} ${c} \\\\[6pt] 0 & T(x) ${le} ${c} \\end{cases}`;
+}
+
+// Plain-English complement of the rejection region.
+function buildAcceptLine(result, region, randomized, fam) {
+  const d = fam.discrete;
+  if (region.type === 'two') {
+    return `We accept the null hypothesis H&#8320; (fail to reject) if <b>${fmtNum(region.c1, d)} &le; T(x) &le; ${fmtNum(region.c2, d)}</b>.`;
+  }
+  if (region.type === 'twoDiscrete') {
+    const { lowRes, highRes } = result._adhoc;
+    return `We accept the null hypothesis H&#8320; outright if <b>${lowRes.boundary} &lt; T(x) &lt; ${highRes.boundary}</b>, and partially at the two boundary points shown above.`;
+  }
+  if (randomized && randomized.gamma > 1e-6) {
+    const b = randomized.boundary;
+    const op = region.type === 'upper' ? '&lt;' : '&gt;';
+    return `We accept the null hypothesis H&#8320; outright if <b>T(x) ${op} ${b}</b>, and with probability ${fmt(1 - randomized.gamma, 4)} if T(x) = ${b}.`;
+  }
+  const op = region.type === 'upper' ? '&le;' : '&ge;';
+  return `We accept the null hypothesis H&#8320; if <b>T(x) ${op} ${fmtNum(region.c, d)}</b>.`;
+}
+
+function render() {
+  const cfg = Cases[currentCaseId];
+  const fam = Families[cfg.family];
+  const nuisance = readNuisance(cfg);
+  let n = parseInt(els.nInput.value, 10);
+  if (!isFinite(n) || n < 2) n = cfg.nDefault;
+  n = Math.min(500, Math.max(2, n));
+  els.nInput.value = n;
+
+  let theta0 = clampTheta(cfg, parseFloat(els.theta0Input.value));
+  els.theta0Input.value = theta0;
+
+  const h0Type = els.h0Select.value;
+  const h1Type = els.h1Select.value;
+  let theta1;
+  if (h1Type === 'simple') {
+    theta1 = clampTheta(cfg, parseFloat(els.theta1Input.value));
+    if (Math.abs(theta1 - theta0) < 1e-6) theta1 = theta0 + (cfg.thetaMin ? theta0 * 0.2 + 0.1 : 1);
+    els.theta1Input.value = theta1;
+  }
+  const alpha = parseFloat(els.alphaSlider.value);
+  els.alphaNum.textContent = alpha.toFixed(3);
+  const fillPct = ((alpha - 0.01) / (0.25 - 0.01)) * 100;
+  els.alphaSlider.style.setProperty('--fill', fillPct + '%');
+
+  const result = buildTest(currentCaseId, { theta0, theta1, h0Type, h1Type, alpha, nuisance, n });
+
+  // ---- badge ----
+  const s = cfg.thetaSymbol, s0 = thetaSub(s, '\u2080'), s1 = thetaSub(s, '\u2081');
+  let badgeClass = 'mp', badgeText = 'Most powerful test', badgeSub = `Simple H&#8321;: ${s} = ${s1}`;
+  if (result.testType === 'UMP') { badgeClass = 'ump'; badgeText = 'UMP test'; badgeSub = 'Uniformly most powerful via Karlin\u2013Rubin'; }
+  if (result.testType === 'UMPU' && !result.unsupported) { badgeClass = 'umpu'; badgeText = 'UMPU test'; badgeSub = 'No UMP exists \u2014 unbiased optimum instead'; }
+  if (result.testType === 'UMPU' && result.unsupported) { badgeClass = 'none'; badgeText = 'Two-sided \u2014 partial'; badgeSub = 'Exact UMPU needs joint boundary randomization (not computed)'; }
+  els.testBadge.className = 'badge ' + badgeClass;
+  els.testBadge.textContent = badgeText;
+  els.badgeSub.innerHTML = badgeSub;
+
+  // ---- hypothesis line ----
+  const h0Label = h0Type === 'simple' ? `${s} = ${s0}` : h0Type === 'leq' ? `${s} \u2264 ${s0}` : `${s} \u2265 ${s0}`;
+  const h1Label = h1Type === 'gt' ? `${s} &gt; ${s0}` : h1Type === 'lt' ? `${s} &lt; ${s0}` : h1Type === 'neq' ? `${s} &ne; ${s0}` : `${s} = ${s1}`;
+  els.hypLine.innerHTML = `H&#8320;: <span class="h0">${h0Label}</span><span class="vs">vs</span>H&#8321;: <span class="h1">${h1Label}</span> &nbsp;&middot;&nbsp; ${s0} = ${fmt(theta0, 3)}${h1Type === 'simple' ? `, ${s1} = ${fmt(theta1, 3)}` : ''}`;
+
+  // ---- steps ----
+  els.stepsList.innerHTML = buildSteps(result, cfg, { theta0, theta1, h0Type, h1Type, n, nuisance }).map(s => `<li><span class="stxt">${s}</span></li>`).join('');
+
+  // ---- chart ----
+  let region, randomized = null, chartLo = result.domain0[0], chartHi = result.domain0[1];
+  if (result.testType === 'UMPU' && result.unsupported) {
+    // ad-hoc symmetric-probability two-sided combo for discrete families, alpha/2 each tail
+    const pmf0 = (k) => result.pdfOrPmf(k, theta0), cdf0 = (k) => result.cdf(k, theta0);
+    const lowRes = EN.discreteOneSidedCriticalGeneric(pmf0, cdf0, alpha / 2, 'lower', chartHi);
+    const highRes = EN.discreteOneSidedCriticalGeneric(pmf0, cdf0, alpha / 2, 'upper', chartHi);
+    region = { type: 'twoDiscrete', cLow: lowRes.c, cHigh: highRes.c };
+    randomized = { list: [
+      { boundary: lowRes.boundary, gamma: lowRes.gamma, side: 'low' },
+      { boundary: highRes.boundary, gamma: highRes.gamma, side: 'high' },
+    ] };
+    result._adhoc = { lowRes, highRes };
+  } else if (result.testType === 'UMPU') {
+    region = { type: 'two', c1: result.c1, c2: result.c2 };
+    chartLo = Math.min(chartLo, result.c1 - (result.mean0 - chartLo) * 0.3);
+    chartHi = Math.max(chartHi, result.c2 + (chartHi - result.mean0) * 0.3);
+  } else {
+    region = { type: result.direction, c: result.c };
+    if (result.gamma > 1e-6) randomized = { boundary: result.boundary, gamma: result.gamma, direction: result.direction };
+  }
+
+  // ---- test function (LaTeX) + accept line ----
+  const phiLatex = buildPhiLatex(result, region, randomized, fam);
+  const phiEl = document.getElementById('phiLatex');
+  if (window.katex) {
+    katex.render(phiLatex, phiEl, { displayMode: true, throwOnError: false });
+  } else {
+    phiEl.textContent = phiLatex; // fallback if KaTeX hasn't loaded
+  }
+  document.getElementById('acceptLine').innerHTML = buildAcceptLine(result, region, randomized, fam);
+
+  const svg = buildChartSVG({
+    pdfOrPmf: (t) => result.pdfOrPmf(t, theta0),
+    pdfOrPmf1: (h1Type === 'simple') ? ((t) => result.pdfOrPmf(t, theta1)) : null,
+    discrete: fam.discrete,
+    lo: chartLo, hi: chartHi,
+    region, randomized,
+  });
+  els.chartCard.innerHTML = svg;
+  els.legendRow.innerHTML = buildLegend(result);
+
+  // ---- stats grid ----
+  let statsHTML = '';
+  statsHTML += statCard('Sample size', `n = ${n}`);
+  statsHTML += statCard('Mean of T under H&#8320;', fmtSmart(result.meanFn(theta0), fam.discrete));
+  if (result.testType === 'UMPU' && !result.unsupported) {
+    statsHTML += statCard('Critical values', `${fmt(result.c1,3)} , ${fmt(result.c2,3)}`);
+    const sz = 1 - (result.cdf(result.c2, theta0) - result.cdf(result.c1, theta0));
+    statsHTML += statCard('Achieved size', fmt(sz, 4), 'target ' + alpha.toFixed(3));
+  } else if (result.testType === 'UMPU' && result.unsupported) {
+    const { lowRes, highRes } = result._adhoc;
+    statsHTML += statCard('Lower / upper bound', `${lowRes.c} , ${highRes.c}`);
+    const szLow = lowRes.achievedNonRandom + lowRes.gamma * result.pdfOrPmf(lowRes.boundary, theta0);
+    const szHigh = highRes.achievedNonRandom + highRes.gamma * result.pdfOrPmf(highRes.boundary, theta0);
+    statsHTML += statCard('Achieved size', fmt(szLow + szHigh, 4), 'target ' + alpha.toFixed(3));
+  } else {
+    statsHTML += statCard('Critical value', fmtSmart(result.c, fam.discrete));
+    let sz;
+    if (fam.discrete) sz = result.direction === 'upper'
+      ? (1 - result.cdf(result.boundary, theta0)) + (result.gamma||0) * result.pdfOrPmf(result.boundary, theta0)
+      : result.cdf(result.boundary, theta0) - result.pdfOrPmf(result.boundary,theta0) + (result.gamma||0) * result.pdfOrPmf(result.boundary, theta0);
+    else sz = result.direction === 'upper' ? 1 - result.cdf(result.c, theta0) : result.cdf(result.c, theta0);
+    statsHTML += statCard('Achieved size', fmt(sz, 4), 'target ' + alpha.toFixed(3));
+    if (h1Type === 'simple') {
+      let pw;
+      if (fam.discrete) pw = result.direction === 'upper'
+        ? (1 - result.cdf(result.boundary, theta1)) + (result.gamma||0) * result.pdfOrPmf(result.boundary, theta1)
+        : result.cdf(result.boundary, theta1) - result.pdfOrPmf(result.boundary,theta1) + (result.gamma||0) * result.pdfOrPmf(result.boundary, theta1);
+      else pw = result.direction === 'upper' ? 1 - result.cdf(result.c, theta1) : result.cdf(result.c, theta1);
+      statsHTML += statCard('Power at &theta;&#8321;', fmt(pw, 4));
+    }
+  }
+  els.statsGrid.innerHTML = statsHTML;
+
+  // ---- extra callouts ----
+  let extra = '';
+  if (result.testType === 'UMPU' && !result.unsupported) {
+    const dC1 = Math.abs(result.c1 - result.naiveC1), dC2 = Math.abs(result.c2 - result.naiveC2);
+    const span = result.c2 - result.c1;
+    const rel = (dC1 + dC2) / Math.max(1e-9, span);
+    if (rel < 0.01) {
+      extra += `<div class="callout">Because the sampling distribution of T is <b>symmetric</b> about ${s0} here, the UMPU test coincides with the simple equal-tailed test (&alpha;/2 in each tail) that most courses default to.</div>`;
+    } else {
+      extra += `<div class="callout gold"><b>This sampling distribution is skewed</b>, so the equal-tailed test most courses use by default is <i>not</i> the same as the true UMPU test - and is not unbiased.
+        <div class="compare-row">
+          <div><span class="tag">UMPU (unbiased)</span>c&#8321;=${fmt(result.c1,3)}, c&#8322;=${fmt(result.c2,3)}</div>
+          <div><span class="tag">Naive equal-tail &alpha;/2</span>c&#8321;=${fmt(result.naiveC1,3)}, c&#8322;=${fmt(result.naiveC2,3)}</div>
+        </div></div>`;
+    }
+  }
+  if (result.testType === 'UMPU' && result.unsupported) {
+    extra += `<div class="callout coral">Treat the chart and size above as an <b>illustrative stand-in</b>, not a proven-optimal test - this case is flagged rather than silently approximated.</div>`;
+  }
+  els.extraCallouts.innerHTML = extra;
+}
+
+function init() {
+  populateFamilySelect();
+  els.familySelect.value = groupKeyForCase(currentCaseId);
+  populateParamSelect(els.familySelect.value);
+  els.paramSelect.value = currentCaseId;
+
+  els.familySelect.addEventListener('change', () => {
+    populateParamSelect(els.familySelect.value);
+    applyCaseDefaults(els.paramSelect.value);
+  });
+  els.paramSelect.addEventListener('change', () => applyCaseDefaults(els.paramSelect.value));
+  els.nInput.addEventListener('input', render);
+  els.theta0Input.addEventListener('input', render);
+  els.theta1Input.addEventListener('input', render);
+  els.h0Select.addEventListener('change', () => { rebuildH1(Cases[currentCaseId]); render(); });
+  els.h1Select.addEventListener('change', () => { toggleTheta1Field(Cases[currentCaseId]); render(); });
+  els.alphaSlider.addEventListener('input', render);
+
+  applyCaseDefaults(currentCaseId);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+</script>
+</body>
+</html>
