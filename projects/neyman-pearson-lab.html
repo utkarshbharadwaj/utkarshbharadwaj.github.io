@@ -6,274 +6,330 @@
 <title>Neyman - Pearson Lab : MP / UMP / UMPU Test Derivation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <style>
-:root{
-  --ink:#0A1420;
-  --surface:#121F30;
-  --surface-2:#16243F;
-  --surface-3:#1B2C4A;
-  --hairline:#283A58;
-  --hairline-soft:#1E2E48;
-  --paper:#ECE7DC;
-  --paper-dim:#C9C3B6;
-  --muted:#8B9AB3;
-  --gold:#D7A85D;
-  --gold-soft:rgba(215,168,93,0.16);
-  --teal:#5FC2BA;
-  --teal-soft:rgba(95,194,186,0.14);
-  --coral:#E0673F;
-  --coral-soft:rgba(224,103,63,0.16);
-  --display:'Fraunces', Georgia, 'Iowan Old Style', serif;
-  --body:'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --mono:'IBM Plex Mono', ui-monospace, 'SF Mono', Consolas, monospace;
-  --radius:14px;
+:root {
+  /* Modern Eye-Comfort Dark Theme Palette */
+  --bg-body: #0b1121;
+  --bg-surface: #151e32;
+  --bg-surface-2: #1e293b;
+  --bg-surface-3: #334155;
+  --border-main: #334155;
+  --border-soft: #1e293b;
+  
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-light: #64748b;
+  
+  --accent-primary: #38bdf8;
+  --accent-primary-soft: rgba(56, 189, 248, 0.15);
+  --accent-secondary: #818cf8;
+  --accent-secondary-soft: rgba(129, 140, 248, 0.15);
+  
+  --success: #34d399;
+  --success-soft: rgba(52, 211, 153, 0.15);
+  --danger: #f87171;
+  --danger-soft: rgba(248, 113, 113, 0.15);
+  
+  --display: 'Inter', system-ui, -apple-system, sans-serif;
+  --body: 'Inter', system-ui, -apple-system, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+  --radius: 10px;
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
 }
 
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
 body{
-  background:
-    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(95,194,186,0.07), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 100% 0%, rgba(215,168,93,0.06), transparent 55%),
-    var(--ink);
-  color:var(--paper);
-  font-family:var(--body);
-  -webkit-font-smoothing:antialiased;
-  min-height:100vh;
+  background: var(--bg-body);
+  color: var(--text-main);
+  font-family: var(--body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
 }
-a{color:var(--teal);}
-::selection{background:var(--gold-soft); color:var(--paper);}
+a{color: var(--accent-primary);}
+::selection{background: var(--accent-primary-soft); color: var(--accent-primary);}
 
 .shell{max-width:1320px; margin:0 auto; padding:0 26px 90px;}
 
 /* ---------------- header ---------------- */
 header.hero{
   padding:48px 0 30px;
-  border-bottom:1px solid var(--hairline);
+  border-bottom:1px solid var(--border-main);
   display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:22px;
 }
 .hero-text{max-width:680px;}
 .eyebrow{
-  font-family:var(--mono); font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase;
-  color:var(--gold); margin:0 0 14px;
-  display:flex; align-items:center; gap:10px;
+  font-family:var(--mono); font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--text-muted); margin:0 0 14px;
+  display:flex; align-items:center; gap:8px; font-weight:600;
 }
-.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--gold); box-shadow:0 0 0 4px var(--gold-soft);}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-primary); box-shadow: 0 0 8px var(--accent-primary);}
 h1.title{
-  font-family:var(--display); font-weight:560; font-size:clamp(1.9rem,3.4vw,2.65rem);
-  line-height:1.08; margin:0 0 14px; color:var(--paper); letter-spacing:-0.01em;
+  font-family:var(--display); font-weight:700; font-size:clamp(1.9rem,3.4vw,2.65rem);
+  line-height:1.08; margin:0 0 14px; color:var(--text-main); letter-spacing:-0.03em;
 }
-.subtitle{color:var(--muted); font-size:1.0rem; line-height:1.6; margin:0; max-width:600px;}
+.subtitle{color:var(--text-muted); font-size:1.0rem; line-height:1.6; margin:0; max-width:600px;}
 .scope-note{
-  font-size:0.82rem; color:var(--muted); max-width:300px; text-align:right; line-height:1.55;
-  border-left:1px solid var(--hairline); padding-left:18px;
+  font-size:0.82rem; color:var(--text-muted); max-width:300px; text-align:right; line-height:1.55;
+  border-left:2px solid var(--border-main); padding-left:18px;
 }
-.scope-note strong{color:var(--paper-dim); font-weight:600;}
+.scope-note strong{color:var(--text-main); font-weight:600;}
 
 /* ---------------- layout ---------------- */
 .workspace{display:grid; grid-template-columns:368px 1fr; gap:26px; margin-top:34px; align-items:start;}
 @media (max-width:980px){ .workspace{grid-template-columns:1fr;} }
 
 .panel{
-  background:var(--surface); border:1px solid var(--hairline); border-radius:var(--radius);
-  padding:20px 20px 22px; margin-bottom:16px;
+  background:var(--bg-surface); border:1px solid var(--border-main); border-radius:var(--radius);
+  padding:20px 20px 22px; margin-bottom:16px; box-shadow:var(--shadow-sm);
 }
 .panel-head{display:flex; align-items:baseline; gap:10px; margin-bottom:14px;}
-.panel-num{font-family:var(--mono); color:var(--gold); font-size:0.74rem; letter-spacing:0.1em;}
-.panel h2{font-family:var(--display); font-size:1.04rem; font-weight:560; margin:0; color:var(--paper);}
+.panel-num{font-family:var(--mono); color:var(--accent-primary); font-size:0.75rem; font-weight:600;}
+.panel h2{font-family:var(--display); font-size:1.0rem; font-weight:600; margin:0; color:var(--text-main);}
 
 .field{margin-bottom:14px;}
 .field:last-child{margin-bottom:0;}
 .field label{
-  display:block; font-size:0.78rem; color:var(--muted); margin-bottom:6px;
-  font-family:var(--mono); letter-spacing:0.01em;
+  display:block; font-size:0.82rem; color:var(--text-muted); margin-bottom:6px;
+  font-weight:500;
 }
 select, input[type="number"], input[type="text"]{
-  width:100%; background:var(--surface-2); border:1px solid var(--hairline);
-  color:var(--paper); border-radius:9px; padding:9px 11px; font-family:var(--body);
+  width:100%; background:var(--bg-surface-2); border:1px solid var(--border-main);
+  color:var(--text-main); border-radius:6px; padding:9px 11px; font-family:var(--body);
   font-size:0.92rem; outline:none; transition:border-color .15s, box-shadow .15s;
   appearance:none; -webkit-appearance:none;
 }
 select{
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1L7 7L13 1' stroke='%238B9AB3' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1L7 7L13 1' stroke='%2394a3b8' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");
   background-repeat:no-repeat; background-position:right 12px center; padding-right:32px;
 }
-select:focus, input:focus{border-color:var(--gold); box-shadow:0 0 0 3px var(--gold-soft);}
+select:focus, input:focus{
+  border-color:var(--accent-primary); 
+  box-shadow:0 0 0 2px var(--accent-primary-soft);
+}
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none; margin:0;}
 input[type="number"]{-moz-appearance:textfield;}
 .row2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
 
-.htext{font-family:var(--mono); color:var(--paper-dim); font-size:0.84rem;}
-
 /* alpha slider */
 .alpha-readout{
   display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px;
 }
-.alpha-readout .num{font-family:var(--display); font-size:1.9rem; color:var(--gold); font-weight:560;}
-.alpha-readout .lbl{font-family:var(--mono); font-size:0.78rem; color:var(--muted);}
+.alpha-readout .num{font-family:var(--display); font-size:1.9rem; color:var(--text-main); font-weight:700; letter-spacing:-0.02em;}
+.alpha-readout .lbl{font-family:var(--body); font-size:0.78rem; font-weight:500; color:var(--text-muted);}
 input[type="range"]{
   -webkit-appearance:none; width:100%; height:6px; border-radius:4px;
-  background:linear-gradient(90deg, var(--gold) 0%, var(--gold) var(--fill,20%), var(--hairline) var(--fill,20%), var(--hairline) 100%);
+  background:linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-primary) var(--fill,20%), var(--bg-surface-3) var(--fill,20%), var(--bg-surface-3) 100%);
   outline:none; margin:6px 0 2px;
 }
 input[type="range"]::-webkit-slider-thumb{
-  -webkit-appearance:none; width:18px; height:18px; border-radius:50%;
-  background:var(--gold); border:3px solid var(--ink); box-shadow:0 0 0 1px var(--gold), 0 2px 6px rgba(0,0,0,0.4);
-  cursor:pointer; margin-top:0px;
+  -webkit-appearance:none; width:16px; height:16px; border-radius:50%;
+  background:var(--accent-primary); box-shadow:0 0 0 3px var(--bg-surface);
+  cursor:pointer; transition:transform 0.1s;
 }
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
 input[type="range"]::-moz-range-thumb{
-  width:18px; height:18px; border-radius:50%; background:var(--gold); border:3px solid var(--ink);
-  box-shadow:0 0 0 1px var(--gold); cursor:pointer;
+  width:16px; height:16px; border-radius:50%; background:var(--accent-primary); border:3px solid var(--bg-surface);
+  cursor:pointer;
 }
 .alpha-ticks {
-  position: relative;
-  height: 14px; /* Maintains spacing since children are now absolute */
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  color: var(--muted);
-  margin-top: 4px;
+  position: relative; height: 14px;
+  font-family: var(--mono); font-size: 0.68rem; color: var(--text-muted); margin-top: 4px;
 }
-.alpha-ticks span {
-  position: absolute;
-}
+.alpha-ticks span { position: absolute; }
 
 /* ---------------- result column ---------------- */
 .result-panel{
-  background:var(--surface); border:1px solid var(--hairline); border-radius:var(--radius);
-  padding:26px 28px 28px;
+  background:var(--bg-surface); border:1px solid var(--border-main); border-radius:var(--radius);
+  padding:26px 28px 28px; box-shadow:var(--shadow-sm);
 }
 .badge-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:18px;}
 .badge{
-  font-family:var(--mono); font-size:0.74rem; letter-spacing:0.08em; text-transform:uppercase;
-  padding:6px 13px; border-radius:99px; border:1px solid;
+  font-family:var(--body); font-size:0.75rem; font-weight:600; letter-spacing:0.02em; 
+  padding:4px 10px; border-radius:6px; border:1px solid;
 }
-.badge.mp{color:var(--teal); border-color:var(--teal); background:var(--teal-soft);}
-.badge.ump{color:var(--teal); border-color:var(--teal); background:var(--teal-soft);}
-.badge.umpu{color:var(--gold); border-color:var(--gold); background:var(--gold-soft);}
-.badge.none{color:var(--coral); border-color:var(--coral); background:var(--coral-soft);}
-.badge-sub{color:var(--muted); font-size:0.86rem;}
+.badge.mp{color:var(--accent-primary); border-color:var(--accent-primary-soft); background:var(--accent-primary-soft);}
+.badge.ump{color:var(--accent-secondary); border-color:var(--accent-secondary-soft); background:var(--accent-secondary-soft);}
+.badge.umpu{color:var(--success); border-color:var(--success-soft); background:var(--success-soft);}
+.badge.none{color:var(--danger); border-color:var(--danger-soft); background:var(--danger-soft);}
+.badge-sub{color:var(--text-muted); font-size:0.86rem; font-weight:500;}
 
 .hyp-line{
-  font-family:var(--mono); font-size:1.18rem; color:var(--paper); margin:0 0 22px;
-  padding:14px 18px; background:var(--surface-2); border-radius:10px; border:1px solid var(--hairline-soft);
-  line-height:1.5;
+  font-family:var(--mono); font-size:1.1rem; color:var(--text-main); margin:0 0 22px;
+  padding:14px 18px; background:var(--bg-surface-2); border-radius:8px; border:1px solid var(--border-soft);
+  line-height:1.5; font-weight:500;
 }
-.hyp-line .vs{color:var(--muted); margin:0 10px; font-style:italic;}
-.hyp-line .h0{color:var(--paper-dim);}
-.hyp-line .h1{color:var(--gold);}
+.hyp-line .vs{color:var(--text-light); margin:0 12px; font-style:italic;}
+.hyp-line .h0{color:var(--text-main);}
+.hyp-line .h1{color:var(--accent-primary);}
 
 h3.section-title{
-  font-family:var(--display); font-size:0.98rem; font-weight:560; color:var(--paper);
-  margin:26px 0 12px; display:flex; align-items:center; gap:10px;
+  font-family:var(--display); font-size:0.95rem; font-weight:600; color:var(--text-main);
+  margin:26px 0 12px; display:flex; align-items:center; gap:10px; text-transform:uppercase; letter-spacing:0.04em;
 }
-h3.section-title::after{content:''; flex:1; height:1px; background:var(--hairline);}
+h3.section-title::after{content:''; flex:1; height:1px; background:var(--border-main);}
 
 ol.steps{list-style:none; margin:0; padding:0; counter-reset:step;}
 ol.steps li{
-  counter-increment:step; display:grid; grid-template-columns:30px 1fr; gap:12px;
-  padding:10px 0; border-bottom:1px solid var(--hairline-soft); font-size:0.92rem; line-height:1.62; color:var(--paper-dim);
+  counter-increment:step; display:grid; grid-template-columns:24px 1fr; gap:12px;
+  padding:12px 0; border-bottom:1px solid var(--border-soft); font-size:0.92rem; line-height:1.62; color:var(--text-muted);
 }
 ol.steps li:last-child{border-bottom:none;}
 ol.steps li::before{
-  content:counter(step, decimal-leading-zero); font-family:var(--mono); color:var(--gold); font-size:0.82rem; padding-top:1px;
+  content:counter(step); font-family:var(--mono); color:var(--text-light); font-size:0.82rem; font-weight:600; padding-top:1px;
 }
-ol.steps li b, ol.steps li strong{color:var(--paper); font-weight:600;}
-ol.steps li .formula{color:var(--teal); font-family:var(--mono);}
+ol.steps li b, ol.steps li strong{color:var(--text-main); font-weight:600;}
+ol.steps li .formula{color:var(--accent-primary); font-family:var(--mono); font-size:0.9em; background:var(--bg-surface-2); padding:2px 6px; border-radius:4px; border:1px solid var(--border-main);}
+
+/* ---------------- derivation accordion ---------------- */
+details.derivation {
+  margin-top: 14px;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-main);
+  border-radius: 6px;
+  box-shadow: var(--shadow-sm);
+}
+details.derivation summary {
+  cursor: pointer;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--accent-primary);
+  padding: 10px 14px;
+  list-style: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  transition: background 0.15s;
+  border-radius: 6px;
+}
+details.derivation summary:hover {
+  background: var(--bg-surface-3);
+}
+details.derivation summary::-webkit-details-marker {
+  display: none;
+}
+details.derivation summary::before {
+  content: '▸';
+  font-size: 1.1em;
+  margin-right: 8px;
+  color: var(--text-light);
+  transition: transform 0.2s ease;
+}
+details.derivation[open] summary {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 1px solid var(--border-main);
+  background: var(--bg-surface-3);
+}
+details.derivation[open] summary::before {
+  transform: rotate(90deg);
+}
+.derivation-content {
+  padding: 16px 18px;
+  font-size: 0.95em;
+  color: var(--text-main);
+  overflow-x: auto;
+}
+.deriv-step { margin-bottom: 22px; }
+.deriv-step:last-child { margin-bottom: 0; }
+.deriv-step-title {
+  font-weight: 600; color: var(--text-main); margin-bottom: 10px; font-size: 0.92em;
+  border-bottom: 1px solid var(--border-main); padding-bottom: 6px; font-family: var(--display);
+}
+.deriv-p { color: var(--text-muted); margin: 6px 0 10px; font-size: 0.9em; line-height: 1.6; }
+
 
 .testfn-card{
-  background:var(--surface-2); border:1px solid var(--hairline-soft); border-radius:12px;
+  background:var(--bg-surface-2); border:1px solid var(--border-main); border-radius:8px;
   padding:18px 20px 16px; margin-top:6px;
 }
 .testfn-card .katex-display{margin:2px 0 14px;}
-.testfn-card .katex{color:var(--paper); font-size:1.05em;}
+.testfn-card .katex{color:var(--text-main); font-size:1.05em;}
 .accept-line{
-  font-size:0.92rem; color:var(--paper-dim); line-height:1.6;
-  padding-top:14px; border-top:1px solid var(--hairline-soft); margin:0;
+  font-size:0.92rem; color:var(--text-muted); line-height:1.6;
+  padding-top:14px; border-top:1px solid var(--border-main); margin:0;
 }
-.accept-line b{color:var(--gold); font-family:var(--mono); font-weight:600;}
+.accept-line b{color:var(--accent-primary); font-family:var(--mono); font-weight:600;}
 
 .chart-card{
-  background:var(--surface-2); border:1px solid var(--hairline-soft); border-radius:12px;
+  background:var(--bg-surface-2); border:1px solid var(--border-main); border-radius:8px;
   padding:16px 16px 8px; margin-top:6px;
 }
 .chart-card svg{display:block; width:100%; height:auto;}
-.legend{display:flex; gap:18px; flex-wrap:wrap; padding:10px 4px 2px; font-size:0.78rem; color:var(--muted); font-family:var(--mono);}
+.legend{display:flex; gap:18px; flex-wrap:wrap; padding:10px 4px 2px; font-size:0.8rem; color:var(--text-muted); font-weight:500;}
 .legend span{display:inline-flex; align-items:center; gap:7px; margin-right:16px;}
-.legend i{width:11px; height:11px; border-radius:3px; display:inline-block;}
+.legend i{width:12px; height:12px; border-radius:3px; display:inline-block;}
 
 .stats-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-top:18px;}
-.stat{background:var(--surface-2); border:1px solid var(--hairline-soft); border-radius:10px; padding:12px 14px;}
-.stat .k{font-family:var(--mono); font-size:0.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:5px;}
-.stat .v{font-family:var(--display); font-size:1.28rem; color:var(--paper); font-weight:560;}
-.stat .v small{font-family:var(--mono); font-size:0.72rem; color:var(--muted); font-weight:400; margin-left:4px;}
+.stat{background:var(--bg-surface-2); border:1px solid var(--border-main); border-radius:8px; padding:12px 14px;}
+.stat .k{font-family:var(--body); font-size:0.75rem; color:var(--text-muted); font-weight:600; margin-bottom:5px;}
+.stat .v{font-family:var(--display); font-size:1.2rem; color:var(--text-main); font-weight:700;}
+.stat .v small{font-family:var(--mono); font-size:0.72rem; color:var(--text-light); font-weight:500; margin-left:6px;}
 
 .callout{
-  margin-top:18px; padding:14px 16px; border-radius:10px; border:1px dashed var(--hairline);
-  font-size:0.87rem; color:var(--paper-dim); line-height:1.6;
+  margin-top:18px; padding:14px 16px; border-radius:8px; border:1px solid var(--border-main);
+  font-size:0.87rem; color:var(--text-muted); line-height:1.6; background:var(--bg-surface-2);
 }
-.callout.gold{border-color:var(--gold); background:var(--gold-soft);}
-.callout.coral{border-color:var(--coral); background:var(--coral-soft);}
-.callout b{color:var(--paper);}
-.callout .compare-row{display:flex; gap:28px; margin-top:8px; flex-wrap:wrap;}
-.callout .compare-row div{font-family:var(--mono); font-size:0.84rem;}
-.callout .compare-row .tag{display:block; color:var(--muted); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.callout.gold{border-color:var(--accent-secondary-soft); background:var(--accent-secondary-soft); color:var(--text-main);}
+.callout.coral{border-color:var(--danger-soft); background:var(--danger-soft); color:var(--text-main);}
+.callout b{color:var(--text-main);}
+.callout .compare-row{display:flex; gap:28px; margin-top:10px; flex-wrap:wrap;}
+.callout .compare-row div{font-family:var(--mono); font-size:0.84rem; background:var(--bg-surface); padding:8px 12px; border-radius:6px; border:1px solid var(--border-main);}
+.callout .compare-row .tag{display:block; color:var(--text-muted); font-family:var(--body); font-size:0.7rem; font-weight:600; text-transform:uppercase; margin-bottom:4px;}
 
 footer.note{
-  margin-top:40px; padding-top:20px; border-top:1px solid var(--hairline);
-  color:var(--muted); font-size:0.82rem; line-height:1.6; max-width:880px;
+  margin-top:40px; padding-top:20px; border-top:1px solid var(--border-main);
+  color:var(--text-muted); font-size:0.82rem; line-height:1.6; max-width:880px;
 }
 
-@media (prefers-reduced-motion:no-preference){
-  .panel, .result-panel{transition:border-color .2s;}
-}
-
+/* ---------------- landing page ---------------- */
 .landing{
   position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center;
-  background:
-    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(95,194,186,0.08), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 100% 10%, rgba(215,168,93,0.07), transparent 55%),
-    var(--ink);
+  background: radial-gradient(ellipse at top, var(--bg-surface), var(--bg-body)), var(--bg-body);
   flex-direction:column; text-align:center; padding:40px; overflow:hidden;
-  transition:opacity .5s ease;
+  transition:opacity .4s ease, visibility .4s;
 }
-.landing.hidden{opacity:0; pointer-events:none;}
+.landing.hidden{opacity:0; visibility:hidden;}
 .landing-bg{position:absolute; left:0; right:0; bottom:0; width:100%; height:62%; pointer-events:none;}
 .landing-content{position:relative; z-index:1; max-width:620px;}
 .landing-title{
-  font-family:var(--display); font-weight:560; font-size:clamp(2.6rem,7vw,4.6rem);
-  line-height:1.05; margin:22px 0 18px; color:var(--paper); letter-spacing:-0.01em;
+  font-family:var(--display); font-weight:800; font-size:clamp(2.6rem,7vw,4.6rem);
+  line-height:1.05; margin:16px 0 18px; color:var(--text-main); letter-spacing:-0.04em;
 }
-.landing-title .accent{color:var(--gold);}
-.landing-sub{color:var(--muted); font-size:1.02rem; line-height:1.65; margin:0 auto 38px; max-width:480px;}
+.landing-title .accent{color:var(--accent-primary); text-shadow: 0 0 24px var(--accent-primary-soft);}
+.landing-sub{color:var(--text-muted); font-size:1.05rem; line-height:1.65; margin:0 auto 38px; max-width:480px;}
 .enter-btn{
-  font-family:var(--mono); font-size:0.92rem; letter-spacing:0.03em; color:var(--ink); background:var(--gold);
-  border:none; padding:15px 32px; border-radius:99px; cursor:pointer; font-weight:600;
+  font-family:var(--body); font-size:0.95rem; color:var(--bg-body); background:var(--accent-primary);
+  border:none; padding:14px 32px; border-radius:6px; cursor:pointer; font-weight:600;
   display:inline-flex; align-items:center; gap:10px; transition:transform .15s ease, box-shadow .15s ease;
+  box-shadow: 0 0 15px var(--accent-primary-soft);
 }
-.enter-btn:hover{transform:translateY(-2px); box-shadow:0 10px 28px rgba(215,168,93,0.32);}
+.enter-btn:hover{transform:translateY(-1px); box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);}
 .enter-btn .arrow{display:inline-block; transition:transform .15s ease;}
 .enter-btn:hover .arrow{transform:translateX(4px);}
-.landing-meta{margin-top:26px; color:var(--muted); font-size:0.76rem; font-family:var(--mono); letter-spacing:0.04em;}
+.landing-meta{margin-top:26px; color:var(--text-light); font-size:0.8rem; font-weight:500;}
 
 </style>
 </head>
 <body>
 <div id="landingPage" class="landing">
   <svg class="landing-bg" viewBox="0 0 1200 460" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-    <path d="M 937.5 450.0 L 937.5 292.2 L 942.8 301.8 L 948.0 311.2 L 953.3 320.3 L 958.5 329.1 L 963.8 337.5 L 969.0 345.5 L 974.3 353.2 L 979.5 360.5 L 984.7 367.5 L 990.0 374.0 L 995.3 380.2 L 1000.5 386.1 L 1005.8 391.5 L 1011.0 396.6 L 1016.3 401.4 L 1021.5 405.9 L 1026.8 410.0 L 1032.0 413.8 L 1037.3 417.3 L 1042.5 420.6 L 1047.8 423.6 L 1053.0 426.3 L 1058.3 428.8 L 1063.5 431.1 L 1068.8 433.1 L 1074.0 435.0 L 1079.3 436.7 L 1084.5 438.2 L 1089.8 439.6 L 1095.0 440.8 L 1100.3 441.9 L 1105.5 442.9 L 1110.8 443.8 L 1116.0 444.6 L 1121.3 445.3 L 1126.5 445.9 L 1131.8 446.4 L 1137.0 446.9 L 1142.3 447.3 L 1147.5 447.7 L 1152.8 448.0 L 1158.0 448.3 L 1163.3 448.5 L 1168.5 448.8 L 1173.8 448.9 L 1179.0 449.1 L 1184.3 449.2 L 1189.5 449.4 L 1194.8 449.5 L 1200.0 449.5 L 1200.0 450.0 Z" fill="var(--coral)" opacity="0.10"/>
-    <path d="M 0.0 449.5 L 60.0 448.3 L 120.0 444.7 L 180.0 435.6 L 240.0 416.3 L 300.0 381.6 L 360.0 330.0 L 420.0 267.9 L 480.0 210.9 L 540.0 178.5 L 565.0 175.8 L 600.0 183.4 L 660.0 223.6 L 720.0 283.7 L 780.0 344.3 L 840.0 391.9 L 900.0 422.4 L 960.0 438.7 L 1020.0 446.0 L 1080.0 448.8 L 1140.0 449.7 L 1200.0 449.9" fill="none" stroke="var(--teal)" stroke-width="2.2" opacity="0.22"/>
-    <path d="M 0.0 450.0 L 60.0 450.0 L 120.0 450.0 L 180.0 450.0 L 240.0 450.0 L 300.0 450.0 L 360.0 450.0 L 420.0 448.2 L 480.0 440.8 L 540.0 415.9 L 600.0 354.3 L 660.0 248.0 L 720.0 129.3 L 750.0 86.8 L 787.5 66.2 L 825.0 86.8 L 855.0 129.3 L 915.0 248.0 L 975.0 354.3 L 1035.0 415.9 L 1095.0 440.8 L 1155.0 448.2 L 1200.0 449.5" fill="none" stroke="var(--gold)" stroke-width="2.2" opacity="0.30"/>
-    <line x1="0" y1="450" x2="1200" y2="450" stroke="var(--hairline)" stroke-width="1.5" opacity="0.5"/>
+    <path d="M 937.5 450.0 L 937.5 292.2 L 942.8 301.8 L 948.0 311.2 L 953.3 320.3 L 958.5 329.1 L 963.8 337.5 L 969.0 345.5 L 974.3 353.2 L 979.5 360.5 L 984.7 367.5 L 990.0 374.0 L 995.3 380.2 L 1000.5 386.1 L 1005.8 391.5 L 1011.0 396.6 L 1016.3 401.4 L 1021.5 405.9 L 1026.8 410.0 L 1032.0 413.8 L 1037.3 417.3 L 1042.5 420.6 L 1047.8 423.6 L 1053.0 426.3 L 1058.3 428.8 L 1063.5 431.1 L 1068.8 433.1 L 1074.0 435.0 L 1079.3 436.7 L 1084.5 438.2 L 1089.8 439.6 L 1095.0 440.8 L 1100.3 441.9 L 1105.5 442.9 L 1110.8 443.8 L 1116.0 444.6 L 1121.3 445.3 L 1126.5 445.9 L 1131.8 446.4 L 1137.0 446.9 L 1142.3 447.3 L 1147.5 447.7 L 1152.8 448.0 L 1158.0 448.3 L 1163.3 448.5 L 1168.5 448.8 L 1173.8 448.9 L 1179.0 449.1 L 1184.3 449.2 L 1189.5 449.4 L 1194.8 449.5 L 1200.0 449.5 L 1200.0 450.0 Z" fill="var(--accent-primary)" opacity="0.08"/>
+    <path d="M 0.0 449.5 L 60.0 448.3 L 120.0 444.7 L 180.0 435.6 L 240.0 416.3 L 300.0 381.6 L 360.0 330.0 L 420.0 267.9 L 480.0 210.9 L 540.0 178.5 L 565.0 175.8 L 600.0 183.4 L 660.0 223.6 L 720.0 283.7 L 780.0 344.3 L 840.0 391.9 L 900.0 422.4 L 960.0 438.7 L 1020.0 446.0 L 1080.0 448.8 L 1140.0 449.7 L 1200.0 449.9" fill="none" stroke="var(--border-main)" stroke-width="2.2" opacity="0.8"/>
+    <path d="M 0.0 450.0 L 60.0 450.0 L 120.0 450.0 L 180.0 450.0 L 240.0 450.0 L 300.0 450.0 L 360.0 450.0 L 420.0 448.2 L 480.0 440.8 L 540.0 415.9 L 600.0 354.3 L 660.0 248.0 L 720.0 129.3 L 750.0 86.8 L 787.5 66.2 L 825.0 86.8 L 855.0 129.3 L 915.0 248.0 L 975.0 354.3 L 1035.0 415.9 L 1095.0 440.8 L 1155.0 448.2 L 1200.0 449.5" fill="none" stroke="var(--accent-primary)" stroke-width="2.2" opacity="0.4"/>
+    <line x1="0" y1="450" x2="1200" y2="450" stroke="var(--border-main)" stroke-width="1.5"/>
   </svg>
   <div class="landing-content">
     <p class="eyebrow"><span class="dot"></span>Hypothesis Testing Instrument</p>
-    <h1 class="landing-title">Neyman - Pearson<br><span class="accent">Lab</span></h1>
-    <p class="landing-sub">Most powerful, UMP, and UMPU test derivation, built live from the Neyman - Pearson lemma - with the full proof, the test function, and the critical region for every distribution.</p>
-    <button id="enterLabBtn" class="enter-btn">Enter the lab <span class="arrow">&rarr;</span></button>
+    <h1 class="landing-title">Neyman-Pearson<br><span class="accent">Lab</span></h1>
+    <p class="landing-sub">Most powerful, UMP, and UMPU test derivation, built live from the Neyman-Pearson lemma — with the full proof, the test function, and the critical region.</p>
+    <button id="enterLabBtn" class="enter-btn">Enter Workspace <span class="arrow">&rarr;</span></button>
     <p class="landing-meta">9 distributions &middot; exact derivations &middot; live critical regions</p>
   </div>
 </div>
@@ -282,17 +338,17 @@ document.getElementById('enterLabBtn').addEventListener('click', function () {
   var landing = document.getElementById('landingPage');
   landing.classList.add('hidden');
   document.getElementById('mainShell').style.display = '';
-  setTimeout(function () { landing.style.display = 'none'; }, 500);
+  setTimeout(function () { landing.style.display = 'none'; }, 400);
 });
 </script>
 <div class="shell" id="mainShell" style="display:none;">
   <header class="hero">
     <div class="hero-text">
-      <p class="eyebrow"><span class="dot"></span>Hypothesis Testing Instrument</p>
+      <p class="eyebrow"><span class="dot"></span>Interactive Lab</p>
       <h1 class="title">Find the most powerful test.</h1>
-      <p class="subtitle">Choose a distribution and a pair of hypotheses. The Neyman - Pearson lemma, the Karlin - Rubin theorem, and the unbiasedness condition for UMPU tests build the optimal rejection region in front of you - live, with the full derivation.</p>
+      <p class="subtitle">Choose a distribution and hypotheses. The Neyman-Pearson lemma, the Karlin-Rubin theorem, and the unbiasedness condition construct the optimal rejection region live.</p>
     </div>
-    <p class="scope-note"><strong>Scope.</strong> Exact for nine one-parameter families with closed-form sampling distributions for their sufficient statistic. Two-sided UMPU is solved numerically for continuous families; discrete two-sided tests are flagged, not silently approximated.</p>
+    <p class="scope-note"><strong>Scope.</strong> Exact for nine one-parameter families with closed-form sampling distributions. Two-sided UMPU is solved numerically for continuous families; discrete two-sided tests are flagged.</p>
   </header>
 
   <div class="workspace">
@@ -341,10 +397,10 @@ document.getElementById('enterLabBtn').addEventListener('click', function () {
       </div>
 
       <div class="panel">
-        <div class="panel-head"><span class="panel-num">04</span><h2>Significance level</h2></div>
+        <div class="panel-head"><span class="panel-num">04</span><h2>Significance</h2></div>
         <div class="alpha-readout">
           <span class="num" id="alphaNum">0.050</span>
-          <span class="lbl">&alpha; - Type I error rate</span>
+          <span class="lbl">&alpha; (Type I error)</span>
         </div>
         <input type="range" id="alphaSlider" min="0.01" max="0.25" step="0.005" value="0.05">
         <div class="alpha-ticks">
@@ -385,7 +441,7 @@ document.getElementById('enterLabBtn').addEventListener('click', function () {
       </div>
 
       <footer class="note">
-        This tool covers nine classical one-parameter families, chosen because each has a sufficient statistic with a closed-form sampling distribution: Normal mean &amp; variance, Exponential rate, Poisson mean, Binomial p, Gamma rate, Uniform upper bound, Lognormal log-mean, and Beta(&alpha;,1) shape. Critical values for discrete statistics (Poisson, Binomial) use a randomized boundary test to hit the target &alpha; exactly - shown as a split-coloured bar. Two-sided UMPU tests are solved numerically from the unbiasedness condition &beta;&prime;(&theta;&#8320;) = 0 for continuous families; for Poisson/Binomial and the Uniform boundary parameter, an exact two-sided UMPU test requires further randomized-boundary machinery this tool flags rather than approximates silently.
+        This tool covers nine classical one-parameter families, chosen because each has a sufficient statistic with a closed-form sampling distribution. Critical values for discrete statistics (Poisson, Binomial) use a randomized boundary test to hit the target &alpha; exactly - shown as a split-coloured bar. Two-sided UMPU tests are solved numerically from the unbiasedness condition &beta;&prime;(&theta;&#8320;) = 0 for continuous families; exact two-sided UMPU tests for discrete families are flagged.
       </footer>
     </div>
   </div>
@@ -417,12 +473,12 @@ function erf(x) {
 function normalCDF(x, mu, sigma) { return 0.5*(1+erf((x-mu)/(sigma*Math.SQRT2))); }
 function normalPDF(x, mu, sigma) { return Math.exp(-0.5*Math.pow((x-mu)/sigma,2))/(sigma*Math.sqrt(2*Math.PI)); }
 
-function gser(s, x) { // series, x < s+1
+function gser(s, x) {
   let sum = 1/s, term = 1/s, ap = s;
   for (let i=0;i<500;i++){ ap+=1; term*=x/ap; sum+=term; if (Math.abs(term)<Math.abs(sum)*1e-15) break; }
   return sum*Math.exp(-x+s*Math.log(x)-lgamma(s));
 }
-function gcf(s, x) { // continued fraction -> Q(s,x), x >= s+1
+function gcf(s, x) {
   const FPMIN=1e-300; let b=x+1-s, c=1/FPMIN, d=1/b, h=d;
   for (let i=1;i<500;i++){
     const an=-i*(i-s); b+=2; d=an*d+b; if (Math.abs(d)<FPMIN) d=FPMIN;
@@ -465,11 +521,9 @@ function binomialCDF(k, n, p) {
 }
 
 const MC = { lgamma, erf, normalCDF, normalPDF, gammaCDF, gammaPDF, poissonPMF, poissonCDF, binomialPMF, binomialCDF };
-if (typeof module !== 'undefined') module.exports = MC;
 
 // ============================================================
-// engine.js - generic numeric solvers for NP / UMP / UMPU tests
-// All functions here operate on already-theta-fixed pdf/cdf closures.
+// engine.js 
 // ============================================================
 
 function bisectGeneric(f, target, lo, hi, iters = 200) {
@@ -508,7 +562,6 @@ function continuousOneSidedCriticalGeneric(cdf0, alpha, direction, lo, hi) {
 
 function discreteOneSidedCriticalGeneric(pmf0, cdf0, alpha, direction, kmax) {
   if (direction === 'upper') {
-    // binary search for smallest m with cdf0(m) >= 1-alpha; reject region is then T >= m+1
     let lo = -1, hi = kmax + 1;
     while (hi - lo > 1) {
       const mid = Math.floor((lo + hi) / 2);
@@ -520,7 +573,6 @@ function discreteOneSidedCriticalGeneric(pmf0, cdf0, alpha, direction, kmax) {
     const gamma = pAt > 1e-15 ? (alpha - pGE) / pAt : 0;
     return { c, boundary: m, gamma: Math.max(0, Math.min(1, gamma)), achievedNonRandom: pGE, randomized: gamma > 1e-9 };
   } else {
-    // binary search for largest c with cdf0(c) <= alpha
     let lo = -1, hi = kmax + 1;
     while (hi - lo > 1) {
       const mid = Math.floor((lo + hi) / 2);
@@ -572,14 +624,10 @@ const EN = {
   discreteOneSidedCriticalGeneric, twoSidedUMPUGeneric, partialMomentGeneric,
 };
 
-if (typeof module !== 'undefined') module.exports = EN;
-
 // ============================================================
-// statlib.js  - distribution catalog + unified derivation engine
-// (depends on mathcore.js + engine.js being loaded first when bundled)
+// statlib.js 
 // ============================================================
 
-// ---------- T-statistic families ----------
 const Families = {
   normal: {
     discrete: false,
@@ -621,15 +669,10 @@ const Families = {
   },
 };
 
-// ---------- Distribution / parameter cases ----------
-// each case: family, paramsFor(theta, nuis, n), labels, defaults, statistic description
 const Cases = {
   normal_mean: {
-    id: 'normal_mean',
-    familyLabel: 'Normal (Gaussian)',
-    paramLabel: 'Mean μ  (σ known)',
-    thetaSymbol: 'μ',
-    family: 'normal',
+    id: 'normal_mean', familyLabel: 'Normal (Gaussian)', paramLabel: 'Mean μ  (σ known)',
+    thetaSymbol: 'μ', family: 'normal',
     nuisance: [{ key: 'sigma', label: 'Known σ', default: 2, min: 0.1, max: 20, step: 0.1 }],
     nDefault: 25, theta0Default: 10, theta1Default: 11,
     paramsFor: (theta, nu, n) => ({ mean: theta, sd: nu.sigma / Math.sqrt(n) }),
@@ -637,12 +680,8 @@ const Cases = {
     sampleDistHTML: (nu, n) => `X&#772; ~ N(&mu;, &sigma;&sup2;/n) &nbsp; with &sigma;&sup2;/n = ${(nu.sigma * nu.sigma / n).toFixed(4)}`,
   },
   normal_var: {
-    id: 'normal_var',
-    thetaMin: 0.01,
-familyLabel: 'Normal (Gaussian)',
-    paramLabel: 'Variance σ²  (μ known)',
-    thetaSymbol: 'σ²',
-    family: 'gamma',
+    id: 'normal_var', thetaMin: 0.01, familyLabel: 'Normal (Gaussian)', paramLabel: 'Variance σ²  (μ known)',
+    thetaSymbol: 'σ²', family: 'gamma',
     nuisance: [{ key: 'mu', label: 'Known μ', default: 0, min: -20, max: 20, step: 0.1 }],
     nDefault: 16, theta0Default: 4, theta1Default: 6,
     paramsFor: (theta, nu, n) => ({ shape: n / 2, rate: 1 / (2 * theta) }),
@@ -650,51 +689,32 @@ familyLabel: 'Normal (Gaussian)',
     sampleDistHTML: (nu, n) => `T / &sigma;&sup2; ~ &chi;&sup2;<sub>${n}</sub>, i.e. T ~ Gamma(shape = n/2, rate = 1/2&sigma;&sup2;)`,
   },
   exponential_rate: {
-    id: 'exponential_rate',
-    thetaMin: 0.01,
-familyLabel: 'Exponential',
-    paramLabel: 'Rate λ',
-    thetaSymbol: 'λ',
-    family: 'gamma',
-    nuisance: [],
+    id: 'exponential_rate', thetaMin: 0.01, familyLabel: 'Exponential', paramLabel: 'Rate λ',
+    thetaSymbol: 'λ', family: 'gamma', nuisance: [],
     nDefault: 15, theta0Default: 1, theta1Default: 1.6,
     paramsFor: (theta, nu, n) => ({ shape: n, rate: theta }),
     statisticHTML: 'T = &Sigma; X<sub>i</sub>',
     sampleDistHTML: (nu, n) => `T ~ Gamma(shape = n = ${n}, rate = &lambda;)`,
   },
   poisson_mean: {
-    id: 'poisson_mean',
-    thetaMin: 0.01,
-familyLabel: 'Poisson',
-    paramLabel: 'Mean λ',
-    thetaSymbol: 'λ',
-    family: 'poisson',
-    nuisance: [],
+    id: 'poisson_mean', thetaMin: 0.01, familyLabel: 'Poisson', paramLabel: 'Mean λ',
+    thetaSymbol: 'λ', family: 'poisson', nuisance: [],
     nDefault: 15, theta0Default: 5, theta1Default: 7,
     paramsFor: (theta, nu, n) => ({ lambda: n * theta }),
     statisticHTML: 'T = &Sigma; X<sub>i</sub>',
     sampleDistHTML: (nu, n) => `T ~ Poisson(n&lambda;), n&lambda;&#8320; = ${n} &times; &lambda;&#8320;`,
   },
   binomial_p: {
-    id: 'binomial_p',
-    familyLabel: 'Bernoulli / Binomial',
-    paramLabel: 'Success probability p',
-    thetaSymbol: 'p',
-    family: 'binomial',
-    nuisance: [],
-    nDefault: 30, theta0Default: 0.5, theta1Default: 0.65,
-    thetaBounds: [0.001, 0.999],
+    id: 'binomial_p', familyLabel: 'Bernoulli / Binomial', paramLabel: 'Success probability p',
+    thetaSymbol: 'p', family: 'binomial', nuisance: [],
+    nDefault: 30, theta0Default: 0.5, theta1Default: 0.65, thetaBounds: [0.001, 0.999],
     paramsFor: (theta, nu, n) => ({ n: n, p: theta }),
     statisticHTML: 'T = &Sigma; X<sub>i</sub> &nbsp; (# of successes)',
     sampleDistHTML: (nu, n) => `T ~ Binomial(n = ${n}, p)`,
   },
   gamma_rate: {
-    id: 'gamma_rate',
-    thetaMin: 0.01,
-familyLabel: 'Gamma',
-    paramLabel: 'Rate β  (shape k known)',
-    thetaSymbol: 'β',
-    family: 'gamma',
+    id: 'gamma_rate', thetaMin: 0.01, familyLabel: 'Gamma', paramLabel: 'Rate β  (shape k known)',
+    thetaSymbol: 'β', family: 'gamma',
     nuisance: [{ key: 'k', label: 'Known shape k', default: 2, min: 0.2, max: 20, step: 0.1 }],
     nDefault: 12, theta0Default: 1, theta1Default: 1.7,
     paramsFor: (theta, nu, n) => ({ shape: n * nu.k, rate: theta }),
@@ -702,25 +722,16 @@ familyLabel: 'Gamma',
     sampleDistHTML: (nu, n) => `T ~ Gamma(shape = nk = ${(n * nu.k).toFixed(2)}, rate = &beta;)`,
   },
   uniform_theta: {
-    id: 'uniform_theta',
-    thetaMin: 0.01,
-familyLabel: 'Uniform (0, θ)',
-    paramLabel: 'Upper bound θ',
-    thetaSymbol: 'θ',
-    family: 'maxuniform',
-    nuisance: [],
-    nDefault: 10, theta0Default: 5, theta1Default: 7,
-    noTwoSided: true,
+    id: 'uniform_theta', thetaMin: 0.01, familyLabel: 'Uniform (0, θ)', paramLabel: 'Upper bound θ',
+    thetaSymbol: 'θ', family: 'maxuniform', nuisance: [],
+    nDefault: 10, theta0Default: 5, theta1Default: 7, noTwoSided: true,
     paramsFor: (theta, nu, n) => ({ theta: theta, n: n }),
     statisticHTML: 'T = max(X&#8321;, &hellip;, X<sub>n</sub>)',
     sampleDistHTML: (nu, n) => `F<sub>T</sub>(t) = (t/&theta;)<sup>n</sup>, &nbsp; n = ${n}`,
   },
   lognormal_mean: {
-    id: 'lognormal_mean',
-    familyLabel: 'Lognormal',
-    paramLabel: 'log-mean μ  (σ known)',
-    thetaSymbol: 'μ',
-    family: 'normal',
+    id: 'lognormal_mean', familyLabel: 'Lognormal', paramLabel: 'log-mean μ  (σ known)',
+    thetaSymbol: 'μ', family: 'normal',
     nuisance: [{ key: 'sigma', label: 'Known σ (of log X)', default: 1, min: 0.1, max: 10, step: 0.1 }],
     nDefault: 20, theta0Default: 0, theta1Default: 0.7,
     paramsFor: (theta, nu, n) => ({ mean: n * theta, sd: Math.sqrt(n) * nu.sigma }),
@@ -728,13 +739,8 @@ familyLabel: 'Uniform (0, θ)',
     sampleDistHTML: (nu, n) => `ln X<sub>i</sub> ~ N(&mu;, &sigma;&sup2;) &rArr; T ~ N(n&mu;, n&sigma;&sup2;)`,
   },
   beta_alpha: {
-    id: 'beta_alpha',
-    thetaMin: 0.01,
-familyLabel: 'Beta (β = 1 fixed)',
-    paramLabel: 'Shape α',
-    thetaSymbol: 'α',
-    family: 'gamma',
-    nuisance: [],
+    id: 'beta_alpha', thetaMin: 0.01, familyLabel: 'Beta (β = 1 fixed)', paramLabel: 'Shape α',
+    thetaSymbol: 'α', family: 'gamma', nuisance: [],
     nDefault: 15, theta0Default: 2, theta1Default: 3,
     paramsFor: (theta, nu, n) => ({ shape: n, rate: theta }),
     statisticHTML: 'T = &minus;&Sigma; ln X<sub>i</sub>',
@@ -742,7 +748,6 @@ familyLabel: 'Beta (β = 1 fixed)',
   },
 };
 
-// ---------- unified result builder ----------
 function buildTest(caseId, opts) {
   const cfg = Cases[caseId];
   const fam = Families[cfg.family];
@@ -757,94 +762,53 @@ function buildTest(caseId, opts) {
   const result = { caseId, cfg, fam, cdf, pdfOrPmf, meanFn, domain0, theta0, alpha, h0Type, h1Type };
 
   if (h1Type === 'simple') {
-    // ---- Neyman-Pearson, simple vs simple ----
     const dir = EN.detectDirectionGeneric(pdfOrPmf, theta0, theta1, domain0, fam.discrete);
-    result.testType = 'NP';
-    result.direction = dir;
-    if (fam.discrete) {
-      const r = EN.discreteOneSidedCriticalGeneric((k) => pdfOrPmf(k, theta0), (k) => cdf(k, theta0), alpha, dir, domain0[1]);
-      Object.assign(result, r);
-    } else {
-      const r = EN.continuousOneSidedCriticalGeneric((t) => cdf(t, theta0), alpha, dir, domain0[0] - 1, domain0[1] + 1);
-      Object.assign(result, r);
-    }
+    result.testType = 'NP'; result.direction = dir;
+    if (fam.discrete) Object.assign(result, EN.discreteOneSidedCriticalGeneric((k) => pdfOrPmf(k, theta0), (k) => cdf(k, theta0), alpha, dir, domain0[1]));
+    else Object.assign(result, EN.continuousOneSidedCriticalGeneric((t) => cdf(t, theta0), alpha, dir, domain0[0] - 1, domain0[1] + 1));
   } else if (h1Type === 'gt' || h1Type === 'lt') {
-    // ---- UMP via Karlin-Rubin (MLR) ----
-    // Direction of the rejection region depends on how T's distribution actually
-    // moves as theta increases (NOT simply h1Type) - e.g. for a *rate* parameter,
-    // increasing theta SHRINKS T, so theta>theta0 rejects for SMALL T.
     const eps = Math.max(1e-3, Math.abs(theta0) * 1e-3);
     const dirForGt = EN.detectDirectionGeneric(pdfOrPmf, theta0, theta0 + eps, domain0, fam.discrete);
     const flip = (d) => (d === 'upper' ? 'lower' : 'upper');
     const dir = h1Type === 'gt' ? dirForGt : flip(dirForGt);
-    result.testType = 'UMP';
-    result.direction = dir;
-    if (fam.discrete) {
-      const r = EN.discreteOneSidedCriticalGeneric((k) => pdfOrPmf(k, theta0), (k) => cdf(k, theta0), alpha, dir, domain0[1]);
-      Object.assign(result, r);
-    } else {
-      const r = EN.continuousOneSidedCriticalGeneric((t) => cdf(t, theta0), alpha, dir, domain0[0] - 1, domain0[1] + 1);
-      Object.assign(result, r);
-    }
+    result.testType = 'UMP'; result.direction = dir;
+    if (fam.discrete) Object.assign(result, EN.discreteOneSidedCriticalGeneric((k) => pdfOrPmf(k, theta0), (k) => cdf(k, theta0), alpha, dir, domain0[1]));
+    else Object.assign(result, EN.continuousOneSidedCriticalGeneric((t) => cdf(t, theta0), alpha, dir, domain0[0] - 1, domain0[1] + 1));
   } else if (h1Type === 'neq') {
     result.testType = 'UMPU';
     if (fam.discrete) {
       result.unsupported = true;
     } else {
       const mean0 = meanFn(theta0);
-      const pdf0 = (t) => pdfOrPmf(t, theta0);
-      const cdf0 = (t) => cdf(t, theta0);
       const lo = domain0[0], hi = domain0[1];
-      const guess1 = mean0 - (mean0 - lo) * 0.35;
-      const guess2 = mean0 + (hi - mean0) * 0.35;
-      const { c1, c2 } = EN.twoSidedUMPUGeneric(cdf0, pdf0, mean0, alpha, lo - (mean0 - lo), hi + (hi - mean0), guess1, guess2);
+      const { c1, c2 } = EN.twoSidedUMPUGeneric((t) => cdf(t, theta0), (t) => pdfOrPmf(t, theta0), mean0, alpha, lo - (mean0 - lo), hi + (hi - mean0), mean0 - (mean0 - lo) * 0.35, mean0 + (hi - mean0) * 0.35);
       result.c1 = c1; result.c2 = c2; result.mean0 = mean0;
-      // also compute naive equal-tailed for comparison
-      result.naiveC1 = EN.bisectGeneric(cdf0, alpha / 2, lo - (mean0 - lo) * 2, hi + (hi - mean0) * 2);
-      result.naiveC2 = EN.bisectGeneric(cdf0, 1 - alpha / 2, lo - (mean0 - lo) * 2, hi + (hi - mean0) * 2);
+      result.naiveC1 = EN.bisectGeneric((t) => cdf(t, theta0), alpha / 2, lo - (mean0 - lo) * 2, hi + (hi - mean0) * 2);
+      result.naiveC2 = EN.bisectGeneric((t) => cdf(t, theta0), 1 - alpha / 2, lo - (mean0 - lo) * 2, hi + (hi - mean0) * 2);
     }
   }
   return result;
 }
 
-if (typeof module !== 'undefined') module.exports = { Families, Cases, buildTest };
-
 // ============================================================
-// chart.js - renders the pdf/pmf with shaded critical region(s) as an SVG string
-// Pure function: buildChartSVG(opts) -> svg markup (string)
+// chart.js 
 // ============================================================
-
 function buildChartSVG(opts) {
-  const {
-    pdfOrPmf,      // (t) => density/mass at theta0
-    pdfOrPmf1,     // optional (t) => density/mass at theta1 (simple-vs-simple overlay)
-    discrete,
-    lo, hi,
-    region,        // {type:'upper', c} | {type:'lower', c} | {type:'two', c1, c2}
-    randomized,    // {boundary, gamma, direction} or null
-    theta0Label, theta1Label,
-    width = 720, height = 380,
-    colors = {},
-  } = opts;
-
+  const { pdfOrPmf, pdfOrPmf1, discrete, lo, hi, region, randomized, width = 720, height = 380, colors = {} } = opts;
   const C = Object.assign({
-    curve0: '#5FC2BA', curve1: '#D7A85D', reject: '#E0673F',
-    accept: 'rgba(95,194,186,0.10)', axis: '#33455F', text: '#9FB0C7',
-    grid: '#1E2E45', critLine: '#D7A85D',
+    curve0: 'var(--accent-primary)', curve1: 'var(--success)', reject: 'var(--danger)',
+    axis: 'var(--border-main)', text: 'var(--text-muted)', critLine: 'var(--success)',
   }, colors);
 
   const M = { top: 26, right: 28, bottom: 40, left: 18 };
-  const plotW = width - M.left - M.right;
-  const plotH = height - M.top - M.bottom;
+  const plotW = width - M.left - M.right, plotH = height - M.top - M.bottom;
 
-  // --- sample the curve(s) to find a y-scale ---
   const N = discrete ? Math.max(1, Math.round(hi - lo)) : 320;
   let xs = [];
-  if (discrete) { for (let k = Math.round(lo); k <= Math.round(hi); k++) xs.push(k); }
-  else { for (let i = 0; i <= N; i++) xs.push(lo + (i / N) * (hi - lo)); }
+  if (discrete) for (let k = Math.round(lo); k <= Math.round(hi); k++) xs.push(k);
+  else for (let i = 0; i <= N; i++) xs.push(lo + (i / N) * (hi - lo));
 
-  let ys0 = xs.map((x) => pdfOrPmf(x));
-  let ys1 = pdfOrPmf1 ? xs.map((x) => pdfOrPmf1(x)) : null;
+  let ys0 = xs.map((x) => pdfOrPmf(x)), ys1 = pdfOrPmf1 ? xs.map((x) => pdfOrPmf1(x)) : null;
   let ymax = Math.max(...ys0, ...(ys1 || [0])) * 1.18;
   if (!isFinite(ymax) || ymax <= 0) ymax = 1;
 
@@ -852,16 +816,10 @@ function buildChartSVG(opts) {
   const mapY = (y) => M.top + plotH - (y / ymax) * plotH;
   const baseY = mapY(0);
 
-  // --- helpers ---
-  function curvePath(ysArr) {
-    return xs.map((x, i) => `${i === 0 ? 'M' : 'L'} ${mapX(x).toFixed(2)} ${mapY(ysArr[i]).toFixed(2)}`).join(' ');
-  }
-
   function shadedArea(aRaw, bRaw) {
     const a = Math.max(lo, aRaw), b = Math.min(hi, bRaw);
     if (b <= a) return '';
-    const pts = [];
-    const steps = 60;
+    const pts = []; const steps = 60;
     for (let i = 0; i <= steps; i++) {
       const x = a + (i / steps) * (b - a);
       pts.push(`${mapX(x).toFixed(2)} ${mapY(pdfOrPmf(x)).toFixed(2)}`);
@@ -869,56 +827,42 @@ function buildChartSVG(opts) {
     return `M ${mapX(a).toFixed(2)} ${baseY.toFixed(2)} L ${pts.join(' L ')} L ${mapX(b).toFixed(2)} ${baseY.toFixed(2)} Z`;
   }
 
-  let svgParts = [];
+  let svgParts = [`<line x1="${M.left}" y1="${baseY.toFixed(2)}" x2="${width - M.right}" y2="${baseY.toFixed(2)}" stroke="${C.axis}" stroke-width="1.4"/>`];
 
-  // grid baseline
-  svgParts.push(`<line x1="${M.left}" y1="${baseY.toFixed(2)}" x2="${width - M.right}" y2="${baseY.toFixed(2)}" stroke="${C.axis}" stroke-width="1.4"/>`);
-
-  // ===================== CONTINUOUS =====================
   if (!discrete) {
     if (region.type === 'two') {
-      svgParts.push(`<path d="${shadedArea(lo, region.c1)}" fill="${C.reject}" opacity="0.55"/>`);
-      svgParts.push(`<path d="${shadedArea(region.c2, hi)}" fill="${C.reject}" opacity="0.55"/>`);
-    } else if (region.type === 'upper') {
-      svgParts.push(`<path d="${shadedArea(region.c, hi)}" fill="${C.reject}" opacity="0.55"/>`);
-    } else if (region.type === 'lower') {
-      svgParts.push(`<path d="${shadedArea(lo, region.c)}" fill="${C.reject}" opacity="0.55"/>`);
-    }
+      svgParts.push(`<path d="${shadedArea(lo, region.c1)}" fill="${C.reject}" opacity="0.3"/>`);
+      svgParts.push(`<path d="${shadedArea(region.c2, hi)}" fill="${C.reject}" opacity="0.3"/>`);
+    } else if (region.type === 'upper') svgParts.push(`<path d="${shadedArea(region.c, hi)}" fill="${C.reject}" opacity="0.3"/>`);
+    else if (region.type === 'lower') svgParts.push(`<path d="${shadedArea(lo, region.c)}" fill="${C.reject}" opacity="0.3"/>`);
 
-    if (ys1) svgParts.push(`<path d="${curvePath(ys1)}" fill="none" stroke="${C.curve1}" stroke-width="2.4" stroke-dasharray="6,4" opacity="0.95"/>`);
-    svgParts.push(`<path d="${curvePath(ys0)}" fill="none" stroke="${C.curve0}" stroke-width="2.6"/>`);
+    if (ys1) svgParts.push(`<path d="${xs.map((x, i) => `${i===0?'M':'L'} ${mapX(x).toFixed(2)} ${mapY(ys1[i]).toFixed(2)}`).join(' ')}" fill="none" stroke="${C.curve1}" stroke-width="2.4" stroke-dasharray="6,4" opacity="0.95"/>`);
+    svgParts.push(`<path d="${xs.map((x, i) => `${i===0?'M':'L'} ${mapX(x).toFixed(2)} ${mapY(ys0[i]).toFixed(2)}`).join(' ')}" fill="none" stroke="${C.curve0}" stroke-width="2.6"/>`);
 
-    // critical value lines
     const lines = region.type === 'two' ? [region.c1, region.c2] : [region.c];
     lines.forEach((c) => {
       const x = mapX(c);
       svgParts.push(`<line x1="${x.toFixed(2)}" y1="${(M.top - 4).toFixed(2)}" x2="${x.toFixed(2)}" y2="${baseY.toFixed(2)}" stroke="${C.critLine}" stroke-width="1.6" stroke-dasharray="3,3"/>`);
-      svgParts.push(`<text x="${x.toFixed(2)}" y="${(M.top - 10).toFixed(2)}" fill="${C.critLine}" font-size="13" font-family="var(--mono)" text-anchor="middle">${c.toFixed(3)}</text>`);
+      svgParts.push(`<text x="${x.toFixed(2)}" y="${(M.top - 10).toFixed(2)}" fill="${C.critLine}" font-size="13" font-family="var(--mono)" font-weight="500" text-anchor="middle">${c.toFixed(3)}</text>`);
     });
   } else {
-    // ===================== DISCRETE (bars) =====================
     const bw = Math.max(3, (plotW / xs.length) * 0.62);
-    const randList = randomized ? (randomized.list || [randomized]) : [];
     const randMap = {};
-    randList.forEach((r) => { if (r.gamma > 1e-6) randMap[r.boundary] = r; });
+    if (randomized) (randomized.list || [randomized]).forEach((r) => { if (r.gamma > 1e-6) randMap[r.boundary] = r; });
 
     xs.forEach((k, i) => {
-      const x = mapX(k);
-      const yTop = mapY(ys0[i]);
-      const rb = randMap[k];
-      let inReject;
+      const x = mapX(k), yTop = mapY(ys0[i]), rb = randMap[k];
+      let inReject = false;
       if (region.type === 'upper') inReject = k >= region.c;
       else if (region.type === 'lower') inReject = k <= region.c;
       else if (region.type === 'twoDiscrete') inReject = (k <= region.cLow) || (k >= region.cHigh);
-      else inReject = false;
 
       if (rb) {
-        const fullH = baseY - yTop;
-        const rejH = fullH * rb.gamma;
-        svgParts.push(`<rect x="${(x - bw / 2).toFixed(2)}" y="${yTop.toFixed(2)}" width="${bw.toFixed(2)}" height="${(fullH - rejH).toFixed(2)}" fill="${C.curve0}" opacity="0.85"/>`);
-        svgParts.push(`<rect x="${(x - bw / 2).toFixed(2)}" y="${(yTop + fullH - rejH).toFixed(2)}" width="${bw.toFixed(2)}" height="${rejH.toFixed(2)}" fill="${C.reject}" opacity="0.85"/>`);
+        const fullH = baseY - yTop, rejH = fullH * rb.gamma;
+        svgParts.push(`<rect x="${(x - bw / 2).toFixed(2)}" y="${yTop.toFixed(2)}" width="${bw.toFixed(2)}" height="${(fullH - rejH).toFixed(2)}" fill="${C.curve0}" opacity="0.9"/>`);
+        svgParts.push(`<rect x="${(x - bw / 2).toFixed(2)}" y="${(yTop + fullH - rejH).toFixed(2)}" width="${bw.toFixed(2)}" height="${rejH.toFixed(2)}" fill="${C.reject}" opacity="0.5"/>`);
       } else {
-        svgParts.push(`<rect x="${(x - bw / 2).toFixed(2)}" y="${yTop.toFixed(2)}" width="${bw.toFixed(2)}" height="${(baseY - yTop).toFixed(2)}" fill="${inReject ? C.reject : C.curve0}" opacity="0.85"/>`);
+        svgParts.push(`<rect x="${(x - bw / 2).toFixed(2)}" y="${yTop.toFixed(2)}" width="${bw.toFixed(2)}" height="${(baseY - yTop).toFixed(2)}" fill="${inReject ? C.reject : C.curve0}" opacity="${inReject?0.5:0.9}"/>`);
       }
     });
 
@@ -926,27 +870,21 @@ function buildChartSVG(opts) {
     critPoints.forEach((c) => {
       const xc = mapX(c);
       svgParts.push(`<line x1="${xc.toFixed(2)}" y1="${(M.top - 4).toFixed(2)}" x2="${xc.toFixed(2)}" y2="${baseY.toFixed(2)}" stroke="${C.critLine}" stroke-width="1.6" stroke-dasharray="3,3"/>`);
-      svgParts.push(`<text x="${xc.toFixed(2)}" y="${(M.top - 10).toFixed(2)}" fill="${C.critLine}" font-size="13" font-family="var(--mono)" text-anchor="middle">${c}</text>`);
+      svgParts.push(`<text x="${xc.toFixed(2)}" y="${(M.top - 10).toFixed(2)}" fill="${C.critLine}" font-size="13" font-family="var(--mono)" font-weight="500" text-anchor="middle">${c}</text>`);
     });
   }
 
-  // x-axis ticks (5 evenly spaced)
   for (let i = 0; i <= 4; i++) {
     const x = lo + (i / 4) * (hi - lo);
-    const xp = mapX(x);
-    svgParts.push(`<text x="${xp.toFixed(2)}" y="${(height - M.bottom + 18).toFixed(2)}" fill="${C.text}" font-size="12" font-family="var(--mono)" text-anchor="middle">${x.toFixed(discrete ? 0 : 2)}</text>`);
+    svgParts.push(`<text x="${mapX(x).toFixed(2)}" y="${(height - M.bottom + 18).toFixed(2)}" fill="${C.text}" font-size="12" font-family="var(--mono)" font-weight="500" text-anchor="middle">${x.toFixed(discrete ? 0 : 2)}</text>`);
   }
 
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">${svgParts.join('')}</svg>`;
 }
 
-if (typeof module !== 'undefined') module.exports = { buildChartSVG };
-
 // ============================================================
-// uiapp.js - UI wiring + derivation text generation
-// Depends on: MC, EN, Families, Cases, buildTest, buildChartSVG (already in scope)
+// uiapp.js 
 // ============================================================
-
 const FamilyGroups = [
   { key: 'normal', label: 'Normal (Gaussian)', cases: ['normal_mean', 'normal_var'] },
   { key: 'exponential', label: 'Exponential', cases: ['exponential_rate'] },
@@ -958,18 +896,9 @@ const FamilyGroups = [
   { key: 'beta', label: 'Beta (β = 1 fixed)', cases: ['beta_alpha'] },
 ];
 
-function thetaSub(symbol, sub) {
-  if (symbol.indexOf('²') !== -1) return symbol.replace('²', '') + sub + '²';
-  return symbol + sub;
-}
-function fmt(x, d = 4) {
-  if (x === undefined || x === null || !isFinite(x)) return '-';
-  return Number(x).toFixed(d);
-}
-function fmtSmart(x, discrete) {
-  if (discrete) return Math.round(x).toString();
-  return fmt(x, Math.abs(x) >= 100 ? 2 : 4);
-}
+function thetaSub(symbol, sub) { return symbol.indexOf('²') !== -1 ? symbol.replace('²', '') + sub + '²' : symbol + sub; }
+function fmt(x, d = 4) { return (x === undefined || x === null || !isFinite(x)) ? '-' : Number(x).toFixed(d); }
+function fmtSmart(x, discrete) { return discrete ? Math.round(x).toString() : fmt(x, Math.abs(x) >= 100 ? 2 : 4); }
 
 const els = {};
 ['familySelect','paramSelect','nInput','nuisanceFields','theta0Input','theta0Label',
@@ -979,16 +908,12 @@ const els = {};
 
 let currentCaseId = 'normal_mean';
 
-function populateFamilySelect() {
-  els.familySelect.innerHTML = FamilyGroups.map(g => `<option value="${g.key}">${g.label}</option>`).join('');
-}
+function populateFamilySelect() { els.familySelect.innerHTML = FamilyGroups.map(g => `<option value="${g.key}">${g.label}</option>`).join(''); }
 function populateParamSelect(familyKey) {
   const group = FamilyGroups.find(g => g.key === familyKey);
   els.paramSelect.innerHTML = group.cases.map(cid => `<option value="${cid}">${Cases[cid].paramLabel}</option>`).join('');
 }
-function groupKeyForCase(caseId) {
-  return FamilyGroups.find(g => g.cases.includes(caseId)).key;
-}
+function groupKeyForCase(caseId) { return FamilyGroups.find(g => g.cases.includes(caseId)).key; }
 
 function buildNuisanceFields(cfg) {
   els.nuisanceFields.innerHTML = (cfg.nuisance || []).map(nu => `
@@ -1001,22 +926,15 @@ function buildNuisanceFields(cfg) {
 
 function h0OptionsFor(cfg) {
   const s = cfg.thetaSymbol, s0 = thetaSub(s, '\u2080');
-  return [
-    { v: 'simple', t: `${s} = ${s0}` },
-    { v: 'leq', t: `${s} \u2264 ${s0}` },
-    { v: 'geq', t: `${s} \u2265 ${s0}` },
-  ];
+  return [{ v: 'simple', t: `${s} = ${s0}` }, { v: 'leq', t: `${s} \u2264 ${s0}` }, { v: 'geq', t: `${s} \u2265 ${s0}` }];
 }
 function h1OptionsFor(cfg, h0Type) {
   const s = cfg.thetaSymbol, s0 = thetaSub(s, '\u2080'), s1 = thetaSub(s, '\u2081');
   if (h0Type === 'leq') return [{ v: 'gt', t: `${s} > ${s0}` }];
   if (h0Type === 'geq') return [{ v: 'lt', t: `${s} < ${s0}` }];
-  const opts = [
-    { v: 'gt', t: `${s} > ${s0}` },
-    { v: 'lt', t: `${s} < ${s0}` },
-  ];
+  const opts = [{ v: 'gt', t: `${s} > ${s0}` }, { v: 'lt', t: `${s} < ${s0}` }];
   if (!cfg.noTwoSided) opts.push({ v: 'neq', t: `${s} \u2260 ${s0}` });
-  opts.push({ v: 'simple', t: `${s} = ${s1}  (specific value)` });
+  opts.push({ v: 'simple', t: `${s} = ${s1} (specific value)` });
   return opts;
 }
 
@@ -1025,9 +943,7 @@ function rebuildH0H1(cfg) {
   rebuildH1(cfg);
 }
 function rebuildH1(cfg) {
-  const h0Type = els.h0Select.value;
-  const opts = h1OptionsFor(cfg, h0Type);
-  const prev = els.h1Select.value;
+  const h0Type = els.h0Select.value, opts = h1OptionsFor(cfg, h0Type), prev = els.h1Select.value;
   els.h1Select.innerHTML = opts.map(o => `<option value="${o.v}">${o.t}</option>`).join('');
   if (opts.some(o => o.v === prev)) els.h1Select.value = prev;
   toggleTheta1Field(cfg);
@@ -1035,8 +951,7 @@ function rebuildH1(cfg) {
 function toggleTheta1Field(cfg) {
   const show = els.h1Select.value === 'simple';
   els.theta1Field.style.display = show ? '' : 'none';
-  const s = cfg.thetaSymbol;
-  els.theta1Label.innerHTML = `${thetaSub(s, '\u2081')} (specific alternative value)`;
+  els.theta1Label.innerHTML = `${thetaSub(cfg.thetaSymbol, '\u2081')} (specific alternative)`;
 }
 
 function applyCaseDefaults(caseId) {
@@ -1058,15 +973,12 @@ function applyCaseDefaults(caseId) {
 function readNuisance(cfg) {
   const nu = {};
   (cfg.nuisance || []).forEach(spec => {
-    const inp = document.getElementById('nu_' + spec.key);
-    let v = parseFloat(inp.value);
+    let v = parseFloat(document.getElementById('nu_' + spec.key).value);
     if (!isFinite(v)) v = spec.default;
-    v = Math.max(spec.min, Math.min(spec.max, v));
-    nu[spec.key] = v;
+    nu[spec.key] = Math.max(spec.min, Math.min(spec.max, v));
   });
   return nu;
 }
-
 function clampTheta(cfg, v) {
   if (!isFinite(v)) v = cfg.theta0Default;
   if (cfg.thetaBounds) v = Math.max(cfg.thetaBounds[0], Math.min(cfg.thetaBounds[1], v));
@@ -1074,9 +986,93 @@ function clampTheta(cfg, v) {
   return v;
 }
 
-// ---------------- derivation text ----------------
 function dirWord(dir) { return dir === 'upper' ? 'large' : 'small'; }
 function dirSym(dir) { return dir === 'upper' ? '&gt;' : '&lt;'; }
+
+// Constructs dynamic HTML with interwoven LaTeX derivation blocks
+function getDerivationHtml(result, cfg, ctx) {
+  const alpha = ctx.alpha;
+  const th0 = fmt(ctx.theta0, 4);
+  const params0 = cfg.paramsFor(ctx.theta0, ctx.nuisance, ctx.n);
+  
+  let distName = "";
+  let pdfDef = "";
+  
+  if (cfg.family === 'normal') {
+      const v = params0.sd * params0.sd;
+      distName = `T \\sim \\mathcal{N}(\\mu = ${fmt(params0.mean,4)}, \\sigma^2 = ${fmt(v,4)})`;
+      pdfDef = `f(t) = \\frac{1}{\\sqrt{2\\pi (${fmt(v, 4)})}} \\exp\\left(-\\frac{(t - ${fmt(params0.mean, 4)})^2}{2(${fmt(v, 4)})}\\right)`;
+  } else if (cfg.family === 'gamma') {
+      distName = `T \\sim \\text{Gamma}(\\alpha = ${fmt(params0.shape,4)}, \\beta = ${fmt(params0.rate,4)})`;
+      pdfDef = `f(t) = \\frac{${fmt(params0.rate, 4)}^{${fmt(params0.shape, 4)}}}{\\Gamma(${fmt(params0.shape, 4)})} t^{${fmt(params0.shape - 1, 4)}} e^{-${fmt(params0.rate, 4)} t}`;
+  } else if (cfg.family === 'poisson') {
+      distName = `T \\sim \\text{Poisson}(\\lambda = ${fmt(params0.lambda,4)})`;
+      pdfDef = `P(T=t) = \\frac{e^{-${fmt(params0.lambda, 4)}} (${fmt(params0.lambda, 4)})^t}{t!}`;
+  } else if (cfg.family === 'binomial') {
+      distName = `T \\sim \\text{Binomial}(n = ${params0.n}, p = ${fmt(params0.p,4)})`;
+      pdfDef = `P(T=t) = \\binom{${params0.n}}{t} (${fmt(params0.p, 4)})^t (1-${fmt(params0.p, 4)})^{${params0.n}-t}`;
+  } else if (cfg.family === 'maxuniform') {
+      distName = `T \\sim \\text{Max-Uniform}(n = ${params0.n}, \\theta = ${fmt(params0.theta,4)})`;
+      const f_bound = `\\quad \\text{for } 0 < t < ${fmt(params0.theta, 4)}`;
+      pdfDef = `f(t) = \\frac{${params0.n}}{${fmt(params0.theta, 4)}^{${params0.n}}} t^{${params0.n - 1}} ${f_bound}`;
+  }
+  
+  const render = (tex) => window.katex ? katex.renderToString(tex, {displayMode: true, throwOnError: false}) : `\\[ ${tex} \\]`;
+  const renderInline = (tex) => window.katex ? katex.renderToString(tex, {displayMode: false, throwOnError: false}) : `\\( ${tex} \\)`;
+
+  let html = `<div class="deriv-step"><div class="deriv-step-title">1. Null Sampling Distribution</div>`;
+  html += `<p class="deriv-p">Under ${renderInline('H_0')}, the sufficient test statistic follows:</p>`;
+  html += render(distName);
+  html += `<p class="deriv-p">With probability density/mass function:</p>`;
+  html += render(pdfDef);
+  html += `</div>`;
+
+  html += `<div class="deriv-step"><div class="deriv-step-title">2. Critical Region Integral</div>`;
+  
+  if (result.testType === 'UMPU' && !result.unsupported) {
+    html += `<p class="deriv-p">For an unbiased test, we solve for boundaries ${renderInline('c_1')} and ${renderInline('c_2')} simultaneously. The system equates size to ${renderInline('\\alpha')} and restricts the power function's derivative to 0 at ${renderInline('\\theta_0')}:</p>`;
+    let sys = `\\begin{aligned} `;
+    sys += `\\int_{c_1}^{c_2} f(t) \\, dt &= 1 - \\alpha = ${fmt(1-alpha, 3)} \\\\[8pt] `;
+    sys += `\\int_{c_1}^{c_2} t \\cdot f(t) \\, dt &= (1 - \\alpha) \\mathbb{E}[T] = ${fmt((1-alpha)*result.mean0, 4)} `;
+    sys += `\\end{aligned}`;
+    html += render(sys);
+    html += `<p class="deriv-p">Solving numerically yields exact thresholds ${renderInline(`c_1 = ${fmt(result.c1, 4)}`)} and ${renderInline(`c_2 = ${fmt(result.c2, 4)}`)}.</p>`;
+  } else {
+    const isDiscrete = result.fam.discrete;
+    const op = result.direction === 'upper' ? '>' : '<';
+    const opTex = result.direction === 'upper' ? '\\ge' : '\\le';
+    const b = result.boundary;
+    const c = result.c;
+
+    html += `<p class="deriv-p">To construct a size ${renderInline('\\alpha = ' + alpha)} test, we bound the rejection probability limit:</p>`;
+    
+    if (isDiscrete) {
+      const sumBounds = result.direction === 'upper' ? `_{t=${b+1}}^{\\infty}` : `_{t=0}^{${b-1}}`;
+      let math = `\\begin{aligned} `;
+      math += `P_{\\theta_0}(\\text{Reject}) &= P_{\\theta_0}(T ${op} ${b}) + \\gamma P_{\\theta_0}(T = ${b}) = \\alpha \\\\[6pt] `;
+      math += `\\alpha &= \\sum${sumBounds} P(T=t) + \\gamma P(T=${b}) \\\\[6pt] `;
+      
+      const pTail = result.direction === 'upper' ? (1 - result.cdf(b, ctx.theta0)) : result.cdf(b-1, ctx.theta0);
+      const pAt = result.pdfOrPmf(b, ctx.theta0);
+      math += `${alpha} &= ${fmt(pTail, 5)} + \\gamma (${fmt(pAt, 5)}) \\\\[6pt] `;
+      math += `\\implies \\gamma &= \\frac{${alpha} - ${fmt(pTail, 5)}}{${fmt(pAt, 5)}} = ${fmt(result.gamma, 4)} `;
+      math += `\\end{aligned}`;
+      html += render(math);
+      html += `<p class="deriv-p">Because the CDF jumps in discrete steps, we achieve exact size by randomizing the decision boundary at ${renderInline(`T = ${b}`)} with probability ${renderInline(`\\gamma = ${fmt(result.gamma, 4)}`)}.</p>`;
+    } else {
+      const intBounds = result.direction === 'upper' ? `_{c}^{\\infty}` : `_{-\\infty}^{c}`;
+      let math = `\\begin{aligned} `;
+      math += `P_{\\theta_0}(T ${opTex} c) &= \\int${intBounds} f(t) \\, dt = \\alpha \\\\[8pt] `;
+      
+      const invCdfProb = result.direction === 'upper' ? 1 - alpha : alpha;
+      math += `c &= F_T^{-1}(${invCdfProb}) = ${fmt(c, 4)} `;
+      math += `\\end{aligned}`;
+      html += render(math);
+    }
+  }
+  html += `</div>`;
+  return html;
+}
 
 function buildSteps(result, cfg, ctx) {
   const s = cfg.thetaSymbol, s0 = thetaSub(s, '\u2080'), s1 = thetaSub(s, '\u2081');
@@ -1084,25 +1080,41 @@ function buildSteps(result, cfg, ctx) {
   const sampleDist = cfg.sampleDistHTML(ctx.nuisance, ctx.n);
   const steps = [];
 
+  const getDetailsHtml = () => {
+    if (result.testType === 'UMPU' && result.unsupported) return ''; 
+    const htmlStr = getDerivationHtml(result, cfg, ctx);
+    if (!htmlStr) return '';
+    return `<details class="derivation">
+              <summary>Show detailed derivation</summary>
+              <div class="derivation-content">${htmlStr}</div>
+            </details>`;
+  };
+
   if (result.testType === 'NP') {
     steps.push(`Since <span class="formula">${cfg.statisticHTML}</span> is sufficient for ${s}, the likelihood ratio &Lambda;(x) = L(${s1}=${th1}; x) / L(${s0}=${th0}; x) depends on the data only through T. Under H&#8320;, ${sampleDist}.`);
-    steps.push(`<b>Neyman - Pearson Lemma.</b> The most powerful level-&alpha; test rejects H&#8320; when &Lambda;(x) &gt; k, with k chosen so that P<sub>${s0}</sub>(reject) = &alpha;.`);
+    steps.push(`<b>Neyman-Pearson Lemma.</b> The most powerful level-&alpha; test rejects H&#8320; when &Lambda;(x) &gt; k, with k chosen so that P<sub>${s0}</sub>(reject) = &alpha;.`);
     steps.push(`Simplifying &Lambda;(x) shows it is monotone <b>${result.direction === 'upper' ? 'increasing' : 'decreasing'}</b> in T - the rejection region reduces to <span class="formula">T ${dirSym(result.direction)} c</span>.`);
+    
     let cstep = `Solving P<sub>${s0}</sub>(reject) = &alpha; numerically: <b>c = ${fmtSmart(result.c, result.fam.discrete)}</b>.`;
     if (result.gamma > 1e-6) cstep += ` Since T is discrete no non-randomized c hits &alpha; exactly - reject outright past c, and reject with probability <b>&gamma; = ${fmt(result.gamma, 4)}</b> when T = ${result.boundary}.`;
+    cstep += getDetailsHtml();
     steps.push(cstep);
+    
     steps.push(`<b>Most powerful test against this &theta;&#8321;:</b> &phi;(x) = 1 if T ${dirSym(result.direction)} c${result.gamma > 1e-6 ? ', randomized at the boundary as above' : ''}. This is MP for &theta;&#8321; = ${th1} specifically - not yet shown to be UMP against the whole alternative.`);
   }
 
   if (result.testType === 'UMP') {
     steps.push(`<span class="formula">${cfg.statisticHTML}</span> is sufficient for ${s}; under H&#8320;, ${sampleDist}. This one-parameter family has a <b>monotone likelihood ratio (MLR)</b> in T.`);
-    steps.push(`<b>Karlin - Rubin theorem.</b> Because the MLR direction is the same regardless of which &theta;&#8321; on H&#8321;'s side is used, the Neyman - Pearson test against any such &theta;&#8321; gives the <i>same</i> rejection region - so this single test is simultaneously most powerful against every alternative: it is <b>UMP</b>.`);
+    steps.push(`<b>Karlin-Rubin theorem.</b> Because the MLR direction is the same regardless of which &theta;&#8321; on H&#8321;'s side is used, the Neyman-Pearson test against any such &theta;&#8321; gives the <i>same</i> rejection region - so this single test is simultaneously most powerful against every alternative: it is <b>UMP</b>.`);
     steps.push(`The MLR direction detected here is <b>${result.direction}</b> - larger ${s} shifts T toward ${dirWord(result.direction === 'upper' ? 'upper':'lower')} values in the H&#8321; direction, so the UMP rejection region is <span class="formula">T ${dirSym(result.direction)} c</span>.`);
+    
     let cstep = `Solving P<sub>${s0}</sub>(reject) = &alpha;: <b>c = ${fmtSmart(result.c, result.fam.discrete)}</b>.`;
     if (result.gamma > 1e-6) cstep += ` T is discrete, so reject outright past c and reject with probability <b>&gamma; = ${fmt(result.gamma, 4)}</b> at T = ${result.boundary} to hit &alpha; exactly.`;
+    cstep += getDetailsHtml();
     steps.push(cstep);
+    
     let last = `<b>UMP level-&alpha; test:</b> &phi;(x) = 1 if T ${dirSym(result.direction)} c${result.gamma > 1e-6 ? ' (with boundary randomization)' : ''}; 0 otherwise.`;
-    if (ctx.h0Type !== 'simple') last += ` Although H&#8320; is composite here, this test's power function is monotone in ${s}, so it remains UMP for the composite null too - not only against the simple boundary point ${s0}.`;
+    if (ctx.h0Type !== 'simple') last += ` Although H&#8320; is composite here, this test's power function is monotone in ${s}, so it remains UMP for the composite null too.`;
     steps.push(last);
   }
 
@@ -1110,7 +1122,11 @@ function buildSteps(result, cfg, ctx) {
     steps.push(`No UMP test exists against H&#8321;: ${s} &ne; ${s0}. The UMP test against ${s} &gt; ${s0} rejects for ${dirWord('upper')} T, while the UMP test against ${s} &lt; ${s0} rejects for ${dirWord('lower')} T - no single rejection region maximizes power in both directions at once.`);
     steps.push(`Restricting to <b>unbiased</b> tests (power &ge; &alpha; everywhere) requires the power function &beta;(&theta;) to have a minimum at &theta;&#8320;: &beta;(${s0}) = &alpha; and &beta;&prime;(${s0}) = 0.`);
     steps.push(`For a one-parameter exponential family this reduces to two equations in c&#8321;, c&#8322;: <span class="formula">P<sub>${s0}</sub>(c&#8321; &le; T &le; c&#8322;) = 1&minus;&alpha;</span> and <span class="formula">E<sub>${s0}</sub>[T &middot; 1(c&#8321;&le;T&le;c&#8322;)] = (1&minus;&alpha;)&middot;E<sub>${s0}</sub>[T]</span>.`);
-    steps.push(`Solving numerically (Newton - Raphson on both equations): <b>c&#8321; = ${fmtSmart(result.c1, false)}, c&#8322; = ${fmtSmart(result.c2, false)}</b>.`);
+    
+    let umpuStep = `Solving numerically (Newton-Raphson on both equations): <b>c&#8321; = ${fmtSmart(result.c1, false)}, c&#8322; = ${fmtSmart(result.c2, false)}</b>.`;
+    umpuStep += getDetailsHtml();
+    steps.push(umpuStep);
+    
     steps.push(`<b>UMPU test:</b> reject H&#8320; when T &lt; c&#8321; or T &gt; c&#8322;.`);
   }
 
@@ -1126,22 +1142,20 @@ function buildSteps(result, cfg, ctx) {
 function buildLegend(result) {
   const items = [];
   if (result.testType === 'NP') {
-    items.push(`<span><i style="background:var(--teal)"></i>density under &theta;&#8320;</span>`);
-    items.push(`<span><i style="background:var(--gold); border-radius:0;height:2px;margin-top:5px;"></i>density under &theta;&#8321;</span>`);
+    items.push(`<span><i style="background:var(--accent-primary)"></i>density under &theta;&#8320;</span>`);
+    items.push(`<span><i style="background:var(--success); border-radius:0;height:2px;margin-top:5px;"></i>density under &theta;&#8321;</span>`);
   } else {
-    items.push(`<span><i style="background:var(--teal)"></i>density / mass under H&#8320;</span>`);
+    items.push(`<span><i style="background:var(--accent-primary)"></i>density/mass under H&#8320;</span>`);
   }
-  items.push(`<span><i style="background:var(--coral)"></i>rejection region</span>`);
+  items.push(`<span><i style="background:var(--danger); opacity: 0.5;"></i>rejection region</span>`);
   return items.join('');
 }
 
 function statCard(k, v, sub) {
   return `<div class="stat"><div class="k">${k}</div><div class="v">${v}${sub ? `<small>${sub}</small>` : ''}</div></div>`;
 }
-
 function fmtNum(x, discrete) { return discrete ? Math.round(x).toString() : fmt(x, 3); }
 
-// Builds the LaTeX source for the test function phi(x), with actual computed numbers plugged in.
 function buildPhiLatex(result, region, randomized, fam) {
   const d = fam.discrete;
   if (region.type === 'two') {
@@ -1159,47 +1173,27 @@ function buildPhiLatex(result, region, randomized, fam) {
   const gt = region.type === 'upper' ? '>' : '<';
   const le = region.type === 'upper' ? '\\le' : '\\ge';
   if (randomized && randomized.gamma > 1e-6) {
-    const b = randomized.boundary;
-    const ltOpp = region.type === 'upper' ? '<' : '>';
+    const b = randomized.boundary, ltOpp = region.type === 'upper' ? '<' : '>';
     return `\\varphi(x) = \\begin{cases} 1 & T(x) ${gt} ${b} \\\\[6pt] ${fmt(randomized.gamma, 4)} & T(x) = ${b} \\\\[6pt] 0 & T(x) ${ltOpp} ${b} \\end{cases}`;
   }
-  const c = fmtNum(region.c, d);
-  return `\\varphi(x) = \\begin{cases} 1 & T(x) ${gt} ${c} \\\\[6pt] 0 & T(x) ${le} ${c} \\end{cases}`;
+  return `\\varphi(x) = \\begin{cases} 1 & T(x) ${gt} ${fmtNum(region.c, d)} \\\\[6pt] 0 & T(x) ${le} ${fmtNum(region.c, d)} \\end{cases}`;
 }
 
-// Plain-English complement of the rejection region.
 function buildAcceptLine(result, region, randomized, fam) {
   const d = fam.discrete;
-  if (region.type === 'two') {
-    return `We accept the null hypothesis H&#8320; (fail to reject) if <b>${fmtNum(region.c1, d)} &le; T(x) &le; ${fmtNum(region.c2, d)}</b>.`;
-  }
-  if (region.type === 'twoDiscrete') {
-    const { lowRes, highRes } = result._adhoc;
-    return `We accept the null hypothesis H&#8320; outright if <b>${lowRes.boundary} &lt; T(x) &lt; ${highRes.boundary}</b>, and partially at the two boundary points shown above.`;
-  }
-  if (randomized && randomized.gamma > 1e-6) {
-    const b = randomized.boundary;
-    const op = region.type === 'upper' ? '&lt;' : '&gt;';
-    return `We accept the null hypothesis H&#8320; outright if <b>T(x) ${op} ${b}</b>, and with probability ${fmt(1 - randomized.gamma, 4)} if T(x) = ${b}.`;
-  }
-  const op = region.type === 'upper' ? '&le;' : '&ge;';
-  return `We accept the null hypothesis H&#8320; if <b>T(x) ${op} ${fmtNum(region.c, d)}</b>.`;
+  if (region.type === 'two') return `We accept the null hypothesis H&#8320; (fail to reject) if <b>${fmtNum(region.c1, d)} &le; T(x) &le; ${fmtNum(region.c2, d)}</b>.`;
+  if (region.type === 'twoDiscrete') return `We accept the null hypothesis H&#8320; outright if <b>${result._adhoc.lowRes.boundary} &lt; T(x) &lt; ${result._adhoc.highRes.boundary}</b>, and partially at the boundaries.`;
+  if (randomized && randomized.gamma > 1e-6) return `We accept the null hypothesis H&#8320; outright if <b>T(x) ${region.type === 'upper' ? '&lt;' : '&gt;'} ${randomized.boundary}</b>, and with probability ${fmt(1 - randomized.gamma, 4)} if T(x) = ${randomized.boundary}.`;
+  return `We accept the null hypothesis H&#8320; if <b>T(x) ${region.type === 'upper' ? '&le;' : '&ge;'} ${fmtNum(region.c, d)}</b>.`;
 }
 
 function render() {
-  const cfg = Cases[currentCaseId];
-  const fam = Families[cfg.family];
-  const nuisance = readNuisance(cfg);
+  const cfg = Cases[currentCaseId], fam = Families[cfg.family], nuisance = readNuisance(cfg);
   let n = parseInt(els.nInput.value, 10);
-  if (!isFinite(n) || n < 2) n = cfg.nDefault;
-  n = Math.min(500, Math.max(2, n));
-  els.nInput.value = n;
+  n = Math.min(500, Math.max(2, isFinite(n) ? n : cfg.nDefault)); els.nInput.value = n;
 
-  let theta0 = clampTheta(cfg, parseFloat(els.theta0Input.value));
-  els.theta0Input.value = theta0;
-
-  const h0Type = els.h0Select.value;
-  const h1Type = els.h1Select.value;
+  let theta0 = clampTheta(cfg, parseFloat(els.theta0Input.value)); els.theta0Input.value = theta0;
+  const h0Type = els.h0Select.value, h1Type = els.h1Select.value;
   let theta1;
   if (h1Type === 'simple') {
     theta1 = clampTheta(cfg, parseFloat(els.theta1Input.value));
@@ -1208,40 +1202,33 @@ function render() {
   }
   const alpha = parseFloat(els.alphaSlider.value);
   els.alphaNum.textContent = alpha.toFixed(3);
-  const fillPct = ((alpha - 0.01) / (0.25 - 0.01)) * 100;
-  els.alphaSlider.style.setProperty('--fill', fillPct + '%');
+  els.alphaSlider.style.setProperty('--fill', ((alpha - 0.01) / 0.24) * 100 + '%');
 
   const result = buildTest(currentCaseId, { theta0, theta1, h0Type, h1Type, alpha, nuisance, n });
-
-  // ---- badge ----
   const s = cfg.thetaSymbol, s0 = thetaSub(s, '\u2080'), s1 = thetaSub(s, '\u2081');
-  let badgeClass = 'mp', badgeText = 'Most powerful test', badgeSub = `Simple H&#8321;: ${s} = ${s1}`;
-  if (result.testType === 'UMP') { badgeClass = 'ump'; badgeText = 'UMP test'; badgeSub = 'Uniformly most powerful via Karlin\u2013Rubin'; }
-  if (result.testType === 'UMPU' && !result.unsupported) { badgeClass = 'umpu'; badgeText = 'UMPU test'; badgeSub = 'No UMP exists \u2014 unbiased optimum instead'; }
-  if (result.testType === 'UMPU' && result.unsupported) { badgeClass = 'none'; badgeText = 'Two-sided \u2014 partial'; badgeSub = 'Exact UMPU needs joint boundary randomization (not computed)'; }
-  els.testBadge.className = 'badge ' + badgeClass;
-  els.testBadge.textContent = badgeText;
-  els.badgeSub.innerHTML = badgeSub;
+  
+  let bClass = 'mp', bText = 'Most powerful test', bSub = `Simple H&#8321;: ${s} = ${s1}`;
+  if (result.testType === 'UMP') { bClass = 'ump'; bText = 'UMP test'; bSub = 'Uniformly most powerful via Karlin\u2013Rubin'; }
+  if (result.testType === 'UMPU' && !result.unsupported) { bClass = 'umpu'; bText = 'UMPU test'; bSub = 'No UMP exists \u2014 unbiased optimum instead'; }
+  if (result.testType === 'UMPU' && result.unsupported) { bClass = 'none'; bText = 'Two-sided \u2014 partial'; bSub = 'Exact UMPU needs joint boundary randomization'; }
+  
+  els.testBadge.className = 'badge ' + bClass; els.testBadge.textContent = bText; els.badgeSub.innerHTML = bSub;
 
-  // ---- hypothesis line ----
   const h0Label = h0Type === 'simple' ? `${s} = ${s0}` : h0Type === 'leq' ? `${s} \u2264 ${s0}` : `${s} \u2265 ${s0}`;
   const h1Label = h1Type === 'gt' ? `${s} &gt; ${s0}` : h1Type === 'lt' ? `${s} &lt; ${s0}` : h1Type === 'neq' ? `${s} &ne; ${s0}` : `${s} = ${s1}`;
   els.hypLine.innerHTML = `H&#8320;: <span class="h0">${h0Label}</span><span class="vs">vs</span>H&#8321;: <span class="h1">${h1Label}</span> &nbsp;&middot;&nbsp; ${s0} = ${fmt(theta0, 3)}${h1Type === 'simple' ? `, ${s1} = ${fmt(theta1, 3)}` : ''}`;
 
-  // ---- steps ----
-  els.stepsList.innerHTML = buildSteps(result, cfg, { theta0, theta1, h0Type, h1Type, n, nuisance }).map(s => `<li><span class="stxt">${s}</span></li>`).join('');
+  els.stepsList.innerHTML = buildSteps(result, cfg, { theta0, theta1, h0Type, h1Type, n, nuisance, alpha }).map(s => `<li><span class="stxt">${s}</span></li>`).join('');
 
-  // ---- chart ----
   let region, randomized = null, chartLo = result.domain0[0], chartHi = result.domain0[1];
   if (result.testType === 'UMPU' && result.unsupported) {
-    // ad-hoc symmetric-probability two-sided combo for discrete families, alpha/2 each tail
     const pmf0 = (k) => result.pdfOrPmf(k, theta0), cdf0 = (k) => result.cdf(k, theta0);
     const lowRes = EN.discreteOneSidedCriticalGeneric(pmf0, cdf0, alpha / 2, 'lower', chartHi);
     const highRes = EN.discreteOneSidedCriticalGeneric(pmf0, cdf0, alpha / 2, 'upper', chartHi);
     region = { type: 'twoDiscrete', cLow: lowRes.c, cHigh: highRes.c };
     randomized = { list: [
-      { boundary: lowRes.boundary, gamma: lowRes.gamma, side: 'low' },
-      { boundary: highRes.boundary, gamma: highRes.gamma, side: 'high' },
+      { boundary: lowRes.boundary, gamma: lowRes.gamma },
+      { boundary: highRes.boundary, gamma: highRes.gamma }
     ] };
     result._adhoc = { lowRes, highRes };
   } else if (result.testType === 'UMPU') {
@@ -1253,34 +1240,23 @@ function render() {
     if (result.gamma > 1e-6) randomized = { boundary: result.boundary, gamma: result.gamma, direction: result.direction };
   }
 
-  // ---- test function (LaTeX) + accept line ----
   const phiLatex = buildPhiLatex(result, region, randomized, fam);
   const phiEl = document.getElementById('phiLatex');
-  if (window.katex) {
-    katex.render(phiLatex, phiEl, { displayMode: true, throwOnError: false });
-  } else {
-    phiEl.textContent = phiLatex; // fallback if KaTeX hasn't loaded
-  }
+  if (window.katex) katex.render(phiLatex, phiEl, { displayMode: true, throwOnError: false });
+  else phiEl.textContent = phiLatex;
   document.getElementById('acceptLine').innerHTML = buildAcceptLine(result, region, randomized, fam);
 
-  const svg = buildChartSVG({
+  els.chartCard.innerHTML = buildChartSVG({
     pdfOrPmf: (t) => result.pdfOrPmf(t, theta0),
     pdfOrPmf1: (h1Type === 'simple') ? ((t) => result.pdfOrPmf(t, theta1)) : null,
-    discrete: fam.discrete,
-    lo: chartLo, hi: chartHi,
-    region, randomized,
+    discrete: fam.discrete, lo: chartLo, hi: chartHi, region, randomized,
   });
-  els.chartCard.innerHTML = svg;
   els.legendRow.innerHTML = buildLegend(result);
 
-  // ---- stats grid ----
-  let statsHTML = '';
-  statsHTML += statCard('Sample size', `n = ${n}`);
-  statsHTML += statCard('Mean of T under H&#8320;', fmtSmart(result.meanFn(theta0), fam.discrete));
+  let statsHTML = statCard('Sample size', `n = ${n}`) + statCard('Mean of T under H&#8320;', fmtSmart(result.meanFn(theta0), fam.discrete));
   if (result.testType === 'UMPU' && !result.unsupported) {
     statsHTML += statCard('Critical values', `${fmt(result.c1,3)} , ${fmt(result.c2,3)}`);
-    const sz = 1 - (result.cdf(result.c2, theta0) - result.cdf(result.c1, theta0));
-    statsHTML += statCard('Achieved size', fmt(sz, 4), 'target ' + alpha.toFixed(3));
+    statsHTML += statCard('Achieved size', fmt(1 - (result.cdf(result.c2, theta0) - result.cdf(result.c1, theta0)), 4), 'target ' + alpha.toFixed(3));
   } else if (result.testType === 'UMPU' && result.unsupported) {
     const { lowRes, highRes } = result._adhoc;
     statsHTML += statCard('Lower / upper bound', `${lowRes.c} , ${highRes.c}`);
@@ -1295,6 +1271,7 @@ function render() {
       : result.cdf(result.boundary, theta0) - result.pdfOrPmf(result.boundary,theta0) + (result.gamma||0) * result.pdfOrPmf(result.boundary, theta0);
     else sz = result.direction === 'upper' ? 1 - result.cdf(result.c, theta0) : result.cdf(result.c, theta0);
     statsHTML += statCard('Achieved size', fmt(sz, 4), 'target ' + alpha.toFixed(3));
+    
     if (h1Type === 'simple') {
       let pw;
       if (fam.discrete) pw = result.direction === 'upper'
@@ -1306,13 +1283,10 @@ function render() {
   }
   els.statsGrid.innerHTML = statsHTML;
 
-  // ---- extra callouts ----
   let extra = '';
   if (result.testType === 'UMPU' && !result.unsupported) {
     const dC1 = Math.abs(result.c1 - result.naiveC1), dC2 = Math.abs(result.c2 - result.naiveC2);
-    const span = result.c2 - result.c1;
-    const rel = (dC1 + dC2) / Math.max(1e-9, span);
-    if (rel < 0.01) {
+    if ((dC1 + dC2) / Math.max(1e-9, result.c2 - result.c1) < 0.01) {
       extra += `<div class="callout">Because the sampling distribution of T is <b>symmetric</b> about ${s0} here, the UMPU test coincides with the simple equal-tailed test (&alpha;/2 in each tail) that most courses default to.</div>`;
     } else {
       extra += `<div class="callout gold"><b>This sampling distribution is skewed</b>, so the equal-tailed test most courses use by default is <i>not</i> the same as the true UMPU test - and is not unbiased.
@@ -1329,28 +1303,17 @@ function render() {
 }
 
 function init() {
-  populateFamilySelect();
-  els.familySelect.value = groupKeyForCase(currentCaseId);
-  populateParamSelect(els.familySelect.value);
-  els.paramSelect.value = currentCaseId;
-
-  els.familySelect.addEventListener('change', () => {
-    populateParamSelect(els.familySelect.value);
-    applyCaseDefaults(els.paramSelect.value);
-  });
+  populateFamilySelect(); els.familySelect.value = groupKeyForCase(currentCaseId);
+  populateParamSelect(els.familySelect.value); els.paramSelect.value = currentCaseId;
+  els.familySelect.addEventListener('change', () => { populateParamSelect(els.familySelect.value); applyCaseDefaults(els.paramSelect.value); });
   els.paramSelect.addEventListener('change', () => applyCaseDefaults(els.paramSelect.value));
-  els.nInput.addEventListener('input', render);
-  els.theta0Input.addEventListener('input', render);
-  els.theta1Input.addEventListener('input', render);
+  els.nInput.addEventListener('input', render); els.theta0Input.addEventListener('input', render); els.theta1Input.addEventListener('input', render);
   els.h0Select.addEventListener('change', () => { rebuildH1(Cases[currentCaseId]); render(); });
   els.h1Select.addEventListener('change', () => { toggleTheta1Field(Cases[currentCaseId]); render(); });
   els.alphaSlider.addEventListener('input', render);
-
   applyCaseDefaults(currentCaseId);
 }
-
 document.addEventListener('DOMContentLoaded', init);
-
 </script>
 </body>
 </html>
