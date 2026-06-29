@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neyman&ndash;Pearson Lab - MP / UMP / UMPU Test Derivation</title>
+<title>Neyman - Pearson Lab : MP / UMP / UMPU Test Derivation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -271,8 +271,8 @@ footer.note{
   </svg>
   <div class="landing-content">
     <p class="eyebrow"><span class="dot"></span>Hypothesis Testing Instrument</p>
-    <h1 class="landing-title">Neyman&ndash;Pearson<br><span class="accent">Lab</span></h1>
-    <p class="landing-sub">Most powerful, UMP, and UMPU test derivation, built live from the Neyman&ndash;Pearson lemma - with the full proof, the test function, and the critical region for every distribution.</p>
+    <h1 class="landing-title">Neyman - Pearson<br><span class="accent">Lab</span></h1>
+    <p class="landing-sub">Most powerful, UMP, and UMPU test derivation, built live from the Neyman - Pearson lemma - with the full proof, the test function, and the critical region for every distribution.</p>
     <button id="enterLabBtn" class="enter-btn">Enter the lab <span class="arrow">&rarr;</span></button>
     <p class="landing-meta">9 distributions &middot; exact derivations &middot; live critical regions</p>
   </div>
@@ -290,7 +290,7 @@ document.getElementById('enterLabBtn').addEventListener('click', function () {
     <div class="hero-text">
       <p class="eyebrow"><span class="dot"></span>Hypothesis Testing Instrument</p>
       <h1 class="title">Find the most powerful test.</h1>
-      <p class="subtitle">Choose a distribution and a pair of hypotheses. The Neyman&ndash;Pearson lemma, the Karlin&ndash;Rubin theorem, and the unbiasedness condition for UMPU tests build the optimal rejection region in front of you - live, with the full derivation.</p>
+      <p class="subtitle">Choose a distribution and a pair of hypotheses. The Neyman - Pearson lemma, the Karlin - Rubin theorem, and the unbiasedness condition for UMPU tests build the optimal rejection region in front of you - live, with the full derivation.</p>
     </div>
     <p class="scope-note"><strong>Scope.</strong> Exact for nine one-parameter families with closed-form sampling distributions for their sufficient statistic. Two-sided UMPU is solved numerically for continuous families; discrete two-sided tests are flagged, not silently approximated.</p>
   </header>
@@ -1086,7 +1086,7 @@ function buildSteps(result, cfg, ctx) {
 
   if (result.testType === 'NP') {
     steps.push(`Since <span class="formula">${cfg.statisticHTML}</span> is sufficient for ${s}, the likelihood ratio &Lambda;(x) = L(${s1}=${th1}; x) / L(${s0}=${th0}; x) depends on the data only through T. Under H&#8320;, ${sampleDist}.`);
-    steps.push(`<b>Neyman&ndash;Pearson Lemma.</b> The most powerful level-&alpha; test rejects H&#8320; when &Lambda;(x) &gt; k, with k chosen so that P<sub>${s0}</sub>(reject) = &alpha;.`);
+    steps.push(`<b>Neyman - Pearson Lemma.</b> The most powerful level-&alpha; test rejects H&#8320; when &Lambda;(x) &gt; k, with k chosen so that P<sub>${s0}</sub>(reject) = &alpha;.`);
     steps.push(`Simplifying &Lambda;(x) shows it is monotone <b>${result.direction === 'upper' ? 'increasing' : 'decreasing'}</b> in T - the rejection region reduces to <span class="formula">T ${dirSym(result.direction)} c</span>.`);
     let cstep = `Solving P<sub>${s0}</sub>(reject) = &alpha; numerically: <b>c = ${fmtSmart(result.c, result.fam.discrete)}</b>.`;
     if (result.gamma > 1e-6) cstep += ` Since T is discrete no non-randomized c hits &alpha; exactly - reject outright past c, and reject with probability <b>&gamma; = ${fmt(result.gamma, 4)}</b> when T = ${result.boundary}.`;
@@ -1096,7 +1096,7 @@ function buildSteps(result, cfg, ctx) {
 
   if (result.testType === 'UMP') {
     steps.push(`<span class="formula">${cfg.statisticHTML}</span> is sufficient for ${s}; under H&#8320;, ${sampleDist}. This one-parameter family has a <b>monotone likelihood ratio (MLR)</b> in T.`);
-    steps.push(`<b>Karlin&ndash;Rubin theorem.</b> Because the MLR direction is the same regardless of which &theta;&#8321; on H&#8321;'s side is used, the Neyman&ndash;Pearson test against any such &theta;&#8321; gives the <i>same</i> rejection region - so this single test is simultaneously most powerful against every alternative: it is <b>UMP</b>.`);
+    steps.push(`<b>Karlin - Rubin theorem.</b> Because the MLR direction is the same regardless of which &theta;&#8321; on H&#8321;'s side is used, the Neyman - Pearson test against any such &theta;&#8321; gives the <i>same</i> rejection region - so this single test is simultaneously most powerful against every alternative: it is <b>UMP</b>.`);
     steps.push(`The MLR direction detected here is <b>${result.direction}</b> - larger ${s} shifts T toward ${dirWord(result.direction === 'upper' ? 'upper':'lower')} values in the H&#8321; direction, so the UMP rejection region is <span class="formula">T ${dirSym(result.direction)} c</span>.`);
     let cstep = `Solving P<sub>${s0}</sub>(reject) = &alpha;: <b>c = ${fmtSmart(result.c, result.fam.discrete)}</b>.`;
     if (result.gamma > 1e-6) cstep += ` T is discrete, so reject outright past c and reject with probability <b>&gamma; = ${fmt(result.gamma, 4)}</b> at T = ${result.boundary} to hit &alpha; exactly.`;
@@ -1110,7 +1110,7 @@ function buildSteps(result, cfg, ctx) {
     steps.push(`No UMP test exists against H&#8321;: ${s} &ne; ${s0}. The UMP test against ${s} &gt; ${s0} rejects for ${dirWord('upper')} T, while the UMP test against ${s} &lt; ${s0} rejects for ${dirWord('lower')} T - no single rejection region maximizes power in both directions at once.`);
     steps.push(`Restricting to <b>unbiased</b> tests (power &ge; &alpha; everywhere) requires the power function &beta;(&theta;) to have a minimum at &theta;&#8320;: &beta;(${s0}) = &alpha; and &beta;&prime;(${s0}) = 0.`);
     steps.push(`For a one-parameter exponential family this reduces to two equations in c&#8321;, c&#8322;: <span class="formula">P<sub>${s0}</sub>(c&#8321; &le; T &le; c&#8322;) = 1&minus;&alpha;</span> and <span class="formula">E<sub>${s0}</sub>[T &middot; 1(c&#8321;&le;T&le;c&#8322;)] = (1&minus;&alpha;)&middot;E<sub>${s0}</sub>[T]</span>.`);
-    steps.push(`Solving numerically (Newton&ndash;Raphson on both equations): <b>c&#8321; = ${fmtSmart(result.c1, false)}, c&#8322; = ${fmtSmart(result.c2, false)}</b>.`);
+    steps.push(`Solving numerically (Newton - Raphson on both equations): <b>c&#8321; = ${fmtSmart(result.c1, false)}, c&#8322; = ${fmtSmart(result.c2, false)}</b>.`);
     steps.push(`<b>UMPU test:</b> reject H&#8320; when T &lt; c&#8321; or T &gt; c&#8322;.`);
   }
 
