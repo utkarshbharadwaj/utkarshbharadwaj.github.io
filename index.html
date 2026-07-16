@@ -47,15 +47,15 @@
     padding: 2rem 1rem;
   }
 
-  /* Main Application Container matching the mockup style */
+  /* Main Application Container */
   .app-container {
     max-width: 1280px;
     margin: 0 auto;
     background: var(--bg-surface);
     border-radius: 24px;
     box-shadow: var(--shadow-xl);
-    overflow: hidden;
     position: relative;
+    /* overflow: hidden removed to allow position: sticky to work on the nav */
   }
 
   /* Navigation */
@@ -66,6 +66,8 @@
     padding: 1.5rem 4rem;
     background: var(--bg-surface);
     border-bottom: 1px solid var(--border-color);
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -74,12 +76,7 @@
   .nav-logo {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--text-primary);
     text-decoration: none;
-    letter-spacing: -0.02em;
   }
   
   .nav-logo-icon {
@@ -92,9 +89,10 @@
     color: white;
     border-radius: 50%;
     font-size: 1.1rem;
+    font-weight: 800;
   }
 
-  nav ul { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+  nav ul { display: flex; gap: 2rem; list-style: none; align-items: center; }
   nav a {
     color: var(--text-secondary);
     text-decoration: none;
@@ -103,15 +101,6 @@
     transition: color 0.2s ease;
   }
   nav a:hover, nav a.active { color: var(--text-primary); }
-  
-  .nav-contact-btn {
-    background: var(--accent-primary);
-    color: white !important;
-    padding: 0.6rem 1.5rem;
-    border-radius: 8px;
-    transition: background 0.2s ease;
-  }
-  .nav-contact-btn:hover { background: var(--accent-hover); }
 
   .nav-toggle {
     display: none;
@@ -140,6 +129,13 @@
     background: linear-gradient(180deg, #fdfdff 0%, var(--bg-surface) 100%);
   }
   .hero-inner { max-width: 850px; }
+  
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 10px; background: var(--accent-light);
+    border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 999px; padding: 0.5rem 1.2rem;
+    font-size: 0.85rem; font-weight: 700; color: var(--accent-primary);
+    margin-bottom: 2rem;
+  }
 
   h1 {
     font-size: clamp(3rem, 6vw, 4.5rem);
@@ -153,16 +149,10 @@
   .hero-subtitle {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--text-secondary);
     margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
   }
-  
   .hero-subtitle span {
     color: var(--accent-primary);
-    font-weight: 700;
   }
 
   .hero-desc {
@@ -192,7 +182,7 @@
   .stat-item { text-align: left; }
   .stat-num { font-size: 2.2rem; font-weight: 800; color: var(--text-primary); line-height: 1; }
   .stat-num span { font-size: 1.5rem; color: var(--text-tertiary); }
-  .stat-label { font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; margin-top: 4px; }
+  .stat-label { font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
 
   /* Generic Section Styling */
   section { padding: 5rem 4rem; border-top: 1px solid var(--border-color); }
@@ -261,7 +251,7 @@
     font-weight: 800; color: white; flex-shrink: 0;
   }
   .edu-content h3 { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem; }
-  .edu-content .edu-degree { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 0.8rem; font-weight: 500; }
+  .edu-content .edu-degree { font-size: 1.1rem; color: var(--accent-primary); margin-bottom: 0.8rem; font-weight: 600; }
   .edu-content .edu-meta { font-size: 0.9rem; color: var(--text-tertiary); margin-bottom: 1.5rem; font-weight: 600; }
 
   /* Skills */
@@ -277,6 +267,8 @@
   .project-card h3 { font-size: 1.3rem; font-weight: 700; color: var(--text-primary); line-height: 1.3; }
   .project-date { font-size: 0.85rem; font-weight: 600; color: var(--text-tertiary); white-space: nowrap; }
   .project-card p { font-size: 1rem; color: var(--text-secondary); flex: 1; }
+  .project-card a { color: var(--accent-primary); text-decoration: none; font-weight: 600; }
+  .project-card a:hover { text-decoration: underline; }
   .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; }
 
   /* Achievements */
@@ -290,7 +282,7 @@
 
   /* Contact */
   .contact-section { text-align: center; padding: 6rem 4rem; background: var(--bg-surface); }
-  .contact-section h2 { font-size: 3rem; margin-bottom: 1rem; }
+  .contact-section h2 { font-size: 3.5rem; margin-bottom: 1rem; font-weight: 800; letter-spacing: -0.02em; }
   .contact-section p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2.5rem; }
   .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
   .contact-link {
@@ -299,7 +291,7 @@
     border-radius: 8px; color: var(--text-primary); text-decoration: none;
     font-weight: 600; transition: all 0.2s;
   }
-  .contact-link:hover { background: var(--text-primary); color: white; }
+  .contact-link:hover { background: var(--text-primary); color: white; transform: translateY(-3px); box-shadow: var(--shadow-md); }
 
   footer {
     text-align: center; padding: 2.5rem; color: var(--text-tertiary);
@@ -332,7 +324,6 @@
   <nav>
     <a href="index.html" class="nav-logo">
       <div class="nav-logo-icon">U</div>
-      Utkarsh
     </a>
     <ul id="navLinks">
       <li><a href="#education">Education</a></li>
@@ -340,7 +331,8 @@
       <li><a href="#projects">Projects</a></li>
       <li><a href="#workshops">Workshops</a></li>
       <li><a href="#achievements">Achievements</a></li>
-      <li><a href="#contact" class="nav-contact-btn">Contact</a></li>
+      <li><a href="notes.html">Study Material</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
       <span></span><span></span><span></span>
@@ -351,13 +343,15 @@
     <div class="hero">
       <div class="hero-inner">
         <h1>Hello, I’m<br>Utkarsh Bharadwaj</h1>
-        <p class="hero-subtitle">Student <span>@ Indian Statistical Institute</span></p>
+        <p class="hero-subtitle"><span>@ Indian Statistical Institute, Delhi</span></p>
         <p class="hero-desc">
-          I am a mathematics and statistics student pursuing a Bachelor of Statistical Data Science (BSDS). I am passionate about applying theoretical foundations to solve complex, real-world problems and eager to contribute to quantitative research.
+          Mathematics and statistics student passionate about applying
+          theoretical foundations to solve complex, real-world problems.
+          Eager to contribute to quantitative research.
         </p>
         <div class="hero-cta">
-          <a href="#contact" class="btn btn-primary">Say Hello!</a>
-          <a href="#projects" class="btn btn-outline">View Portfolio</a>
+          <a href="#contact" class="btn btn-primary">Get in Touch →</a>
+          <a href="#projects" class="btn btn-outline">View Projects</a>
         </div>
         <div class="hero-stats">
           <div class="stat-item">
@@ -365,11 +359,11 @@
             <div class="stat-label">JEE Maths %ile</div>
           </div>
           <div class="stat-item">
-            <div class="stat-num">31</div>
-            <div class="stat-label">ISI BSDS Rank (AIR)</div>
+            <div class="stat-num">AIR <span>31</span></div>
+            <div class="stat-label">ISI BSDS Rank</div>
           </div>
           <div class="stat-item">
-            <div class="stat-num">9<span>+</span></div>
+            <div class="stat-num"><span>9</span>+</div>
             <div class="stat-label">Research Projects</div>
           </div>
         </div>
@@ -386,7 +380,7 @@
         <div class="edu-content">
           <h3>Indian Statistical Institute, Delhi</h3>
           <div class="edu-degree">Bachelor of Statistical Data Science (BSDS)</div>
-          <div class="edu-meta">Aug 2025 – Present &nbsp;·&nbsp; Aggregate: 70.4% (Sem 1), 84% (Sem 2)</div>
+          <div class="edu-meta">Aug 2025 – Present &nbsp;·&nbsp; Aggregate: 70.4% (1st Semester), 84% (2nd Semester)</div>
           <div>
             <span class="tag primary">R Programming</span>
             <span class="tag primary">Linear Algebra</span>
@@ -418,9 +412,9 @@
         <div class="content-card skill-card">
           <h4>Languages</h4>
           <div class="skill-items">
-            <span class="tag primary">Python</span>
-            <span class="tag primary">R</span>
-            <span class="tag primary">LaTeX</span>
+            <span class="tag">Python</span>
+            <span class="tag">R</span>
+            <span class="tag">LaTeX</span>
           </div>
         </div>
         <div class="content-card skill-card">
@@ -468,7 +462,7 @@
             <h3>Neyman-Pearson Lab</h3>
             <span class="project-date">July 2026</span>
           </div>
-          <p>A dashboard to conduct hypothesis testing problems. Choose distribution and significance level to generate test functions and critical regions using the Neyman-Pearson Lemma and Karlin-Rubin Theorem.</p>
+          <p>This is a dashboard which lets you conduct hypothesis testing problem. You can choose the distribution as well as adjust the level of significance. The system will generate the test function as well as highlight the critical region using the Neyman-Pearson Lemma and the Karlin-Rubin Theorem. This is still at a nascent stage of development</p>
           <div class="project-tags">
             <span class="tag primary">Hypothesis Testing</span>
             <span class="tag">Neyman-Pearson Lemma</span>
@@ -484,10 +478,10 @@
 
         <div class="content-card project-card expandable" title="Click to view documents">
           <div class="project-header">
-            <h3>CipherInk: Forensic Stylometry</h3>
+            <h3>CipherInk: Forensic Stylometry Platform</h3>
             <span class="project-date">June 2026</span>
           </div>
-          <p>Team project with Ananya Joshi. An authorship attribution software using Poisson Probabilities and Likelihood values to test the authorship of unknown texts against pre-given models.</p>
+          <p>This is was team project along with <a href="https://portfolio-ananya-joshi.vercel.app/" target="_blank">Ananya Joshi</a>. We made an authorship attribution software where we used Poisson Probabilities and Likelihood values to test auhorship of unknown text against pre-given data for the models. You can also train your own model</p>
           <div class="project-tags">
             <span class="tag primary">Bayesian Inference</span>
             <span class="tag">Statistical NLP</span>
@@ -503,13 +497,13 @@
 
         <div class="content-card project-card expandable" title="Click to view documents">
           <div class="project-header">
-            <h3>India's Foreign Trade Dynamics</h3>
+            <h3>Beyond the Deficit: India's Foreign Trade Dynamics</h3>
             <span class="project-date">May 2026</span>
           </div>
-          <p>Conducted a comprehensive 35-year empirical time-series analysis (1990–2025) of macroeconomic trade trends. Evaluated structural impacts of currency depreciation and energy dependency.</p>
+          <p>Conducted a comprehensive 35-year empirical time-series analysis (1990–2025) of India's macroeconomic trade trends. Evaluated the structural impacts of currency depreciation and energy dependency using inflation-adjusted (Real) values.</p>
           <div class="project-tags">
-            <span class="tag primary">Time-Series Analysis</span>
             <span class="tag">R</span>
+            <span class="tag primary">Time-Series Analysis</span>
             <span class="tag">Macroeconomics</span>
           </div>
           <div class="click-indicator">
@@ -524,13 +518,13 @@
 
         <div class="content-card project-card expandable" title="Click to view documents">
           <div class="project-header">
-            <h3>Billboard Analytics 2018–2025</h3>
+            <h3>What Makes a Hit? Billboard Analytics 2018–2025</h3>
             <span class="project-date">May 2026</span>
           </div>
-          <p>Investigated the acoustic and structural properties of Billboard Top 100 songs. Engineered a unified dataset bridging APIs, utilizing Python for KNN imputation and R for statistical analysis.</p>
+          <p>Investigated the acoustic and structural properties of Billboard Top 100 songs across eight years. Engineered a unified dataset bridging Spotify, Maven Analytics, and AcousticBrainz APIs, utilizing Python for KNN imputation and R for statistical analysis.</p>
           <div class="project-tags">
-            <span class="tag primary">API Integration</span>
             <span class="tag">R & Python</span>
+            <span class="tag primary">API Integration</span>
             <span class="tag">Statistical Analysis</span>
           </div>
           <div class="click-indicator">
@@ -545,12 +539,12 @@
 
         <div class="content-card project-card expandable" title="Click to view report">
           <div class="project-header">
-            <h3>Convex Optimization for LPG Allocation</h3>
+            <h3>Convex Optimization for Constrained LPG Allocation</h3>
             <span class="project-date">May 2026</span>
           </div>
-          <p>Formulated a strictly convex Quadratic Programming model to optimally allocate constrained national fuel supply across sectors, balancing economic losses against environmental health risks.</p>
+          <p>Formulated a strictly convex Quadratic Programming model to optimally allocate constrained national fuel supply across domestic and commercial sectors, balancing economic losses against environmental health risks.</p>
           <div class="project-tags">
-            <span class="tag primary">QP Modeling</span>
+            <span class="tag">QP Modeling</span>
             <span class="tag">Optimization Theory</span>
           </div>
           <div class="click-indicator">
@@ -564,13 +558,13 @@
 
         <div class="content-card project-card expandable" title="Click to view report">
           <div class="project-header">
-            <h3>Authorship Attribution using Poisson</h3>
+            <h3>Authorship Attribution using Poisson Probabilities</h3>
             <span class="project-date">Mar 2026</span>
           </div>
           <p>Modeled frequency of non-contextual filler words as rare events using Poisson distributions to create statistical fingerprints for historical texts, using log-likelihoods to mitigate numerical underflow.</p>
           <div class="project-tags">
-            <span class="tag primary">Poisson Distribution</span>
             <span class="tag">Statistical Modeling</span>
+            <span class="tag primary">Poisson Distribution</span>
             <span class="tag">NLP</span>
           </div>
           <div class="click-indicator">
@@ -584,12 +578,12 @@
 
         <div class="content-card project-card">
           <div class="project-header">
-            <h3>Eco-Aware AI Tool — Hackathon</h3>
+            <h3>Eco-Aware AI Tool — NIT Delhi Hackathon</h3>
             <span class="project-date">Mar 2026</span>
           </div>
-          <p>Top 10 of 150+ teams at NIT Delhi UpVision Hackathon ("AI for Humanity"). Built a tool using Abstract Syntax Trees to estimate the carbon and water footprint of Python code.</p>
+          <p>Top 10 of 150+ teams at NIT Delhi UpVision Hackathon ("AI for Humanity" track). Built a tool using Abstract Syntax Trees to estimate the carbon and water footprint of Python code in 12 hours.</p>
           <div class="project-tags">
-            <span class="tag primary">Top 10</span>
+            <span class="tag primary">Top 10 / 150+ Teams</span>
             <span class="tag">Python ASTs</span>
             <span class="tag">AI for Humanity</span>
           </div>
@@ -597,13 +591,13 @@
 
         <div class="content-card project-card expandable" title="Click to view report">
           <div class="project-header">
-            <h3>Anomaly Detection (Benford's Law)</h3>
+            <h3>Data Anomaly Detection using Benford's Law</h3>
             <span class="project-date">Nov 2025</span>
           </div>
-          <p>Investigated application of Benford's Law to detect data fabrication in macroeconomic datasets. Programmed R scripts to validate anomalies in GDP reporting of volatility-prone economies.</p>
+          <p>Investigated application of Benford's Law to detect data fabrication in macroeconomic datasets. Programmed R scripts to extract leading digits and validate anomalies in GDP reporting of volatility-prone economies.</p>
           <div class="project-tags">
-            <span class="tag primary">Statistical Verification</span>
             <span class="tag">R</span>
+            <span class="tag primary">Statistical Verification</span>
             <span class="tag">Anomaly Detection</span>
           </div>
           <div class="click-indicator">
@@ -614,23 +608,63 @@
             <a href="projects/project-benford.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
           </div>
         </div>
+        
+        <div class="content-card project-card expandable" title="Click to view report">
+          <div class="project-header">
+            <h3>Geospatial Stratification & Population Estimation</h3>
+            <span class="project-date">Oct 2025</span>
+          </div>
+          <p>Designed a Stratified Random Sampling experiment to estimate tree population of the ISI campus using Google Earth Pro KML mapping and 10m × 10m grid segmentation with High/Low-Density strata.</p>
+          <div class="project-tags">
+            <span class="tag primary">Sampling Design</span>
+            <span class="tag">Google Earth Pro</span>
+            <span class="tag">GIS Mapping</span>
+          </div>
+          <div class="click-indicator">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+            View Report
+          </div>
+          <div class="expand-action">
+            <a href="projects/project-geospatial.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
+          </div>
+        </div>
+
+        <div class="content-card project-card expandable" title="Click to view report">
+          <div class="project-header">
+            <h3>Statistical Critique of Climate Economics</h3>
+            <span class="project-date">Sept 2025</span>
+          </div>
+          <p>Analyzed impact of data anomalies on global climate commitment models. Critiqued methodological robustness of Kotz et al. (2024) vs Hsiang et al. (2025), evaluating sensitivity of regression estimates in distributed lag models.</p>
+          <div class="project-tags">
+            <span class="tag">R</span>
+            <span class="tag primary">Critical Analysis</span>
+            <span class="tag">Climate Economics</span>
+          </div>
+          <div class="click-indicator">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+            View Report
+          </div>
+          <div class="expand-action">
+            <a href="projects/project-climate.pdf" target="_blank" class="doc-btn">📄 Show Project Report</a>
+          </div>
+        </div>
 
       </div>
     </section>
 
     <section id="workshops">
       <div class="section-header">
-        <div class="section-label">04 — Workshops</div>
-        <h2>Seminars & Learning</h2>
+        <div class="section-label">04 — Workshops & Seminars</div>
+        <h2>Workshops & Seminars</h2>
       </div>
       
       <div class="content-card edu-card expandable" title="Click to view workshop details">
         <div class="edu-logo">IIT</div>
         <div class="edu-content">
           <h3>NS2ML-DE 2026</h3>
-          <div class="edu-degree">Numerical Solvers to Data-Driven Machine Learning in Differential Equations</div>
+          <div class="edu-degree">From Numerical Solvers to Data-Driven Machine Learning in Differential Equations</div>
           <div class="edu-meta">Indian Institute of Technology Ropar &nbsp;·&nbsp; Jul 6 – 10, 2026</div>
-          <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">A 5-day workshop covering numerical solvers for ODEs/PDEs and data-driven machine learning techniques, including Physics-Informed Neural Networks (PINNs), with hands-on lab sessions in MATLAB and Python.</p>
+          <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">A 5-day workshop covering numerical solvers for ODEs/PDEs (finite difference and finite element methods) and data-driven machine learning techniques, including Physics-Informed Neural Networks (PINNs), with hands-on lab sessions in MATLAB and Python.</p>
           <div>
             <span class="tag primary">Numerical Methods</span>
             <span class="tag primary">PINNs</span>
@@ -651,14 +685,15 @@
       <div class="content-card edu-card" style="margin-top: 2rem;">
         <div class="edu-logo">ISI</div>
         <div class="edu-content">
-          <h3>Extremal Bayesian Deep Learning Framework</h3>
+          <h3>Extremal Bayesian Deep Learning Framework for Prediction and Uncertainty Quantification of Weather Extremes</h3>
           <div class="edu-degree">Dr. Rishikesh Yadav — Assistant Professor, IIT Mandi</div>
           <div class="edu-meta">SQC & OR Unit Seminar, ISI Delhi &nbsp;·&nbsp; Jul 16, 2026</div>
-          <p style="color: var(--text-secondary); margin-bottom: 1rem;">The talk presented a Bayesian deep learning framework for forecasting weather and climate extremes using large-scale datasets such as ERA5 reanalysis.</p>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem;">The talk presented a Bayesian deep learning framework for forecasting weather and climate extremes — heavy rainfall, heatwaves, floods, droughts, and tropical storms — using large-scale datasets such as ERA5 reanalysis. By combining neural network representation learning with Bayesian inference, the framework targets tail-risk estimation and uncertainty-aware probabilistic forecasts for climate risk assessment.</p>
+          <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Personally took away a solid introduction to Extreme Value Theory — the GEV and GPD distributions, and the block-maxima vs. peak-over-threshold approaches to modeling extremes.</p>
           <div>
             <span class="tag primary">Bayesian Deep Learning</span>
             <span class="tag primary">Extreme Value Theory</span>
-            <span class="tag">GEV / GPD</span>
+            <span class="tag">GEV / GPD Distributions</span>
             <span class="tag">Uncertainty Quantification</span>
           </div>
         </div>
@@ -676,7 +711,7 @@
           <div class="achievement-icon">💡</div>
           <div class="achievement-text">
             <h4>Vihaan 9.0 Hackathon Finalist — DTU</h4>
-            <p>Advanced to the offline finals of the Vihaan 9.0 Hackathon at Delhi Technological University with Team Diazonium.</p>
+            <p>Advanced to the offline finals of the Vihaan 9.0 Hackathon at Delhi Technological University with Team Diazonium, recognized for exceptional problem-solving and innovation.</p>
             <div class="click-indicator">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
               View Certificate
@@ -685,7 +720,7 @@
               <a href="certificates/cert-vihaan.pdf" target="_blank" class="doc-btn">📄 View Certificate</a>
             </div>
           </div>
-          <div class="achievement-badge">Finalist</div>
+          <div class="achievement-badge">Vihaan 9.0</div>
         </div>
         
         <div class="content-card achievement-item expandable" title="Click to view certificate">
@@ -714,10 +749,26 @@
         </div>
 
         <div class="content-card achievement-item expandable" title="Click to view certificate">
+          <div class="achievement-icon">🚀</div>
+          <div class="achievement-text">
+            <h4>NIT Delhi UpVision Hackathon</h4>
+            <p>Top 10 out of 150+ teams in the "AI for Humanity" track with Team Diazonium.</p>
+            <div class="click-indicator">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              View Certificate
+            </div>
+            <div class="expand-action">
+              <a href="certificates/cert-hackathon.pdf" target="_blank" class="doc-btn">📄 View Certificate</a>
+            </div>
+          </div>
+          <div class="achievement-badge">Top 10 / 150+</div>
+        </div>
+
+        <div class="content-card achievement-item expandable" title="Click to view certificate">
           <div class="achievement-icon">🌐</div>
           <div class="achievement-text">
             <h4>IELTS Certified — C1 Level (Advanced)</h4>
-            <p>English language proficiency at advanced level; also fluent in Hindi and Maithili.</p>
+            <p>English language proficiency at advanced level; also fluent in Hindi and Maithili (mother tongue).</p>
             <div class="click-indicator">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
               View Certificate
@@ -733,7 +784,7 @@
     </section>
 
     <div class="contact-section" id="contact">
-      <h2>Let's connect</h2>
+      <h2>Let's <em>Connect</em></h2>
       <p>Open to research collaborations, internships, and quantitative roles.</p>
       <div class="contact-links">
         <a href="mailto:bsdbg2521@isid.ac.in" class="contact-link">
@@ -754,7 +805,7 @@
   </main>
 
   <footer>
-    Designed for clarity · Utkarsh Bharadwaj © 2026 · ISI Delhi
+    Built with ❤️ · Utkarsh Bharadwaj © 2026 · ISI Delhi
   </footer>
 </div>
 
