@@ -23,10 +23,76 @@
     --accent-light: #f3e8ff;
     
     --border-color: #e5e7eb;
+    --border-hover: #d1d5db;
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    /* Text that sits ON TOP of accent/inverse fills — flips per-theme so it never washes out */
+    --text-on-accent: #ffffff;
+    --text-on-inverse: #ffffff;
+    --hero-glow: linear-gradient(180deg, #fdfdff 0%, var(--bg-surface) 100%);
+    --scrollbar-thumb: #cbd5e1;
+    --container-border: transparent;
+  }
+
+  /* ── DARK THEME VARIABLES ── */
+  [data-theme="dark"] {
+    --bg-page: #0f172a;
+    --bg-surface: #1e293b;
+    --bg-surface-alt: #334155;
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+
+    --accent-primary: #a78bfa; /* Slightly brighter purple for dark mode */
+    --accent-hover: #c4b5fd;
+    --accent-light: rgba(139, 92, 246, 0.2);
+    
+    --border-color: #334155;
+    --border-hover: #475569;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+
+    /* Dark-mode accent (#a78bfa) and text-primary (#f8fafc) are both LIGHT,
+       so anything using white text on top of them needs to flip to dark text instead */
+    --text-on-accent: #171233;
+    --text-on-inverse: #0f172a;
+    --hero-glow: linear-gradient(180deg, rgba(167, 139, 250, 0.10) 0%, var(--bg-surface) 100%);
+    --scrollbar-thumb: #475569;
+    --container-border: #293548;
+  }
+
+  /* Smooth transition for theme switching */
+  body, .app-container, nav, section, .content-card, .btn, .nav-toggle span {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Theme Toggle Button Styles */
+  .theme-toggle {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    margin-left: 1rem;
+  }
+  .theme-toggle:hover {
+    background: var(--bg-surface-alt);
+  }
+  
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -34,7 +100,7 @@
 
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: var(--bg-page); }
-  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 10px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
   ::selection { background: var(--accent-light); color: var(--accent-primary); }
 
@@ -53,6 +119,7 @@
     margin: 0 auto;
     background: var(--bg-surface);
     border-radius: 24px;
+    border: 1px solid var(--container-border);
     box-shadow: var(--shadow-xl);
     position: relative;
     /* overflow: hidden removed to allow position: sticky to work on the nav */
@@ -86,7 +153,7 @@
     width: 36px;
     height: 36px;
     background: var(--accent-primary);
-    color: white;
+    color: var(--text-on-accent);
     border-radius: 50%;
     font-size: 1.1rem;
     font-weight: 800;
@@ -126,7 +193,7 @@
     display: flex;
     align-items: center;
     padding: 6rem 4rem;
-    background: linear-gradient(180deg, #fdfdff 0%, var(--bg-surface) 100%);
+    background: var(--hero-glow);
   }
   .hero-inner { max-width: 850px; }
   
@@ -170,7 +237,7 @@
     padding: 0.8rem 2rem; border-radius: 8px; font-size: 1rem; font-weight: 600;
     text-decoration: none; transition: all 0.2s ease; cursor: pointer; border: none;
   }
-  .btn-primary { background: var(--accent-primary); color: #fff; box-shadow: var(--shadow-md); }
+  .btn-primary { background: var(--accent-primary); color: var(--text-on-accent); box-shadow: var(--shadow-md); }
   .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
   .btn-outline { background: transparent; color: var(--text-primary); border: 2px solid var(--border-color); }
   .btn-outline:hover { border-color: var(--text-primary); background: var(--bg-surface-alt); }
@@ -212,7 +279,7 @@
   }
   .content-card:hover {
     box-shadow: var(--shadow-md);
-    border-color: #d1d5db;
+    border-color: var(--border-hover);
     transform: translateY(-3px);
   }
 
@@ -248,7 +315,7 @@
   .edu-logo {
     width: 64px; height: 64px; border-radius: 12px; background: var(--text-primary);
     display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
-    font-weight: 800; color: white; flex-shrink: 0;
+    font-weight: 800; color: var(--text-on-inverse); flex-shrink: 0;
   }
   .edu-content h3 { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem; }
   .edu-content .edu-degree { font-size: 1.1rem; color: var(--accent-primary); margin-bottom: 0.8rem; font-weight: 600; }
@@ -291,7 +358,7 @@
     border-radius: 8px; color: var(--text-primary); text-decoration: none;
     font-weight: 600; transition: all 0.2s;
   }
-  .contact-link:hover { background: var(--text-primary); color: white; transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .contact-link:hover { background: var(--text-primary); color: var(--text-on-inverse); transform: translateY(-3px); box-shadow: var(--shadow-md); }
 
   footer {
     text-align: center; padding: 2.5rem; color: var(--text-tertiary);
@@ -334,9 +401,33 @@
       <li><a href="notes.html">Study Material</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-      <span></span><span></span><span></span>
-    </button>
+    
+    <div class="nav-controls">
+      <!-- Dark Mode Toggle -->
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+        <!-- Moon Icon -->
+        <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <!-- Sun Icon (Hidden by default) -->
+        <svg id="sunIcon" style="display: none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
   <main>
@@ -841,6 +932,41 @@
     link.addEventListener('click', () => {
       navLinks.classList.remove('open');
     });
+  });
+
+  // --- Dark Mode Logic ---
+  const themeToggle = document.getElementById('themeToggle');
+  const moonIcon = document.getElementById('moonIcon');
+  const sunIcon = document.getElementById('sunIcon');
+  const htmlElement = document.documentElement;
+
+  // 1. Check local storage for saved theme preference
+  const currentTheme = localStorage.getItem('theme');
+  
+  // 2. Apply saved theme on load
+  if (currentTheme === 'dark') {
+    htmlElement.setAttribute('data-theme', 'dark');
+    moonIcon.style.display = 'none';
+    sunIcon.style.display = 'block';
+  }
+
+  // 3. Listen for clicks on the toggle button
+  themeToggle.addEventListener('click', () => {
+    let theme = htmlElement.getAttribute('data-theme');
+    
+    if (theme === 'dark') {
+      // Switch to Light Mode
+      htmlElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      moonIcon.style.display = 'block';
+      sunIcon.style.display = 'none';
+    } else {
+      // Switch to Dark Mode
+      htmlElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      moonIcon.style.display = 'none';
+      sunIcon.style.display = 'block';
+    }
   });
 </script>
 </body>
