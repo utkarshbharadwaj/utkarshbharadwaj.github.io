@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IIT Ropar Diaries: Late Nights, Café &amp; my French Hat - Utkarsh Bharadwaj</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-page: #e9ecef;
+    --bg-surface: #ffffff;
+    --bg-surface-alt: #f8f9fa;
+
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-tertiary: #6b7280;
+
+    --accent-primary: #8b5cf6;
+    --accent-hover: #7c3aed;
+    --accent-light: #f3e8ff;
+
+    --border-color: #e5e7eb;
+    --border-hover: #d1d5db;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    --text-on-accent: #ffffff;
+    --text-on-inverse: #ffffff;
+    --hero-glow: linear-gradient(180deg, #fdfdff 0%, var(--bg-surface) 100%);
+    --scrollbar-thumb: #cbd5e1;
+    --container-border: transparent;
+  }
+
+  [data-theme="dark"] {
+    --bg-page: #0f172a;
+    --bg-surface: #1e293b;
+    --bg-surface-alt: #334155;
+
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+
+    --accent-primary: #a78bfa;
+    --accent-hover: #c4b5fd;
+    --accent-light: rgba(139, 92, 246, 0.2);
+
+    --border-color: #334155;
+    --border-hover: #475569;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+
+    --text-on-accent: #171233;
+    --text-on-inverse: #0f172a;
+    --hero-glow: linear-gradient(180deg, rgba(167, 139, 250, 0.10) 0%, var(--bg-surface) 100%);
+    --scrollbar-thumb: #475569;
+    --container-border: #293548;
+  }
+
+  body, .app-container, nav, section, .content-card, .btn, .nav-toggle span {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .theme-toggle {
+    background: transparent; border: none; color: var(--text-primary); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; padding: 8px;
+    border-radius: 50%; margin-left: 1rem;
+  }
+  .theme-toggle:hover { background: var(--bg-surface-alt); }
+  .nav-controls { display: flex; align-items: center; gap: 1rem; }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-page); }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
+  ::selection { background: var(--accent-light); color: var(--accent-primary); }
+
+  body {
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+
+  .app-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    background: var(--bg-surface);
+    border-radius: 24px;
+    border: 1px solid var(--container-border);
+    box-shadow: var(--shadow-xl);
+    position: relative;
+  }
+
+  /* Navigation */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 4rem; background: var(--bg-surface); border-bottom: 1px solid var(--border-color);
+    border-top-left-radius: 24px; border-top-right-radius: 24px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo { display: flex; align-items: center; text-decoration: none; }
+  .nav-logo-icon {
+    display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;
+    background: var(--accent-primary); color: var(--text-on-accent); border-radius: 50%;
+    font-size: 1.1rem; font-weight: 800;
+  }
+  nav ul { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  nav a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 600; transition: color 0.2s ease; }
+  nav a:hover, nav a.active { color: var(--text-primary); }
+  nav a.active { color: var(--accent-primary); }
+
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; width: 30px; background: transparent; border: none; cursor: pointer; }
+  .nav-toggle span { display: block; width: 100%; height: 3px; background: var(--text-primary); border-radius: 2px; }
+
+  main { position: relative; z-index: 1; }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    padding: 1.5rem 4rem 0; font-size: 0.9rem; font-weight: 600; color: var(--text-tertiary);
+  }
+  .breadcrumb a { color: var(--text-tertiary); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--accent-primary); }
+  .breadcrumb span.sep { margin: 0 0.5rem; opacity: 0.6; }
+  .breadcrumb span.current { color: var(--text-secondary); }
+
+  /* Post Hero */
+  .post-hero { padding: 2.5rem 4rem 3rem; background: var(--hero-glow); }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 10px; background: var(--accent-light);
+    border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 999px; padding: 0.5rem 1.2rem;
+    font-size: 0.85rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 1.5rem;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem); font-weight: 800; line-height: 1.15;
+    color: var(--text-primary); margin-bottom: 1.25rem; letter-spacing: -0.03em; max-width: 850px;
+  }
+  .post-meta {
+    display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+    font-size: 0.9rem; font-weight: 600; color: var(--text-tertiary);
+  }
+  .post-meta .dot { opacity: 0.5; }
+
+  /* Post Body */
+  .post-wrap { padding: 0 4rem 5rem; }
+  .post-body {
+    max-width: 760px; margin: 0 auto; background: var(--bg-surface); border: 1px solid var(--border-color);
+    border-radius: 16px; padding: 3rem; box-shadow: var(--shadow-sm);
+  }
+  .post-body h3 {
+    font-size: 1.35rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.01em;
+    margin: 2.5rem 0 1rem;
+  }
+  .post-body h3:first-child { margin-top: 0; }
+  .post-body p {
+    font-size: 1.08rem; color: var(--text-secondary); line-height: 1.85; margin-bottom: 1.4rem;
+  }
+  .post-callout {
+    margin: 2.5rem 0 0.5rem; padding: 1.5rem 1.75rem; background: var(--accent-light);
+    border-left: 4px solid var(--accent-primary); border-radius: 8px;
+    font-size: 1rem; font-style: italic; color: var(--text-primary); font-weight: 600;
+  }
+  .post-tags { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border-color); }
+  .tag {
+    display: inline-block; background: var(--bg-surface-alt); border: 1px solid var(--border-color);
+    color: var(--text-secondary); border-radius: 6px; padding: 0.35rem 0.8rem; font-size: 0.8rem;
+    font-weight: 600; margin: 0.3rem 0.3rem 0.3rem 0;
+  }
+  .tag.primary { background: var(--accent-light); border-color: rgba(139, 92, 246, 0.2); color: var(--accent-primary); }
+
+  .post-nav {
+    max-width: 760px; margin: 2.5rem auto 0; display: flex; justify-content: space-between; align-items: center;
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 8px; color: var(--text-primary);
+    text-decoration: none; font-weight: 700; font-size: 0.95rem;
+  }
+  .back-link:hover { color: var(--accent-primary); }
+
+  footer { text-align: center; padding: 2.5rem; color: var(--text-tertiary); font-size: 0.9rem; font-weight: 500; border-top: 1px solid var(--border-color); background: var(--bg-surface); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.5rem 2rem; }
+    nav ul {
+      display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--bg-surface); border-bottom: 1px solid var(--border-color); padding: 1.5rem 2rem; gap: 1rem;
+    }
+    nav ul.open { display: flex; }
+    .nav-toggle { display: flex; }
+    .breadcrumb { padding: 1.5rem 1.5rem 0; }
+    .post-hero { padding: 2rem 1.5rem 2.5rem; }
+    .post-wrap { padding: 0 1.5rem 3rem; }
+    .post-body { padding: 1.75rem; }
+    h1 { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <nav>
+    <a href="../index.html" class="nav-logo">
+      <div class="nav-logo-icon">U</div>
+    </a>
+    <ul id="navLinks">
+      <li><a href="../index.html#education">Education</a></li>
+      <li><a href="../index.html#skills">Skills</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#workshops">Workshops</a></li>
+      <li><a href="../index.html#achievements">Achievements</a></li>
+      <li><a href="../notes.html">Study Material</a></li>
+      <li><a href="../blog.html" class="active">Blog</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+
+    <div class="nav-controls">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+        <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sunIcon" style="display: none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a><span class="sep">/</span><a href="../blog.html">Blog</a><span class="sep">/</span><span class="current">IIT Ropar Diaries</span>
+    </div>
+
+    <div class="post-hero">
+      <div class="hero-tag">✍️ Travel &amp; Workshop Diary</div>
+      <h1>IIT Ropar Diaries: Late Nights, Café &amp; my French Hat</h1>
+      <div class="post-meta">
+        <span>By Utkarsh Bharadwaj</span>
+        <span class="dot">•</span>
+        <span>July 2026</span>
+        <span class="dot">•</span>
+        <span>IIT Ropar, Punjab</span>
+        <span class="dot">•</span>
+        <span>6 min read</span>
+      </div>
+    </div>
+
+    <div class="post-wrap">
+      <article class="post-body">
+        <p>I spent a week of my summer at the Indian Institute of Technology (IIT), Ropar. Seven of us from ISI Delhi, along with Ananya and her friend Aashi from college, made the trip for a 5-day workshop on numerical methods for solving ordinary and partial differential equations. The whole experience turned out to be wholesome, chaotic in the best way, and genuinely fun.</p>
+
+        <h3>The Message That Started It All</h3>
+        <p>It was a quiet Sunday evening in the first week of May, and I got a message on the BSDS '29 WhatsApp group. It was from Adithya sir, who'd been our teaching assistant for one of the courses last semester. He suggested we go to IIT Ropar for this workshop. I pulled up their webpage, saw how little they were charging UG students 😅, and was sold almost instantly.</p>
+        <p>I roped in Sap and Neerav, and they were in too. Before long, we had a full team of seven ready to go. Everyone did their registrations ; I was the first one, of course 😉 ; and I talked Ananya into joining, who then brought her friend Aashi along. And then came the wait: two whole months until the trip finally began.</p>
+
+        <h3>All Aboard the Janshatabdi</h3>
+        <p>Finally, the day arrived. We had our tickets booked on the Janshatabdi Express from New Delhi to Rupnagar for the 5th of July, with the workshop scheduled to run from the 6th to the 10th. And so, we set off.</p>
+        <p>It was a genuinely fun ride. I wore my ISI T-shirt the entire time, paired with a French hat papa had brought back from his last trip to France. Funnily enough, papa left for his own tour to New Zealand on the very same day I boarded my train to Rupnagar ; we left home almost in parallel, headed in completely opposite directions.</p>
+        <p>Ananya and I had booked our tickets together, so we sat side by side while the rest of my batchmates sat across the aisle in the same coach, smirking at us the entire time 😁. Mumma had packed a generous stash of snacks for the journey, including pasta, which Ananya and I shared since we were both starving by the time we dug in. The ride was six hours long, but between the food and the conversation, it felt like it passed in a blink.</p>
+
+        <h3>Midnight at Rupnagar</h3>
+        <p>We finally reached Rupnagar, booked an auto, and rolled onto campus at around 9 PM on the 5th of July. I was assigned a shared room with Omhari at Satluj Hostel ; our entire ISI contingent ended up stationed there together. Ananya and Aashi, meanwhile, were allotted a room in Brahmaputra Hostel, along with a third girl who wasn't due to arrive until the night of the 8th.</p>
+        <p>We checked into our respective hostels and regrouped at the Annapurna Dining Hall, where the whole gang sat down together for dinner ; officially kicking off the week.</p>
+
+        <div class="post-callout">
+          To be continued ; everything that happened that week is coming in the next entry. 👀
+        </div>
+
+        <div class="post-tags">
+          <span class="tag primary">Travel</span>
+          <span class="tag primary">Workshop Life</span>
+          <span class="tag">IIT Ropar</span>
+          <span class="tag">NS2ML-DE 2026</span>
+          <span class="tag">Friends</span>
+        </div>
+      </article>
+
+      <div class="post-nav">
+        <a href="../blog.html" class="back-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back to all posts
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Built with ❤️ · Utkarsh Bharadwaj © 2026 · ISI Delhi
+  </footer>
+</div>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+    });
+  });
+
+  // --- Dark Mode Logic ---
+  const themeToggle = document.getElementById('themeToggle');
+  const moonIcon = document.getElementById('moonIcon');
+  const sunIcon = document.getElementById('sunIcon');
+  const htmlElement = document.documentElement;
+
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme === 'dark') {
+    htmlElement.setAttribute('data-theme', 'dark');
+    moonIcon.style.display = 'none';
+    sunIcon.style.display = 'block';
+  }
+
+  themeToggle.addEventListener('click', () => {
+    let theme = htmlElement.getAttribute('data-theme');
+    if (theme === 'dark') {
+      htmlElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      moonIcon.style.display = 'block';
+      sunIcon.style.display = 'none';
+    } else {
+      htmlElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      moonIcon.style.display = 'none';
+      sunIcon.style.display = 'block';
+    }
+  });
+</script>
+</body>
+</html>
