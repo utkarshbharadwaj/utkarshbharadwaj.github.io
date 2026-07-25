@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The BSDS First Semester Guide - Utkarsh Bharadwaj</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-page: #e9ecef;
+    --bg-surface: #ffffff;
+    --bg-surface-alt: #f8f9fa;
+
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-tertiary: #6b7280;
+
+    --accent-primary: #8b5cf6;
+    --accent-hover: #7c3aed;
+    --accent-light: #f3e8ff;
+
+    --border-color: #e5e7eb;
+    --border-hover: #d1d5db;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    --text-on-accent: #ffffff;
+    --text-on-inverse: #ffffff;
+    --hero-glow: linear-gradient(180deg, #fdfdff 0%, var(--bg-surface) 100%);
+    --scrollbar-thumb: #cbd5e1;
+    --container-border: transparent;
+  }
+
+  [data-theme="dark"] {
+    --bg-page: #0f172a;
+    --bg-surface: #1e293b;
+    --bg-surface-alt: #334155;
+
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+
+    --accent-primary: #a78bfa;
+    --accent-hover: #c4b5fd;
+    --accent-light: rgba(139, 92, 246, 0.2);
+
+    --border-color: #334155;
+    --border-hover: #475569;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+
+    --text-on-accent: #171233;
+    --text-on-inverse: #0f172a;
+    --hero-glow: linear-gradient(180deg, rgba(167, 139, 250, 0.10) 0%, var(--bg-surface) 100%);
+    --scrollbar-thumb: #475569;
+    --container-border: #293548;
+  }
+
+  body, .app-container, nav, section, .content-card, .btn, .nav-toggle span {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .theme-toggle {
+    background: transparent; border: none; color: var(--text-primary); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; padding: 8px;
+    border-radius: 50%; margin-left: 1rem;
+  }
+  .theme-toggle:hover { background: var(--bg-surface-alt); }
+  .nav-controls { display: flex; align-items: center; gap: 1rem; }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-page); }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
+  ::selection { background: var(--accent-light); color: var(--accent-primary); }
+
+  body {
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+
+  .app-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    background: var(--bg-surface);
+    border-radius: 24px;
+    border: 1px solid var(--container-border);
+    box-shadow: var(--shadow-xl);
+    position: relative;
+  }
+
+  /* Navigation */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 4rem; background: var(--bg-surface); border-bottom: 1px solid var(--border-color);
+    border-top-left-radius: 24px; border-top-right-radius: 24px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo { display: flex; align-items: center; text-decoration: none; }
+  .nav-logo-icon {
+    display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;
+    background: var(--accent-primary); color: var(--text-on-accent); border-radius: 50%;
+    font-size: 1.1rem; font-weight: 800;
+  }
+  nav ul { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  nav a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 600; transition: color 0.2s ease; }
+  nav a:hover, nav a.active { color: var(--text-primary); }
+  nav a.active { color: var(--accent-primary); }
+
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; width: 30px; background: transparent; border: none; cursor: pointer; }
+  .nav-toggle span { display: block; width: 100%; height: 3px; background: var(--text-primary); border-radius: 2px; }
+
+  main { position: relative; z-index: 1; }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    padding: 1.5rem 4rem 0; font-size: 0.9rem; font-weight: 600; color: var(--text-tertiary);
+  }
+  .breadcrumb a { color: var(--text-tertiary); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--accent-primary); }
+  .breadcrumb span.sep { margin: 0 0.5rem; opacity: 0.6; }
+  .breadcrumb span.current { color: var(--text-secondary); }
+
+  /* Post Hero */
+  .post-hero { padding: 2.5rem 4rem 3rem; background: var(--hero-glow); }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 10px; background: var(--accent-light);
+    border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 999px; padding: 0.5rem 1.2rem;
+    font-size: 0.85rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 1.5rem;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem); font-weight: 800; line-height: 1.15;
+    color: var(--text-primary); margin-bottom: 1.25rem; letter-spacing: -0.03em; max-width: 850px;
+  }
+  .post-meta {
+    display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+    font-size: 0.9rem; font-weight: 600; color: var(--text-tertiary);
+  }
+  .post-meta .dot { opacity: 0.5; }
+
+  /* Post Body */
+  .post-wrap { padding: 0 4rem 5rem; }
+  .post-body {
+    max-width: 760px; margin: 0 auto; background: var(--bg-surface); border: 1px solid var(--border-color);
+    border-radius: 16px; padding: 3rem; box-shadow: var(--shadow-sm);
+  }
+  .post-body h3 {
+    font-size: 1.35rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.01em;
+    margin: 2.5rem 0 1rem;
+  }
+  .post-body h3:first-child { margin-top: 0; }
+  .post-body h4 {
+    font-size: 1.14rem; font-weight: 700; color: var(--accent-primary); letter-spacing: -0.005em;
+    margin: 2.2rem 0 0.3rem;
+  }
+  .post-body .course-meta {
+    font-size: 0.9rem; color: var(--text-tertiary); font-style: italic; margin: 0 0 1rem;
+  }
+  .post-body p {
+    font-size: 1.08rem; color: var(--text-secondary); line-height: 1.85; margin-bottom: 1.4rem;
+  }
+  .post-body ol, .post-body ul {
+    margin: 0 0 1.4rem; padding-left: 1.4rem;
+  }
+  .post-body li {
+    font-size: 1.05rem; color: var(--text-secondary); line-height: 1.75; margin-bottom: 0.65rem;
+  }
+  .post-body li:last-child { margin-bottom: 0; }
+  .post-body li::marker { color: var(--accent-primary); font-weight: 700; }
+  .post-body strong { color: var(--text-primary); font-weight: 700; }
+  .post-body a {
+    color: var(--accent-primary); font-weight: 600; text-decoration: none;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.35); transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .post-body a:hover { border-bottom-color: var(--accent-primary); color: var(--accent-hover); }
+  .post-callout {
+    margin: 2rem 0 1.4rem; padding: 1.5rem 1.75rem; background: var(--accent-light);
+    border-left: 4px solid var(--accent-primary); border-radius: 8px;
+    font-size: 0.98rem; color: var(--text-primary); line-height: 1.7;
+  }
+  .post-callout p { font-size: 0.98rem; color: var(--text-primary); margin-bottom: 0.8rem; }
+  .post-callout p:last-child { margin-bottom: 0; }
+  .post-callout.coral {
+    background: rgba(239, 68, 68, 0.07); border-left-color: #ef4444;
+  }
+  .sign-off {
+    margin-top: 2rem; font-size: 1.08rem; font-weight: 700; color: var(--text-primary);
+  }
+  .post-tags { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border-color); }
+  .tag {
+    display: inline-block; background: var(--bg-surface-alt); border: 1px solid var(--border-color);
+    color: var(--text-secondary); border-radius: 6px; padding: 0.35rem 0.8rem; font-size: 0.8rem;
+    font-weight: 600; margin: 0.3rem 0.3rem 0.3rem 0;
+  }
+  .tag.primary { background: var(--accent-light); border-color: rgba(139, 92, 246, 0.2); color: var(--accent-primary); }
+
+  .post-nav {
+    max-width: 760px; margin: 2.5rem auto 0; display: flex; justify-content: space-between; align-items: center;
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 8px; color: var(--text-primary);
+    text-decoration: none; font-weight: 700; font-size: 0.95rem;
+  }
+  .back-link:hover { color: var(--accent-primary); }
+
+  footer { text-align: center; padding: 2.5rem; color: var(--text-tertiary); font-size: 0.9rem; font-weight: 500; border-top: 1px solid var(--border-color); background: var(--bg-surface); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.5rem 2rem; }
+    nav ul {
+      display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--bg-surface); border-bottom: 1px solid var(--border-color); padding: 1.5rem 2rem; gap: 1rem;
+    }
+    nav ul.open { display: flex; }
+    .nav-toggle { display: flex; }
+    .breadcrumb { padding: 1.5rem 1.5rem 0; }
+    .post-hero { padding: 2rem 1.5rem 2.5rem; }
+    .post-wrap { padding: 0 1.5rem 3rem; }
+    .post-body { padding: 1.75rem; }
+    h1 { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <nav>
+    <a href="../index.html" class="nav-logo">
+      <div class="nav-logo-icon">U</div>
+    </a>
+    <ul id="navLinks">
+      <li><a href="../index.html#education">Education</a></li>
+      <li><a href="../index.html#skills">Skills</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#workshops">Workshops</a></li>
+      <li><a href="../index.html#achievements">Achievements</a></li>
+      <li><a href="../notes.html">Study Material</a></li>
+      <li><a href="../blog.html" class="active">Blog</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+
+    <div class="nav-controls">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+        <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sunIcon" style="display: none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a><span class="sep">/</span><a href="../blog.html">Blog</a><span class="sep">/</span><span class="current">BSDS First Semester Guide</span>
+    </div>
+
+    <div class="post-hero">
+      <div class="hero-tag">🎓 Academic Guide</div>
+      <h1>The BSDS First Semester Guide</h1>
+      <div class="post-meta">
+        <span>By Utkarsh Bharadwaj</span>
+        <span class="dot">•</span>
+        <span>July 2026</span>
+        <span class="dot">•</span>
+        <span>ISI Delhi</span>
+        <span class="dot">•</span>
+        <span>8 min read</span>
+      </div>
+    </div>
+
+    <div class="post-wrap">
+      <article class="post-body">
+        <p>Hello everyone! I'm a 2nd year student of BSDS at ISI Delhi. Since the counselling rounds are nearing their end, a lot of you have been asking me questions about the <a href="https://bsds-isi.github.io/documents/BSDS-Curriculum-2025.pdf" target="_blank" rel="noopener">curriculum</a> and how academics are going to look here. This post is for exactly that. After reading it, you should have a decent idea of what studying in BSDS looks like, regardless of your center. I hope it helps the new folks joining us on campus in the fall of 2026, as well as anyone still deciding whether to apply to the program.</p>
+        <p>I'll go course by course for the first semester and try to give you a proper idea of how to study for each one and what to keep in mind. But before that, here are a few general points everyone should read first.</p>
+
+        <h3>A Few General Points</h3>
+        <ol>
+          <li><strong><a href="https://cyclotronpulsar.github.io/BSDS_Materials/" target="_blank" rel="noopener">Cyclotron Pulsar</a></strong> is the most comprehensive list of resources compiled by your seniors across every center. Make good use of it.</li>
+          <li>Make a <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a> and a <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> account if you don't already have one.</li>
+          <li><strong>Know your professors.</strong> It's worth looking up their research interests and profiles beforehand. <a href="https://isi.irins.org/" target="_blank" rel="noopener">IRINS</a> is a good place to start.</li>
+          <li><strong>Explore beyond just academics.</strong> Remember, you're in college now, not school. Use this time to explore different domains, you might end up liking finance, banking, tech, or research, or you might decide you'd rather go for higher studies later on. Try a bit of everything before you settle on one path.</li>
+          <li><strong>Please try to attend classes.</strong> Bunking is bad, and attendance has generally shown a positive correlation with marks. If you do end up missing a class, make sure you cover everything that was taught in it.</li>
+          <li>There are no better resources than your class notes, assignments, and quiz questions. Revise them properly. This isn't true for every single course, but it holds generally.</li>
+          <li>The batch average is usually in the 70s, with the highest going beyond 90, though that's typically just one or two students across all centers. Scoring in exams is generally difficult but it sometimes depends highly on the professor as well</li>
+        </ol>
+        <p>Now I'll go through all the courses you'll have in your first semester. You should also refer to the course descriptions in the <a href="https://bsds-isi.github.io/documents/BSDS-Curriculum-2025.pdf" target="_blank" rel="noopener">curriculum</a> linked above.</p>
+
+        <div class="post-callout">
+          <p>A couple of notes before we start. This information is for the 2026-27 academic year, so if you're reading this in a later year, the professors mentioned below may have changed.</p>
+        </div>
+
+        <h3>The First Semester Courses</h3>
+
+        <h4>Statistics I: Data Exploration</h4>
+        <p class="course-meta">Taught by <a href="https://sites.google.com/view/kaushikjana/" target="_blank" rel="noopener">Dr. Kaushik Jana</a>, from the Delhi center</p>
+        <p>This is probably the easiest course you'll take in your first semester. You'll get an informal introduction to R along with the basics of Simple Linear Regression (SLR) and Simple Random Sampling (SRS). These sound like big words, but they're genuinely easy once you put in a little effort. Some resources worth looking at:</p>
+        <ul>
+          <li><em><a href="https://home.iitk.ac.in/~shalab/regression/Chapter2-Regression-SimpleLinearRegressionAnalysis.pdf" target="_blank" rel="noopener">Simple Linear Regression Analysis</a></em> notes by Prof. Shalabh at IIT Kanpur. It's a 40 page PDF, but you only need to study the first 8 to 10 pages.</li>
+          <li><em><a href="https://home.iitk.ac.in/~shalab/sampling/chapter2-sampling-simple-random-sampling.pdf" target="_blank" rel="noopener">Simple Random Sampling</a></em> notes by Prof. Shalabh at IIT Kanpur. It's a 23 page PDF, and skimming the first 5 pages should be more than enough.</li>
+          <li><em>The Art of Statistics: Learning from Data</em> by David Spiegelhalter. This book reads almost like a novel. It explains various concepts in descriptive statistics through real life data and cases in R, and it gets used a lot before the mid semester exams.</li>
+        </ul>
+        <p>To learn R, just attend classes and try to code along with whatever you can. After class, put your code into an AI tool like Gemini or ChatGPT and ask it about anything you're unsure of, then go through the code again yourself. It helps a lot. You'll likely only be introduced to SLR and SRS properly after the mid sems.</p>
+        <p>Keep in mind this course isn't meant to be an exhaustive R course. That comes in second semester, likely taught by Prof. Deepayan Sarkar. Great guy, by the way.</p>
+
+        <h4>Probability I</h4>
+        <p class="course-meta">Taught by Prof. Abhay Gopal Bhatt, from the Delhi center</p>
+        <p>Abhay sir is a genuinely good and experienced professor, so I'll repeat the point about attendance here, and more strongly this time. This course is difficult, since it introduces a lot of new and important concepts that form the basis of everything you'll study later in statistics and data science. Don't bunk his classes, and make sure you take proper notes, at least for this one. Some resources to look at:</p>
+        <ul>
+          <li><em><a href="https://turan-edu.uz/media/books/2024/05/28/1665037283.pdf" target="_blank" rel="noopener">Introduction to Probability Theory</a></em> by Hoel, Port and Stone. This is concise and works well as a reference alongside your lecture notes and classes. It's not meant for self study on its own, or you'll end up putting in a lot more effort than necessary.</li>
+          <li><em><a href="https://chengzhaoxi.xyz/download/pdf/book/A-First-Course-in-Probability.pdf" target="_blank" rel="noopener">A First Course in Probability Theory</a></em> by Sheldon Ross, or <em><a href="http://lnfm1.sai.msu.ru/~milkyway/Books/1993_Book_Probability.pdf" target="_blank" rel="noopener">Probability</a></em> by J. Pitman. Both are good alternatives for reference.</li>
+          <li><em><a href="https://psweur.github.io/book.pdf" target="_blank" rel="noopener">Probability and Statistics with Examples using R</a></em> by Siva Athreya, Deepayan Sarkar, and Steve Tanner. Another solid option if you want to look further.</li>
+        </ul>
+        <p>My honest suggestion is to attend his classes and study from the lecture notes. They're the most effective resource for this course. Also make sure to solve the assignments, which you'll find on the <a href="https://cyclotronpulsar.github.io/BSDS_Materials/" target="_blank" rel="noopener">Cyclotron website</a>.</p>
+
+        <h4>Mathematics I</h4>
+        <p class="course-meta">Offered from the Bangalore center; professor unfortunately not known to me</p>
+        <p>This course introduces you to Real Analysis, and it has a steep learning curve. It's completely fine if you don't understand more than half of what's happening in class sometimes. You'll need to read through the texts and spend real time working through proofs. That's the only way analysis clicks. Worth looking at:</p>
+        <ul>
+          <li><em><a href="https://plbailey79.github.io/portal/harc/z17/RCmplx01_Ross.pdf" target="_blank" rel="noopener">Elementary Analysis</a></em> by Kenneth A. Ross. This was the officially recommended text for our Math I course, and we covered almost the entire book. It can be tough at first, but once you spend time with it, it starts to make sense.</li>
+          <li><em><a href="https://mashadi.staff.unri.ac.id/files/2018/10/BUKU-REAL-ANALYSIS.pdf" target="_blank" rel="noopener">Introduction to Real Analysis</a></em> by Bartle and Sherbert. Another good book that a lot of people at ISI recommend.</li>
+        </ul>
+        <p>Alongside analysis, you'll also be introduced to Linear Algebra. For that:</p>
+        <ul>
+          <li><a href="https://www.youtube.com/playlist?list=PLE7DDD91010BC51F8" target="_blank" rel="noopener">MIT OCW 18.06, Linear Algebra by Prof. Gilbert Strang</a>. This alone can carry you through first semester. Watch the series, at least through lecture 13.</li>
+          <li><em><a href="https://linear.axler.net/LADR4e.pdf" target="_blank" rel="noopener">Linear Algebra Done Right</a></em> by Sheldon Axler. A pretty standard introductory book that teaches linear algebra without leaning on matrices. Worth reading if you have the time.</li>
+        </ul>
+        <p>Real Analysis is going to take up a major chunk of your first semester, so make it your priority.</p>
+
+        <h4>Introduction to Computing</h4>
+        <p class="course-meta">Taught by Prof. Mandar Mitra, from the Kolkata center</p>
+        <p>This will be your first real introduction to Python, unless you've studied it before. You'll go through the basics, move into Object Oriented Programming, cover functions, and toward the end get introduced to data structures and some sorting techniques. This is just an introduction, not an exhaustive course, especially for the data structures and sorting parts. Prof. Malay Bhattacharyya from ISI Kolkata was our professor for this one, and <a href="https://www.isical.ac.in/~malaybhattacharyya/Courses/In2Comp/Fall2024" target="_blank" rel="noopener">his notes</a> are really good. You'll also find them on the <a href="https://cyclotronpulsar.github.io/BSDS_Materials/" target="_blank" rel="noopener">Cyclotron website</a>.</p>
+
+        <div class="post-callout">
+          <p>You'll also be offered 3 electives in first semester. Most students go with Economics, though that shouldn't stop you from exploring the other two. I took Economics I myself and honestly don't know much about the other options, so I won't write about them here. If you want to know more about Economics I, message me.</p>
+        </div>
+
+        <h3>Before I Go</h3>
+        <p>That's really all I have to offer for now. Academics are, without a doubt, going to be the most important part of your life at ISI, so there's no point neglecting them. You'll be able to enjoy everything else here as long as your academics are in line.</p>
+        <p>If you have any other doubts that haven't been answered above, feel free to reach out and I'll try my best to help.</p>
+
+        <div class="post-callout coral">
+          <p>A couple of things I'd rather not field questions on: cutoffs and exam prep strategy. Also, our senior batch's first internship season is this fall, so we'll only have solid data on internships once that season wraps up. We're hopeful BSDS placements turn out well, but that can only really be confirmed after the fact, so please hold off on those questions too.</p>
+        </div>
+
+        <p class="sign-off">Thanks for reading, and all the best! 😊</p>
+
+        <div class="post-tags">
+          <span class="tag primary">ISI Delhi</span>
+          <span class="tag primary">Academics</span>
+          <span class="tag">BSDS</span>
+          <span class="tag">Guide</span>
+          <span class="tag">First Semester</span>
+        </div>
+      </article>
+
+      <div class="post-nav">
+        <a href="../blog.html" class="back-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back to all posts
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Built with ❤️ · Utkarsh Bharadwaj © 2026 · ISI Delhi
+  </footer>
+</div>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+    });
+  });
+
+  // --- Dark Mode Logic ---
+  const themeToggle = document.getElementById('themeToggle');
+  const moonIcon = document.getElementById('moonIcon');
+  const sunIcon = document.getElementById('sunIcon');
+  const htmlElement = document.documentElement;
+
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme === 'dark') {
+    htmlElement.setAttribute('data-theme', 'dark');
+    moonIcon.style.display = 'none';
+    sunIcon.style.display = 'block';
+  }
+
+  themeToggle.addEventListener('click', () => {
+    let theme = htmlElement.getAttribute('data-theme');
+    if (theme === 'dark') {
+      htmlElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      moonIcon.style.display = 'block';
+      sunIcon.style.display = 'none';
+    } else {
+      htmlElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      moonIcon.style.display = 'none';
+      sunIcon.style.display = 'block';
+    }
+  });
+</script>
+</body>
+</html>
