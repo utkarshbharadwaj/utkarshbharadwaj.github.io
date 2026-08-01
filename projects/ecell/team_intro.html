@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Cell ISI Delhi - Core Team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ── CLEAN LIGHT THEME (matches portfolio index.html) ── */
+  :root {
+    --bg-page: #e9ecef;
+    --bg-surface: #ffffff;
+    --bg-surface-alt: #f8f9fa;
+
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-tertiary: #6b7280;
+
+    --accent-primary: #8b5cf6; /* Vibrant Purple */
+    --accent-hover: #7c3aed;
+    --accent-light: #f3e8ff;
+
+    --border-color: #e5e7eb;
+    --border-hover: #d1d5db;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    --text-on-accent: #ffffff;
+    --text-on-inverse: #ffffff;
+    --hero-glow: linear-gradient(180deg, #fdfdff 0%, var(--bg-surface) 100%);
+    --scrollbar-thumb: #cbd5e1;
+    --container-border: transparent;
+  }
+
+  [data-theme="dark"] {
+    --bg-page: #0f172a;
+    --bg-surface: #1e293b;
+    --bg-surface-alt: #334155;
+
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+
+    --accent-primary: #a78bfa;
+    --accent-hover: #c4b5fd;
+    --accent-light: rgba(139, 92, 246, 0.2);
+
+    --border-color: #334155;
+    --border-hover: #475569;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+
+    --text-on-accent: #171233;
+    --text-on-inverse: #0f172a;
+    --hero-glow: linear-gradient(180deg, rgba(167, 139, 250, 0.10) 0%, var(--bg-surface) 100%);
+    --scrollbar-thumb: #475569;
+    --container-border: #293548;
+  }
+
+  body, .app-container, nav, .slide, .content-card, .btn, .nav-toggle span {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .theme-toggle {
+    background: transparent; border: none; color: var(--text-primary); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    padding: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .theme-toggle:hover { background: var(--bg-surface-alt); }
+
+  .nav-controls { display: flex; align-items: center; gap: 0.75rem; }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-page); }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
+  ::selection { background: var(--accent-light); color: var(--accent-primary); }
+
+  html, body { height: 100%; }
+  body {
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+
+  /* Main Application Container */
+  .app-container {
+    max-width: 1280px;
+    height: calc(100vh - 4rem);
+    min-height: 620px;
+    margin: 0 auto;
+    background: var(--bg-surface);
+    border-radius: 24px;
+    border: 1px solid var(--container-border);
+    box-shadow: var(--shadow-xl);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Navigation (mirrors portfolio nav) */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 2.5rem;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 0.9rem; text-decoration: none; }
+  .nav-logo-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; background: var(--accent-primary); color: var(--text-on-accent);
+    border-radius: 50%; font-size: 1.1rem; font-weight: 800; flex-shrink: 0;
+  }
+  .nav-title { display: flex; flex-direction: column; line-height: 1.2; }
+  .nav-title-main { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); }
+  .nav-title-sub { font-size: 0.78rem; font-weight: 600; color: var(--text-tertiary); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;
+    text-decoration: none; transition: all 0.2s ease; cursor: pointer; border: none; white-space: nowrap;
+  }
+  .btn-outline { background: transparent; color: var(--text-primary); border: 2px solid var(--border-color); }
+  .btn-outline:hover { border-color: var(--text-primary); background: var(--bg-surface-alt); }
+
+  .tag {
+    display: inline-block; background: var(--accent-light); border: 1px solid rgba(139, 92, 246, 0.2);
+    color: var(--accent-primary); border-radius: 999px; padding: 0.4rem 1rem; font-size: 0.78rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  /* ================= DECK STAGE ================= */
+  .deck-stage {
+    position: relative; flex: 1; overflow: hidden;
+    background: var(--hero-glow);
+  }
+  .deck { position: absolute; inset: 0; }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 2.5rem 4.5rem;
+    opacity: 0; visibility: hidden; transform: translateY(16px);
+    transition: opacity .5s ease, transform .5s ease, visibility 0s linear .5s;
+    overflow-y: auto;
+  }
+  .slide.active {
+    opacity: 1; visibility: visible; transform: translateY(0);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .slide { transition: opacity .01s linear, visibility 0s; transform: none; }
+  }
+
+  /* section-context pill, top-left of the stage (interior slides only) */
+  .brandbar {
+    position: absolute; top: 1.5rem; left: 2.5rem; z-index: 2;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+  .brandbar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-primary); }
+
+  /* progress bar */
+  .progress {
+    position: absolute; top: 0; left: 0; height: 3px; background: var(--accent-primary); z-index: 5;
+    transition: width .4s ease;
+  }
+
+  /* counter + nav buttons */
+  .hud {
+    position: absolute; left: 2.5rem; bottom: 1.75rem; z-index: 5;
+    font-size: 0.8rem; letter-spacing: 0.04em; color: var(--text-tertiary); font-weight: 600;
+  }
+  .hud b { color: var(--text-primary); font-weight: 800; }
+  .navbtns { position: absolute; right: 2.5rem; bottom: 1.5rem; z-index: 5; display: flex; gap: 10px; }
+  .navbtns button {
+    width: 42px; height: 42px; border-radius: 50%;
+    border: 1px solid var(--border-color); background: var(--bg-surface); color: var(--text-primary);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-sm);
+    transition: border-color .2s ease, color .2s ease, transform .15s ease, box-shadow .2s ease;
+  }
+  .navbtns button:hover { border-color: var(--accent-primary); color: var(--accent-primary); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .navbtns button:active { transform: translateY(0); }
+  .navbtns button:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; }
+  .navbtns button:disabled { opacity: .35; cursor: default; transform: none; box-shadow: var(--shadow-sm); }
+  .navbtns svg { width: 16px; height: 16px; }
+
+  /* ================= TITLE SLIDE ================= */
+  .slide-title { align-items: center; justify-content: center; text-align: center; }
+  .slide-title .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-light); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 999px;
+    padding: 0.5rem 1.2rem; font-size: 0.82rem; font-weight: 700; color: var(--accent-primary);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2rem;
+  }
+  .slide-title .logo-wrap {
+    width: 220px; height: 220px; margin: 0 auto 2rem; padding: 20px;
+    background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 32px;
+    box-shadow: var(--shadow-xl); box-sizing: border-box;
+  }
+  .slide-title .logo-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  @media (max-width: 900px) {
+    .slide-title .logo-wrap { width: 150px; height: 150px; border-radius: 24px; margin: 0 auto 1.5rem; }
+  }
+  .slide-title h1 {
+    font-weight: 800; font-size: clamp(2.4rem, 5.5vw, 4rem);
+    letter-spacing: -0.03em; line-height: 1.1; color: var(--text-primary); margin: 0;
+  }
+  .slide-title h1 .accent { color: var(--accent-primary); }
+  .slide-title .subline {
+    margin-top: 1.1rem; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--text-tertiary); text-transform: uppercase;
+  }
+  .slide-title p.desc {
+    max-width: 560px; margin: 1.6rem auto 0; color: var(--text-secondary); font-size: 1.08rem; line-height: 1.7;
+  }
+  .slide-title p.desc b { color: var(--text-primary); font-weight: 700; }
+  .start-hint {
+    position: absolute; bottom: 2.25rem; left: 50%; transform: translateX(-50%);
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; color: var(--text-tertiary);
+    text-transform: uppercase; display: flex; align-items: center; gap: 8px;
+  }
+  .start-hint svg { width: 14px; height: 14px; color: var(--accent-primary); animation: nudge 1.6s ease-in-out infinite; }
+  @keyframes nudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+  @media (prefers-reduced-motion: reduce) { .start-hint svg { animation: none; } }
+
+  /* ================= MEMBER SLIDE ================= */
+  .slide-member { justify-content: center; }
+  .member-grid {
+    display: grid; grid-template-columns: 300px 1fr; gap: 3.25rem; align-items: center;
+    max-width: 1020px; margin: 0 auto; width: 100%;
+  }
+
+  .photo-card {
+    position: relative; width: 100%; aspect-ratio: 4/5;
+    background: var(--bg-surface-alt); border: 1px solid var(--border-color); border-radius: 20px;
+    box-shadow: var(--shadow-md); overflow: hidden;
+  }
+  .photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .index-tab {
+    position: absolute; top: 0; left: 0;
+    background: var(--accent-primary); color: var(--text-on-accent);
+    border-radius: 0 0 16px 0;
+    display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
+    padding: 10px 16px 8px 14px;
+  }
+  .index-tab .n { font-size: 1.3rem; font-weight: 800; line-height: 1; }
+  .index-tab .d { font-size: 0.65rem; opacity: .85; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  .member-copy .eyebrow {
+    display: inline-flex; align-items: center;
+    background: var(--accent-light); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 999px;
+    color: var(--accent-primary); padding: 0.4rem 1rem; font-size: 0.78rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem;
+  }
+  .member-copy h2 {
+    font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary);
+    font-size: clamp(1.6rem, 3vw, 2.3rem); margin: 0 0 1.5rem; line-height: 1.15;
+  }
+  .field { margin-bottom: 1.1rem; padding-left: 1.1rem; border-left: 3px solid var(--accent-light); }
+  .field:last-child { margin-bottom: 0; }
+  .field .label {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; color: var(--accent-primary);
+    text-transform: uppercase; margin-bottom: 5px;
+  }
+  .field p { margin: 0; font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary); }
+
+  /* ================= THANK YOU SLIDE ================= */
+  .slide-thanks { align-items: center; justify-content: center; text-align: center; }
+  .slide-thanks h1 {
+    font-weight: 800; font-size: clamp(2.6rem, 6.5vw, 4.5rem); letter-spacing: -0.03em;
+    color: var(--text-primary); margin: 0;
+  }
+  .slide-thanks h1 .accent { color: var(--accent-primary); }
+  .slide-thanks .sub {
+    margin-top: 1rem; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--text-tertiary); text-transform: uppercase;
+  }
+  .slide-thanks .tag-line {
+    margin-top: 2.25rem; font-style: italic; color: var(--text-secondary); font-size: 1.02rem;
+  }
+  .slide-thanks .mini-logo {
+    width: 160px; height: 160px; margin: 2.5rem auto 0; padding: 16px;
+    background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 28px;
+    box-shadow: var(--shadow-xl); box-sizing: border-box;
+  }
+  .slide-thanks .mini-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  @media (max-width: 900px) {
+    .slide-thanks .mini-logo { width: 110px; height: 110px; border-radius: 20px; }
+  }
+
+  /* corner watermark, interior slides */
+  .cube-mark { position: absolute; top: 1.5rem; right: 2.5rem; width: 52px; height: 52px; opacity: .18; z-index: 1; }
+  .cube-mark svg { width: 100%; height: 100%; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 900px) {
+    body { padding: 1rem 0.75rem; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-title-sub { display: none; }
+    .app-container { height: calc(100vh - 2rem); min-height: 560px; border-radius: 18px; }
+    .slide { padding: 5rem 1.75rem 6.5rem; }
+    .brandbar { left: 1.5rem; top: 1.25rem; }
+    .cube-mark { right: 1.5rem; top: 1.15rem; width: 40px; height: 40px; }
+    .member-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+    .photo-card { max-width: 220px; margin: 0 auto; }
+    .hud { left: 1.5rem; bottom: 1.25rem; }
+    .navbtns { right: 1.5rem; bottom: 1.1rem; }
+    .slide-title h1 { font-size: 2.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <nav>
+    <div class="nav-logo-icon">E</div>
+      <div class="nav-title">
+        <span class="nav-title-main">E-Cell · ISI Delhi</span>
+        <span class="nav-title-sub">Core Team - 2026</span>
+      </div>
+
+    <div class="nav-controls">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+        <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sunIcon" style="display: none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="deck-stage">
+    <div class="progress" id="progress" style="width:0%"></div>
+
+    <div class="deck" id="deck">
+
+      <!-- SLIDE 1 - TITLE -->
+      <section class="slide slide-title active" data-index="0">
+        <div class="eyebrow">Entrepreneurship Cell</div>
+        <div class="logo-wrap"><img src="ecell_logo.jpg" alt="E-Cell ISI Delhi logo"></div>
+        <h1>THE <span class="accent">COUNCIL</span></h1>
+        <div class="subline">Core Team - 2026</div>
+        <p class="desc">Eleven members, one mission at the Indian Statistical Institute, Delhi: <b>measure, model, and make impact.</b></p>
+        <div class="start-hint">Use the arrow keys to begin
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </div>
+      </section>
+
+      <!-- SLIDES 2–12 - MEMBERS (generated by script) -->
+
+      <!-- SLIDE 13 - THANK YOU -->
+      <section class="slide slide-thanks" data-index="12">
+        <h1>Thank <span class="accent">You</span></h1>
+        <div class="sub">E-Cell · Indian Statistical Institute, Delhi</div>
+        <div class="tag-line">measure. model. make impact.</div>
+        <div class="mini-logo"><img src="ecell_logo.jpg" alt="E-Cell ISI Delhi logo"></div>
+      </section>
+
+    </div>
+
+    <div class="brandbar" id="brandbar" style="display:none;">
+      <span class="dot"></span><span>Core Team</span>
+    </div>
+
+    <div class="cube-mark" id="cubemark" style="display:none;">
+      <svg viewBox="0 0 100 100" fill="none">
+        <path d="M50 6 L92 28 L92 72 L50 94 L8 72 L8 28 Z" stroke="var(--text-tertiary)" stroke-width="1"/>
+        <path d="M50 6 L50 50 M50 50 L92 28 M50 50 L8 28 M50 50 L50 94" stroke="var(--accent-primary)" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <div class="hud" id="hud"><b id="hudCurrent">01</b> / <span id="hudTotal">13</span></div>
+
+    <div class="navbtns">
+      <button id="prevBtn" aria-label="Previous slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <button id="nextBtn" aria-label="Next slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------------------------------------------------------------
+  // Member data - drawn from the roles description document.
+  // Photo paths follow: photo/<first_name>.jpeg  (place files there)
+  // ---------------------------------------------------------------
+  const members = [
+    {
+      first: "chukka", name: "Chukka Bhagavath", role: "President",
+      skills: "Strong grounding in mathematics and statistics, with programming ability in Python and R. A natural leader who manages people and tasks with focus, discipline, and no shortage of passion.",
+      motivation: "Aspires to become an entrepreneur, and sees the E-Cell as the perfect test of resilience, patience, and determination - a challenge that promises new connections, new perspectives, and plenty of room to grow.",
+      expectations: "Wants an E-Cell that feels less like a college club and more like an early-stage startup - one that celebrates failure openly and takes pride in proving the \u201cimpossible\u201d wrong."
+    },
+    {
+      first: "maharshi", name: "Maharshi Joshi", role: "Vice-President",
+      skills: "Analytical problem-solver with strong organizational discipline, project coordination, and clear communication - leads by bringing diverse strengths together.",
+      motivation: "Wants to bridge ISI Delhi's exceptional mathematical talent with real-world venture creation, turning analytical strength that often stays confined to academics into a genuine engine for scalable startups.",
+      expectations: "Plans to build a self-sustaining startup community through structured workshops on business fundamentals, a safe space to test data-driven ideas without fear of failure, and stronger pipelines to investors, incubators, and industry mentors."
+    },
+    {
+      first: "mahima", name: "Mahima", role: "Marketing and PR",
+      skills: "A structured, logical thinker shaped by her BSDS training - responsible, eager to learn, and always working on her communication and creativity.",
+      motivation: "Joined to explore something beyond academics and see how ideas become reality, drawn to how good communication turns ideas into events people actually show up for - and how data can sharpen that further.",
+      expectations: "Wants E-Cell's voice to feel student-friendly - sharing behind-the-scenes moments and member stories alongside event announcements, and using feedback after every event to keep improving rather than repeating the same format."
+    },
+    {
+      first: "pawan", name: "Pawan Kumar", role: "Marketing and PR",
+      skills: "Skilled in data analysis, process mining, feature engineering, and statistical modelling across Python, R, SQL, and C++, backed by a competitive-programming mindset.",
+      motivation: "Drawn to E-Cell as a place where ideas get transformed into impact - a chance to connect his technical grounding in data analysis with entrepreneurial thinking and how businesses actually create value.",
+      expectations: "Wants to make outreach more data-driven, using analytics to evaluate campaign performance and engagement while spotlighting student startup stories that inspire others to take initiative."
+    },
+    {
+      first: "kavadi", name: "Kavadi Shyam Sundar", role: "Design and Brand",
+      skills: "Strong in mathematics and statistics, paired with video editing and content creation - a quick learner who's detail-oriented and adaptable.",
+      motivation: "Sees E-Cell as the best platform to learn beyond academics, combining analytical thinking with creative storytelling to understand how startups actually get built and how entrepreneurs solve real problems.",
+      expectations: "Plans to create engaging promotional videos and content, and support data-driven decisions by analyzing event feedback and participation trends to keep improving future initiatives."
+    },
+    {
+      first: "ketan", name: "Ketan Vishnoi", role: "Design and Brand",
+      skills: "Structured analytical rigor from his work as a Consultant at WorldQuant, paired with strength in visual communication, brand storytelling, and graphic design.",
+      motivation: "Wants to explore where analytical precision meets creative branding, having seen firsthand - through industry work and conferences - how the strongest ventures win on memorable, trustworthy branding.",
+      expectations: "Aims to build a consistent, recognizable brand identity for E-Cell - colour palettes, typography, and visual templates inspired by top tech startups and professional conferences."
+    },
+    {
+      first: "diksha", name: "Diksha", role: "Design and Brand",
+      skills: "Statistical Data Science student fluent in Python and R, with an interest in open-source development and leadership experience as an NCC cadet.",
+      motivation: "Curious about how ideas become something meaningful, and drawn to E-Cell's hands-on, experience-first approach - plus the chance to learn from students across different colleges and backgrounds.",
+      expectations: "Wants E-Cell to feel welcoming to beginners, with accessible sessions and honest founder stories - successes and failures alike - for students with no business background at all."
+    },
+    {
+      first: "disha", name: "Disha Monga", role: "Events and Operations",
+      skills: "A growing interest in statistics and computing alongside mathematics and economics, comfortable with Python and R, and always ready to take ownership during events.",
+      motivation: "Grew up around business conversations at home, and wants to pair that early curiosity with the data-driven thinking she's built at ISI while learning how large-scale events come together behind the scenes.",
+      expectations: "Wants to keep events well-organized and smoothly executed, with clear coordination between teams and feedback built into every cycle."
+    },
+    {
+      first: "omhari", name: "Omhari Indoria", role: "Events and Operations",
+      skills: "Strong analytical and mathematical problem-solver, fluent in Python, R, Bash, and C/C++, with a research interest in image and video processing, particularly super-resolution sampling techniques.",
+      motivation: "Wants to see how a technical concept becomes an actual product, learning directly from entrepreneurs, mentors, and fellow students while sharpening how technology can add real value to society.",
+      expectations: "Hopes for more hackathons and interdisciplinary challenges, with regular access to founders and alumni to build a stronger startup culture."
+    },
+    {
+      first: "vansh", name: "Vansh Makhija", role: "Finance and Sponsorship",
+      skills: "An entrepreneurial mindset backed by leadership experience, strength in Python, R, and statistical modelling, and a natural comfort with numbers and finance.",
+      motivation: "Wants to turn his statistical foundation into real-world ventures, bringing a data-backed, calculated approach to the persistence and uncertainty that startups demand.",
+      expectations: "Plans to build structured budgeting systems for full financial transparency, and sponsorship proposals backed by real audience and event-reach data to secure stronger funding."
+    },
+    {
+      first: "utkarsh", name: "Utkarsh Bharadwaj", role: "Content and Documentation",
+      skills: "A Statistics student with broad interests across economics, finance, and theoretical statistics - strong in maths, and skilled in Python, R, and LaTeX, with a solid grip on classical statistical inference.",
+      motivation: "Interested in where economics, finance, and data intersect, and wants to bring the tools he's built - from the Neyman-Pearson Lab to a forensic stylometry platform - to E-Cell's real, running projects.",
+      expectations: "Looking for challenging problems over busywork - a team that actively bounces ideas around and builds things together."
+    },
+  ];
+
+  function initials(name){
+    return name.split(" ").slice(0,2).map(w => w[0]).join("").toUpperCase();
+  }
+
+  function placeholderSrc(name){
+    const letters = initials(name);
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500">
+      <rect width="100%" height="100%" fill="#f3e8ff"/>
+      <rect width="100%" height="100%" fill="none" stroke="#e5e7eb" stroke-width="2"/>
+      <text x="50%" y="52%" font-family="Plus Jakarta Sans, sans-serif" font-weight="700" font-size="84" fill="#8b5cf6" text-anchor="middle" dominant-baseline="middle">${letters}</text>
+    </svg>`;
+    return "data:image/svg+xml;base64," + btoa(svg);
+  }
+
+  // Build member slides and insert before the thank-you slide
+  const deck = document.getElementById("deck");
+  const thanksSlide = document.querySelector(".slide-thanks");
+
+  members.forEach((m, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    const section = document.createElement("section");
+    section.className = "slide slide-member";
+    section.dataset.index = i + 1;
+    section.innerHTML = `
+      <div class="member-grid">
+        <div class="photo-card">
+          <div class="index-tab"><span class="n">${n}</span><span class="d">/ 11</span></div>
+          <img src="photo/${m.first}.jpeg" alt="${m.name}" data-fallback="${placeholderSrc(m.name)}">
+        </div>
+        <div class="member-copy">
+          <div class="eyebrow">${m.role}</div>
+          <h2>${m.name}</h2>
+          <div class="field">
+            <div class="label">Skills</div>
+            <p>${m.skills}</p>
+          </div>
+          <div class="field">
+            <div class="label">Motivation</div>
+            <p>${m.motivation}</p>
+          </div>
+          <div class="field">
+            <div class="label">Expectations</div>
+            <p>${m.expectations}</p>
+          </div>
+        </div>
+      </div>
+    `;
+    deck.insertBefore(section, thanksSlide);
+
+    const img = section.querySelector("img");
+    img.addEventListener("error", function handler(){
+      img.removeEventListener("error", handler);
+      img.src = img.dataset.fallback;
+    }, { once:true });
+  });
+
+  // ---------------------------------------------------------------
+  // Deck navigation
+  // ---------------------------------------------------------------
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const total = slides.length;
+  let current = 0;
+
+  const progressEl = document.getElementById("progress");
+  const hudCurrent = document.getElementById("hudCurrent");
+  const hudTotal = document.getElementById("hudTotal");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const brandbar = document.getElementById("brandbar");
+  const cubemark = document.getElementById("cubemark");
+
+  hudTotal.textContent = String(total).padStart(2, "0");
+
+  function render(){
+    slides.forEach((s, i) => s.classList.toggle("active", i === current));
+    progressEl.style.width = (((current + 1) / total) * 100) + "%";
+    hudCurrent.textContent = String(current + 1).padStart(2, "0");
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+    const interior = current !== 0 && current !== total - 1;
+    brandbar.style.display = interior ? "flex" : "none";
+    cubemark.style.display = interior ? "block" : "none";
+  }
+
+  function goTo(i){
+    current = Math.max(0, Math.min(total - 1, i));
+    render();
+  }
+  function next(){ goTo(current + 1); }
+  function prev(){ goTo(current - 1); }
+
+  prevBtn.addEventListener("click", prev);
+  nextBtn.addEventListener("click", next);
+
+  window.addEventListener("keydown", (e) => {
+    if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); next(); }
+    else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); prev(); }
+    else if (e.key === "Home") { e.preventDefault(); goTo(0); }
+    else if (e.key === "End") { e.preventDefault(); goTo(total - 1); }
+  });
+
+  // touch swipe (mobile)
+  let touchStartX = null;
+  window.addEventListener("touchstart", (e) => { touchStartX = e.changedTouches[0].clientX; }, { passive:true });
+  window.addEventListener("touchend", (e) => {
+    if (touchStartX === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); }
+    touchStartX = null;
+  }, { passive:true });
+
+  render();
+
+  // ---------------------------------------------------------------
+  // Dark mode (mirrors portfolio index.html)
+  // ---------------------------------------------------------------
+  const themeToggle = document.getElementById('themeToggle');
+  const moonIcon = document.getElementById('moonIcon');
+  const sunIcon = document.getElementById('sunIcon');
+  const htmlElement = document.documentElement;
+
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme === 'dark') {
+    htmlElement.setAttribute('data-theme', 'dark');
+    moonIcon.style.display = 'none';
+    sunIcon.style.display = 'block';
+  }
+
+  themeToggle.addEventListener('click', () => {
+    let theme = htmlElement.getAttribute('data-theme');
+    if (theme === 'dark') {
+      htmlElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      moonIcon.style.display = 'block';
+      sunIcon.style.display = 'none';
+    } else {
+      htmlElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      moonIcon.style.display = 'none';
+      sunIcon.style.display = 'block';
+    }
+  });
+</script>
+</body>
+</html>
