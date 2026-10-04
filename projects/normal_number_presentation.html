@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Omhari Indoria, Utkarsh Bharadwaj, Kavadi Shyam Sundar, Harsh Kumar, Abhinav">
+  <title>The Measure of Normality</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reset.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.css">
+  <style>
+:root { --accent:#3b4a8c; --accent2:#e8ebf7; --text:#222; }
+html, body { background:#fff; }
+.reveal { font-family:"Segoe UI", "Helvetica Neue", Arial, sans-serif; font-size:30px; color:var(--text); }
+.reveal .slides { text-align:left; }
+.reveal .slides section { padding:0 40px; box-sizing:border-box; width:100%; }
+.reveal h1, .reveal h2 { font-family:inherit; text-transform:none; color:var(--accent); letter-spacing:0; }
+.reveal h2 { font-size:1.45em; margin:0 0 .5em; padding-bottom:.25em; border-bottom:3px solid var(--accent2); }
+.reveal #title-slide, .reveal section.divider { text-align:center; }
+.reveal #title-slide h1 { font-size:2.1em; margin-bottom:.1em; }
+.reveal #title-slide .subtitle { font-size:1.2em; color:#555; margin:.2em 0 1.2em; }
+.reveal #title-slide .author { font-size:.8em; color:#333; }
+.reveal #title-slide .date { font-size:.8em; color:#777; }
+.reveal section.divider h1 { font-size:3em; margin:0; }
+.reveal section.divider p { font-size:1.3em; color:#555; }
+.reveal p, .reveal li { line-height:1.4; margin:.45em 0; }
+.reveal ol, .reveal ul { display:block; margin:.3em 0 .3em 1.2em; }
+.reveal .block { margin:.7em 0; border-radius:8px; overflow:hidden; border:1px solid #c9cfe8; background:#f6f7fc; }
+.reveal .block-title { background:var(--accent); color:#fff; font-weight:600; padding:.25em .8em; font-size:.9em; }
+.reveal .block-body { padding:.2em .9em; }
+.reveal .block-body p { margin:.35em 0; }
+.reveal table { margin:.5em auto; border-collapse:collapse; font-size:.8em; }
+.reveal table th, .reveal table td { border:1px solid #c9cfe8; padding:.4em .8em; text-align:left; }
+.reveal table th { background:var(--accent2); }
+.reveal mjx-container[display="true"] { margin:.5em 0 !important; }
+.reveal .slide-number { color:var(--accent); background:none; }
+.reveal .progress { color:var(--accent); }
+.reveal .controls { color:var(--accent); }
+
+  </style>
+  <script>
+    // Typeset all the maths first, then start the slideshow so layout is measured with final sizes.
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+      startup: { typeset: false }
+    };
+  </script>
+  <script id="mj" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+<section id="title-slide">
+<h1 class="title">The Measure of Normality</h1>
+<p class="subtitle">Proving Why Almost Every Number is Normal</p>
+<p class="author">Omhari Indoria, Utkarsh Bharadwaj, Kavadi Shyam
+Sundar, Harsh Kumar, Abhinav</p>
+<p class="date">October 2026</p>
+</section>
+<section><h2>Presentation Outline</h2>
+
+<ol>
+<li><p>Definitions of a Normal Number in base <span class="math inline">\(r \geq 2\)</span> and Lebsegue Measure</p></li>
+<li><p>Borel’s Proof of Absolute Normality (with i.i.d
+assumption)</p></li>
+<li><p>Hausdorff’s Proof of Simple Normality (without i.i.d
+assumption)</p></li>
+<li><p>Generalisation of Hausdorff’s Proof to base <span class="math inline">\(r \geq 2\)</span></p></li>
+</ol>
+</section>
+<section class="divider"><h1>Part I</h1></section>
+<section><h2>Normal Numbers: Definition &amp; Examples</h2>
+
+<div class="block"><div class="block-title">Definition 1.1</div><div class="block-body">
+<p> <strong>Simply Normal:</strong> For <span class="math inline">\(b \in \{0, \ldots, r - 1\} = \Sigma_{r}\)</span>,
+define <span class="math display">\[p_{b, n, \alpha, r} = |\left\{j \in \mathbb{N}^{+} : j \leq n \text{ and } \alpha_{j, r} = b\right\}|\]</span> which counts how often the digit <span class="math inline">\(b\)</span> occurs among the first <span class="math inline">\(n\)</span> digits of <span class="math inline">\(\alpha\)</span>. A number <span class="math inline">\(\alpha \in \mathbb{R}\)</span> is called
+<em>Simply Normal in base <span class="math inline">\(r\)</span></em> if
+<span class="math display">\[         \lim_{n \to \infty} \dfrac{p_{b, n, \alpha, r}}{n} = \dfrac{1}{r} \]</span> holds for every digit <span class="math inline">\(b \in \Sigma_r\)</span></p>
+</div></div>
+</section>
+<section><h2>Continued</h2>
+
+<div class="block"><div class="block-title">Definition 1.2</div><div class="block-body">
+<p> <strong>Normal and absolutely
+normal:</strong> The number <span class="math inline">\(\alpha\)</span>
+is called <em>normal in base r</em> if <span class="math inline">\(r^m \alpha\)</span> is simply normal in base <span class="math inline">\(r^n \; \forall n \in \mathbb{N}^{+}\)</span> and all <span class="math inline">\(m \in N\)</span>. The number <span class="math inline">\(\alpha\)</span> is called <em>absolutely
+normal</em> if it is normal in every integer base <span class="math inline">\(r \geq 2\)</span></p>
+</div></div>
+<p><strong>Example:</strong> Champernowne number (in base 10) <span class="math display">\[C_{10} = 0.1\,2\,3\,4\,5\,6\,7\,8\,9\,1\!0\,1\!1\,1\!2\,1\!3\ldots\]</span> This
+number is normal is base 10 although is worthy to note that proving
+<span class="math inline">\(C_{10}\)</span> <em>absolutely normal</em>
+reamins an open problem</p>
+</section>
+<section><h2>Measure, Lebsegue Measure and the Null Set</h2>
+
+<div class="block"><div class="block-title">Note 1.1</div><div class="block-body">
+<p> <strong>Measure:</strong> It is a function
+<span class="math inline">\(\mu\)</span> that takes a certain subset of
+a given set <span class="math inline">\(X\)</span> and assigns it to a
+number on the non-negative extended real number line <span class="math inline">\(\left(i.e., [0, \infty]\right)\)</span>. It also
+satisfies the following two properties:</p>
+</div></div>
+<ol>
+<li><p><span class="math inline">\(\mu (\emptyset) = 0\)</span></p></li>
+<li><p><strong><span class="math inline">\(\sigma-\)</span>
+additivity:</strong> If <span class="math inline">\(A_1, A_2, \ldots,\)</span> are pairwise disjoint measurable sets, then <span class="math display">\[\mu \left(\bigcup_{i = 1}^{\infty} A_i\right) = \sum_{i = 1}^{\infty} \mu (A_i)\]</span></p></li>
+</ol>
+<div class="block"><div class="block-title">Note 1.2</div><div class="block-body">
+<p> <strong>Lebsegue Measure:</strong> It is a
+measure on <span class="math inline">\(\mathbb{R}\)</span> which
+satisfies:</p>
+</div></div>
+<ol>
+<li><p><span class="math inline">\(\lambda \left([a, b]\right) = b - a\)</span> (likewise for open and half open intervals)</p></li>
+<li><p><span class="math inline">\(\lambda(A + c) = \lambda(A)\)</span>
+for all measurable sets <span class="math inline">\(A\)</span> and <span class="math inline">\(c \in \mathbb{R}\)</span></p></li>
+</ol>
+</section>
+<section><h2>Continued</h2>
+
+<div class="block"><div class="block-title">Note 1.3</div><div class="block-body">
+<p> <strong>Null Set:</strong> A set <span class="math inline">\("A"\)</span> is called a <em>Null
+set</em> if <span class="math inline">\(\lambda(A) = 0\)</span>.
+Equivalently, <span class="math inline">\(A\)</span> is a null set if,
+for every <span class="math inline">\(\varepsilon &gt; 0\)</span>, one
+can find countably many intervals whose union covers <span class="math inline">\(A\)</span> and whose total length is at most <span class="math inline">\(\varepsilon\)</span>.</p>
+</div></div>
+<p><strong>Examples</strong></p>
+<ol>
+<li><p>Singleton Set</p></li>
+<li><p>Countable Union of Singleton Set</p></li>
+<li><p>Cantor Set</p></li>
+</ol>
+</section>
+<section class="divider"><h1>Part II</h1></section>
+<section><h2>Borel’s Theorem of Absolute Normality and its Proof</h2>
+<p>
+Émile Borel was French mathematician who first introduced and proved the
+results of normal of real numbers back in 1909. His proof is based on a
+quintessential assumption that the digits of a <em>random number</em> in
+<span class="math inline">\([0, 1)\)</span> in base <span class="math inline">\(q\)</span> behaves like i.i.d random variable,
+each uniform on <span class="math inline">\(\Sigma_q\)</span>.</p>
+<div class="block"><div class="block-title">Theorem 2.1</div><div class="block-body">
+<p> <em>Almost all real numbers in the interval
+<span class="math inline">\([0, 1)\)</span> are absolutely
+normal</em></p>
+</div></div>
+<p>We’ll now spend the next couple of minutes trying to understand his
+proof</p>
+</section>
+<section><h2>Borel’s Proof: Setting the Stage</h2>
+<p> Fix a base <span class="math inline">\(q \geq 2\)</span>. Every <span class="math inline">\(x \in [0, 1)\)</span> has a unique base-<span class="math inline">\(q\)</span> expansion (except for a countable,
+hence null, set of terminating fractions): <span class="math display">\[x = \sum_{i=1}^{\infty} \frac{x_i}{q^i}, \qquad x_i \in \Sigma_q = \{0, 1, \ldots, q-1\}\]</span> Fix a digit <span class="math inline">\(d \in \Sigma_q\)</span> and let <span class="math display">\[S_n(x) = \text{number of times } d \text{ appears among } x_1, \ldots, x_n\]</span> Write <span class="math inline">\(p = \frac{1}{q}\)</span> and <span class="math inline">\(p' = 1 - \frac{1}{q}\)</span>.</p>
+<div class="block"><div class="block-title">Intuition</div><div class="block-body">
+<p> Picking <span class="math inline">\(x \in [0,1)\)</span> “at random” is like rolling a fair <span class="math inline">\(q\)</span>-sided die forever, where <span class="math inline">\(x_i\)</span> is the <span class="math inline">\(i\)</span>-th roll. Then <span class="math inline">\(S_n\)</span> counts how many times we saw the face
+<span class="math inline">\(d\)</span> in <span class="math inline">\(n\)</span> rolls, so we expect <span class="math inline">\(S_n \approx np\)</span>.</p>
+</div></div>
+<p><strong>Goal:</strong> show <span class="math inline">\(\dfrac{S_n(x)}{n} \to \dfrac{1}{q}\)</span> for
+almost every <span class="math inline">\(x\)</span>.</p>
+</section>
+<section><h2>Step 1: How Likely Is a Given Count?</h2>
+<p> Since the digits
+behave like i.i.d. rolls, <span class="math inline">\(S_n\)</span> is
+Binomial: <span class="math display">\[\mathbb{P}(S_n = k) = \binom{n}{k} p^{k} (p')^{n-k}\]</span> Write <span class="math inline">\(k = np + s\)</span>, where <span class="math inline">\(s\)</span> is the <em>deviation</em> from the
+expected count. Using <strong>Stirling’s approximation</strong> <span class="math inline">\(N! \sim N^N e^{-N}\sqrt{2\pi N}\)</span> and <span class="math inline">\(\ln(1+u) \approx u - \frac{u^2}{2}\)</span> for
+small <span class="math inline">\(u\)</span>, the linear terms cancel
+and what is left is <span class="math display">\[\ln \mathbb{P}(np + s) \approx -\frac{s^2}{2npp'}\]</span></p>
+<div class="block"><div class="block-title">De Moivre–Laplace bound</div><div class="block-body">
+<p> <span class="math display">\[\mathbb{P}(np + s) \approx \frac{1}{\sqrt{2\pi npp'}} \, e^{-s^2/(2npp')}\]</span> A bell curve centred at
+<span class="math inline">\(np\)</span> with width about <span class="math inline">\(\sqrt{npp'}\)</span>.</p>
+</div></div>
+</section>
+<section><h2>Step 2: Bounding the “Bad” Set</h2>
+<p> Choose <span class="math inline">\(\varepsilon \in (0, \frac{1}{2})\)</span> and look
+at deviations of size <span class="math inline">\(s = n^{1/2 + \varepsilon}\)</span>, slightly bigger than the typical <span class="math inline">\(\sqrt{n}\)</span>. Let <span class="math display">\[E_n = \left\{x \in [0,1) : |S_n(x) - np| \geq n^{1/2 + \varepsilon}\right\}\]</span> Then <span class="math inline">\(\dfrac{s^2}{2npp'} = \dfrac{n^{2\varepsilon}}{2pp'}\)</span>, so integrating the Gaussian
+tails gives <span class="math display">\[\mu(E_n) \leq A\, e^{-c\, n^{2\varepsilon}}\]</span> for positive constants <span class="math inline">\(A, c\)</span> depending only on <span class="math inline">\(p\)</span> and <span class="math inline">\(p'\)</span>.</p>
+<div class="block"><div class="block-title">Why this is good news</div><div class="block-body">
+<p> <span class="math inline">\(e^{-c n^{2\varepsilon}}\)</span> decays faster than any inverse polynomial of
+<span class="math inline">\(n\)</span>. In particular <span class="math display">\[\sum_{n=1}^{\infty} \mu(E_n) &lt; \infty\]</span></p>
+</div></div>
+</section>
+<section><h2>Step 3: The Borel–Cantelli Lemma</h2>
+
+<div class="block"><div class="block-title">Borel–Cantelli Lemma</div><div class="block-body">
+<p> If <span class="math inline">\(\sum_{n} \mu(E_n) &lt; \infty\)</span>, then <span class="math inline">\(\mu(\limsup_{n} E_n) = 0\)</span>. That is, almost
+every <span class="math inline">\(x\)</span> lies in only <em>finitely
+many</em> of the <span class="math inline">\(E_n\)</span>.</p>
+</div></div>
+<p><strong>Why?</strong> <span class="math inline">\(\limsup E_n \subseteq \bigcup_{k \geq n} E_k\)</span> for every <span class="math inline">\(n\)</span>, so <span class="math display">\[\mu(\limsup E_n) \leq \sum_{k \geq n} \mu(E_k) \xrightarrow{n \to \infty} 0\]</span> since it is the tail of a
+convergent series.</p>
+<p>Hence for almost every <span class="math inline">\(x\)</span> there
+is an <span class="math inline">\(N_x\)</span> with <span class="math inline">\(|S_n(x) - np| &lt; n^{1/2+\varepsilon}\)</span>
+for all <span class="math inline">\(n \geq N_x\)</span>. Dividing by
+<span class="math inline">\(n\)</span>: <span class="math display">\[\left|\frac{S_n(x)}{n} - p\right| &lt; \frac{1}{n^{1/2 - \varepsilon}} \xrightarrow{n \to \infty} 0 \quad \Longrightarrow \quad \lim_{n\to\infty}\frac{S_n(x)}{n} = \frac{1}{q}\]</span></p>
+</section>
+<section><h2>Step 4: From One Digit to Absolute Normality</h2>
+<p> We climb up
+in four small steps, each one using “countable intersections of
+full-measure sets are still of full measure”.</p>
+<ol>
+<li><p><strong>All digits at once:</strong> there are only <span class="math inline">\(q\)</span> digits, so almost every <span class="math inline">\(x\)</span> is <em>simply normal</em> in base <span class="math inline">\(q\)</span>.</p></li>
+<li><p><strong>Blocks:</strong> grouping digits into blocks of length
+<span class="math inline">\(k\)</span> in base <span class="math inline">\(q\)</span> is the same as using single digits in
+base <span class="math inline">\(Q = q^k\)</span>. Apply Steps 1–3 with
+<span class="math inline">\(Q\)</span>. Shifting by <span class="math inline">\(m\)</span> places (<span class="math inline">\(q^m x\)</span>) only drops the first <span class="math inline">\(m\)</span>
+digits, which cannot change limiting frequencies. So almost every <span class="math inline">\(x\)</span> is normal in base <span class="math inline">\(q\)</span> for each <span class="math inline">\(k\)</span> and <span class="math inline">\(m\)</span>.</p></li>
+<li><p><strong>All block lengths and shifts:</strong> <span class="math inline">\(k, m\)</span> range over a countable set, so
+almost every <span class="math inline">\(x\)</span> is <em>normal in
+base <span class="math inline">\(q\)</span></em>.</p></li>
+<li><p><strong>All bases:</strong> <span class="math inline">\(\{2, 3, 4, \ldots\}\)</span> is countable, so almost every <span class="math inline">\(x \in [0, 1)\)</span> is <em>absolutely
+normal</em>. <span class="math inline">\(\qquad \blacksquare\)</span></p></li>
+</ol>
+</section>
+<section><h2>A Modern Remark: The Strong Law of Large Numbers</h2>
+
+<div class="block"><div class="block-title">Note 2.1</div><div class="block-body">
+<p> Today, Steps 1–3 are replaced by a single
+sentence. View <span class="math inline">\(([0,1), \mathcal{B}, \mu)\)</span> as a probability space and the digits <span class="math inline">\(x_i\)</span> as i.i.d. variables. With the
+indicator <span class="math inline">\(I_i(x) = \mathbf{1}[x_i = d]\)</span> we have <span class="math inline">\(\mathbb{E}[I_i] = \frac{1}{q}\)</span> and <span class="math inline">\(S_n = \sum_{i=1}^{n} I_i\)</span>, so the <strong>Strong Law of Large
+Numbers</strong> gives <span class="math display">\[\lim_{n \to \infty} \frac{S_n(x)}{n} = \frac{1}{q} \quad \text{for almost all } x\]</span></p>
+</div></div>
+<p>But Borel published in <strong>1909</strong>, before the SLLN
+existed. By bounding the deviations by hand (Stirling) and using
+countable intersections, Borel effectively proved the SLLN for Bernoulli
+trials.</p>
+<p><strong>Question:</strong> can we avoid the i.i.d. assumption and use
+only counting? Hausdorff says yes.</p>
+</section>
+<section class="divider"><h1>Part III</h1></section>
+<section><h2>Hausdorff’s Proof for Base 2</h2>
+<p> In 1914, Felix Hausdorff
+gave a proof that is purely <em>combinatorial</em>: it never mentions
+random variables, only lengths of intervals.</p>
+<p>Take an irrational <span class="math inline">\(x \in (0,1)\)</span>
+with binary expansion <span class="math display">\[x = \frac{x_1}{2} + \frac{x_2}{2^2} + \frac{x_3}{2^3} + \cdots, \qquad x_n \in \{0, 1\}\]</span> (rationals are countable, hence null). Among the first
+<span class="math inline">\(n\)</span> digits let <span class="math inline">\(p\)</span> be the number of zeros and <span class="math inline">\(q = n - p\)</span> the number of ones.</p>
+<div class="block"><div class="block-title">Theorem 3.1 (Hausdorff, 1914)</div><div class="block-body">
+<p> <em>The set of <span class="math inline">\(x \in (0,1)\)</span> for which <span class="math inline">\(\lim_{n \to \infty} \frac{p}{n} = \frac{1}{2}\)</span> has Lebesgue measure 1.</em></p>
+</div></div>
+</section>
+<section><h2>Step 1: Measuring by Counting</h2>
+<p> The <span class="math inline">\(x\)</span>’s whose expansion starts with
+prescribed digits <span class="math inline">\(a_1, \ldots, a_n\)</span>
+form an interval <span class="math display">\[\frac{a_1}{2} + \cdots + \frac{a_n}{2^n} &lt; x &lt; \frac{a_1}{2} + \cdots + \frac{a_n + 1}{2^n}\]</span> of length <span class="math inline">\(\dfrac{1}{2^n}\)</span>.</p>
+<p>There are <span class="math inline">\(\binom{n}{p}\)</span> ways to
+place <span class="math inline">\(p\)</span> zeros among <span class="math inline">\(n\)</span> positions, so the set where
+<em>exactly</em> <span class="math inline">\(p\)</span> of the first
+<span class="math inline">\(n\)</span> digits are zero is a union of
+<span class="math inline">\(\binom{n}{p}\)</span> disjoint intervals, of
+total measure <span class="math inline">\(\binom{n}{p}\dfrac{1}{2^n}\)</span>.</p>
+<div class="block"><div class="block-title">The “bad set”</div><div class="block-body">
+<p> For <span class="math inline">\(\varepsilon &gt; 0\)</span> let <span class="math inline">\(M(n, \varepsilon) = \left\{x : \left|\frac{p}{n} - \frac{1}{2}\right| \geq \varepsilon\right\}\)</span>. Its measure is
+<span class="math display">\[m(n, \varepsilon) = \sum_{\substack{p = 0 \\ |p/n - 1/2| \geq \varepsilon}}^{n} \binom{n}{p} \frac{1}{2^n}\]</span></p>
+</div></div>
+<p>We want to show <span class="math inline">\(m(n, \varepsilon)\)</span> is small, <strong>without</strong> a bell
+curve.</p>
+</section>
+<section><h2>Step 2: Hausdorff’s Differentiation Trick</h2>
+<p> Start from the
+binomial identity <span class="math inline">\(\sum_{p=0}^{n} \binom{n}{p} x^p y^q = (x+y)^n\)</span> (with <span class="math inline">\(q = n-p\)</span>) and apply the operator <span class="math inline">\(x\frac{\partial}{\partial x} - y\frac{\partial}{\partial y}\)</span> repeatedly. Each application
+multiplies the <span class="math inline">\(p\)</span>-th term by <span class="math inline">\((p - q)\)</span>. With <span class="math inline">\(u = x+y\)</span> and <span class="math inline">\(v = x-y\)</span>: <span class="math display">\[\begin{aligned}         \sum_{p} \tbinom{n}{p} (p-q)^2\, x^p y^q &amp;= n u^n + n(n-1)u^{n-2}v^2 \\         \sum_{p} \tbinom{n}{p} (p-q)^4\, x^p y^q &amp;= n(3n-2)u^n + n(n-1)(6n-8)u^{n-2}v^2 \\         &amp;\quad + n(n-1)(n-2)(n-3)u^{n-4}v^4 \end{aligned}\]</span> Now set <span class="math inline">\(x = y = \frac{1}{2}\)</span>, so <span class="math inline">\(u = 1\)</span> and
+<span class="math inline">\(v = 0\)</span>. Every term with <span class="math inline">\(v\)</span> vanishes!</p>
+<div class="block"><div class="block-title">Result</div><div class="block-body">
+<p> <span class="math display">\[\sum_{p=0}^{n} \binom{n}{p}\frac{1}{2^n}(p-q)^4 = 3n^2 - 2n &lt; 3n^2\]</span></p>
+</div></div>
+</section>
+<section><h2>Step 3: A Bound on the Bad Set</h2>
+<p> Since <span class="math inline">\(p - q = 2p - n\)</span>, dividing by <span class="math inline">\(n^4\)</span> gives <span class="math display">\[\sum_{p=0}^{n} \binom{n}{p}\frac{1}{2^n}\left(\frac{p}{n} - \frac{1}{2}\right)^4 &lt; \frac{3}{16 n^2}\]</span> On the bad set <span class="math inline">\(\left|\frac{p}{n} - \frac{1}{2}\right| \geq \varepsilon\)</span>, so <span class="math inline">\(\left(\frac{p}{n} - \frac{1}{2}\right)^4 \geq \varepsilon^4\)</span>. Keeping only those
+terms: <span class="math display">\[\varepsilon^4 \cdot m(n, \varepsilon) \leq \sum_{p} \binom{n}{p}\frac{1}{2^n}\left(\frac{p}{n} - \frac{1}{2}\right)^4 &lt; \frac{3}{16n^2}\]</span></p>
+<div class="block"><div class="block-title">Bound</div><div class="block-body">
+<p> <span class="math display">\[m(n, \varepsilon) &lt; \frac{3}{16\, \varepsilon^4\, n^2}\]</span></p>
+</div></div>
+<p><strong>Why the fourth power?</strong> A second power would give a
+bound of order <span class="math inline">\(\frac{1}{n}\)</span>, and
+<span class="math inline">\(\sum \frac{1}{n}\)</span> diverges. Order
+<span class="math inline">\(\frac{1}{n^2}\)</span> is summable, and that
+is exactly what we need next.</p>
+</section>
+<section><h2>Step 4: Finishing the Proof</h2>
+<p> Let <span class="math inline">\(M(\varepsilon) = \limsup_{n} M(n, \varepsilon)\)</span>, the <span class="math inline">\(x\)</span> with
+<span class="math inline">\(|\frac{p}{n} - \frac{1}{2}| \geq \varepsilon\)</span> for infinitely many <span class="math inline">\(n\)</span>. Define <span class="math inline">\(S(n, \varepsilon) = \bigcup_{k \geq n} M(k, \varepsilon)\)</span>. Then <span class="math inline">\(M(\varepsilon) = \bigcap_{n=1}^{\infty} S(n, \varepsilon)\)</span> and <span class="math display">\[\lambda\big(S(n, \varepsilon)\big) \leq \sum_{k=n}^{\infty} m(k, \varepsilon) \leq \frac{3}{16\varepsilon^4}\sum_{k=n}^{\infty}\frac{1}{k^2} \xrightarrow{n \to \infty} 0\]</span> because <span class="math inline">\(\sum \frac{1}{k^2}\)</span> converges. Hence <span class="math inline">\(\lambda(M(\varepsilon)) = 0\)</span>.</p>
+<div class="block"><div class="block-title">Conclusion</div><div class="block-body">
+<p> The set where <span class="math inline">\(\lim \frac{p}{n} \neq \frac{1}{2}\)</span> is
+<span class="math inline">\(M = \bigcup_{k=1}^{\infty} M(1/k)\)</span>,
+a countable union of null sets, hence null. Its complement has measure
+<span class="math inline">\(1\)</span>. <span class="math inline">\(\qquad \blacksquare\)</span></p>
+</div></div>
+<p>Notice that no probability and no i.i.d. assumption was used, only
+lengths of intervals.</p>
+</section>
+<section><h2>From \([0, 1)\) to the Whole
+Real Line</h2>
+
+<div class="block"><div class="block-title">Theorem 4.1</div><div class="block-body">
+<p> <em>Almost all real numbers in <span class="math inline">\(\mathbb{R}\)</span> are absolutely
+normal.</em></p>
+</div></div>
+<p><strong>Why start on <span class="math inline">\([0,1)\)</span>?</strong> It has measure exactly
+<span class="math inline">\(1\)</span>, so lengths act like
+probabilities and each <span class="math inline">\(n\)</span>-digit
+string corresponds to an interval of length <span class="math inline">\(q^{-n}\)</span>. On <span class="math inline">\(\mathbb{R}\)</span> (infinite measure) there is no
+uniform probability.</p>
+<p><strong>Proof idea:</strong></p>
+<ol>
+<li><p>Write <span class="math inline">\(x = m + y\)</span> with <span class="math inline">\(m = \lfloor x \rfloor \in \mathbb{Z}\)</span> and
+<span class="math inline">\(y \in [0,1)\)</span>. The integer part is a
+finite prefix, so <span class="math inline">\(x\)</span> is absolutely
+normal iff <span class="math inline">\(y\)</span> is.</p></li>
+<li><p>The non-normal numbers in <span class="math inline">\([m, m+1)\)</span> are <span class="math inline">\(E_m = N^c + m\)</span>, so
+by translation invariance <span class="math inline">\(\mu(E_m) = \mu(N^c) = 0\)</span>.</p></li>
+<li><p><span class="math inline">\(E = \bigcup_{m \in \mathbb{Z}} E_m\)</span> and countable subadditivity give <span class="math inline">\(\mu(E) \leq \sum_m \mu(E_m) = 0\)</span>. <span class="math inline">\(\qquad \blacksquare\)</span></p></li>
+</ol>
+</section>
+<section class="divider"><h1>Part IV</h1></section>
+<section><h2>Generalising Hausdorff’s Proof to Base \(r \geq 2\)</h2>
+<p> Hausdorff only treated
+base <span class="math inline">\(2\)</span>. Following Edmund Weitz
+(2021), we now extend the same idea to any base <span class="math inline">\(r \geq 2\)</span>. The plan:</p>
+<ol>
+<li><p>Two small lemmas on null sets.</p></li>
+<li><p>Normality and <em>words</em> (patterns of digits).</p></li>
+<li><p>The Main Lemma: Hausdorff’s fourth-moment computation for base
+<span class="math inline">\(r\)</span>.</p></li>
+<li><p>Conclude: almost all numbers are normal, then absolutely
+normal.</p></li>
+</ol>
+<div class="block"><div class="block-title">Idea in one line</div><div class="block-body">
+<p> In base <span class="math inline">\(r\)</span>, a given digit <span class="math inline">\(b\)</span> appears with probability <span class="math inline">\(\frac{1}{r}\)</span> and any other digit with
+probability <span class="math inline">\(\frac{r-1}{r}\)</span>. So we
+redo the base-<span class="math inline">\(2\)</span> computation with
+<span class="math inline">\(\left(\frac{1}{2}, \frac{1}{2}\right)\)</span> replaced by <span class="math inline">\(\left(\frac{1}{r}, \frac{r-1}{r}\right)\)</span>.</p>
+</div></div>
+</section>
+<section><h2>Two Handy Lemmas on Null Sets</h2>
+
+<div class="block"><div class="block-title">Lemma 5.1</div><div class="block-body">
+<p> <em>Every countable set is a null
+set.</em></p>
+</div></div>
+<p><strong>Proof.</strong> Enumerate <span class="math inline">\(A = \{a_0, a_1, \ldots\}\)</span> and fix <span class="math inline">\(\varepsilon &gt; 0\)</span>. Cover <span class="math inline">\(a_n\)</span> by an interval <span class="math inline">\(I_n\)</span> of length <span class="math inline">\(\varepsilon/2^{n+1}\)</span>. Then <span class="math inline">\(A \subseteq \bigcup_n I_n\)</span> and <span class="math inline">\(\sum_n \lambda(I_n) = \sum_n \frac{\varepsilon}{2^{n+1}} = \varepsilon\)</span>. As <span class="math inline">\(\varepsilon\)</span> is arbitrary, <span class="math inline">\(\lambda(A) = 0\)</span>.</p>
+<div class="block"><div class="block-title">Lemma 5.2</div><div class="block-body">
+<p> <em>A countable union of null sets is a null
+set.</em></p>
+</div></div>
+<p><strong>Proof.</strong> Let <span class="math inline">\(A_1, A_2, \ldots\)</span> be null and <span class="math inline">\(\varepsilon &gt; 0\)</span>. Cover <span class="math inline">\(A_k\)</span> by intervals
+<span class="math inline">\(\{I_{k,j}\}_j\)</span> of total length <span class="math inline">\(\leq \varepsilon/2^k\)</span>. All the <span class="math inline">\(I_{k,j}\)</span> together cover <span class="math inline">\(\bigcup_k A_k\)</span>, with total length <span class="math inline">\(\leq \sum_k \varepsilon/2^k = \varepsilon\)</span>. <span class="math inline">\(\qquad \blacksquare\)</span></p>
+</section>
+<section><h2>Normality and Words</h2>
+<p> A finite string <span class="math inline">\(w = b_1 b_2 \cdots b_n\)</span> of base-<span class="math inline">\(r\)</span> digits is an <em><span class="math inline">\(r\)</span>-word</em>, with length <span class="math inline">\(|w| = n\)</span>. Let <span class="math display">\[p_{w, n, \alpha, r} = \left|\left\{j \in \mathbb{N}^{+} : j + |w| - 1 \leq n \text{ and } \alpha_{[j,\, j+|w|-1],\, r} = w\right\}\right|\]</span> count the (possibly
+overlapping) occurrences of <span class="math inline">\(w\)</span> among
+the first <span class="math inline">\(n\)</span> digits of <span class="math inline">\(\alpha\)</span>.</p>
+<div class="block"><div class="block-title">Lemma 5.3</div><div class="block-body">
+<p> <em>If <span class="math inline">\(r^m\alpha\)</span> is simply normal in base <span class="math inline">\(r^n\)</span> for all <span class="math inline">\(n \in \mathbb{N}^{+}\)</span> and all <span class="math inline">\(m &lt; n\)</span>, then <span class="math inline">\(\alpha\)</span> is normal
+in base <span class="math inline">\(r\)</span>.</em></p>
+</div></div>
+<p><strong>Idea:</strong> for <span class="math inline">\(m \geq n\)</span> write <span class="math inline">\(m = kn + c\)</span> with
+<span class="math inline">\(0 \leq c &lt; n\)</span>. Multiplying by
+<span class="math inline">\(r^{kn}\)</span> only drops the first <span class="math inline">\(k\)</span> blocks, so <span class="math inline">\(r^m\alpha\)</span> and <span class="math inline">\(r^c\alpha\)</span> have the same base-<span class="math inline">\(r^n\)</span> digits from some point on, and <span class="math inline">\(c &lt; n\)</span> is covered by the
+hypothesis.</p>
+</section>
+<section><h2>Normal Numbers Contain Every Pattern</h2>
+
+<div class="block"><div class="block-title">Lemma 5.4</div><div class="block-body">
+<p> <em>If <span class="math inline">\(\alpha\)</span> is normal in base <span class="math inline">\(r\)</span>, then for every <span class="math inline">\(r\)</span>-word <span class="math inline">\(w\)</span>,</em> <span class="math display">\[\lim_{n \to \infty} \frac{p_{w, n, \alpha, r}}{n} = \frac{1}{r^{|w|}}\]</span></p>
+</div></div>
+<p><strong>Idea of the proof.</strong> Let <span class="math inline">\(|w| = L\)</span> and <span class="math inline">\(R = r^L\)</span>. The word <span class="math inline">\(w\)</span> is a
+single digit <span class="math inline">\(d_w\)</span> in base <span class="math inline">\(R\)</span>.</p>
+<ul>
+<li><p>Grouping the digits of <span class="math inline">\(\alpha\)</span> into blocks of length <span class="math inline">\(L\)</span> finds the copies of <span class="math inline">\(w\)</span> that start at positions <span class="math inline">\(1, L+1, 2L+1, \ldots\)</span> Frequency: <span class="math inline">\(\frac{1}{R}\)</span>.</p></li>
+<li><p>For <span class="math inline">\(c = 1, \ldots, L-1\)</span>, the
+number <span class="math inline">\(r^c\alpha\)</span> is also simply
+normal in base <span class="math inline">\(R\)</span>, which finds
+copies starting at <span class="math inline">\(c+1, c+L+1, \ldots\)</span> Frequency: <span class="math inline">\(\frac{1}{R}\)</span> each.</p></li>
+<li><p>Adding the <span class="math inline">\(L\)</span> groupings:
+<span class="math inline">\(p_{w,n,\alpha,r} \approx L \cdot \frac{n/L}{r^L} = \frac{n}{r^L}\)</span>.</p></li>
+</ul>
+<p><strong>Takeaway:</strong> in a normal number every finite pattern
+(your birthday, a whole sentence in binary...) appears, and with the
+“fair” frequency.</p>
+</section>
+<section><h2>The Main Lemma (Hausdorff for Base \(r\) )</h2>
+
+<div class="block"><div class="block-title">Lemma 5.5</div><div class="block-body">
+<p> <em>If <span class="math inline">\(r \geq 2\)</span> is an integer, there is a constant <span class="math inline">\(D &gt; 0\)</span> such that for all <span class="math inline">\(n \in \mathbb{N}^{+}\)</span></em> <span class="math display">\[\sum_{p=0}^{n} \binom{n}{p}\frac{(r-1)^{n-p}}{r^n}\left(\frac{p}{n} - \frac{1}{r}\right)^4 \leq \frac{D}{n^2}\]</span></p>
+</div></div>
+<p><strong>What does it say?</strong> The sum is the fourth central
+moment (divided by <span class="math inline">\(n^4\)</span>) of the
+number of times a digit appears: the fraction <span class="math inline">\(\frac{p}{n}\)</span> is, on average, <span class="math inline">\(\frac{1}{r}\)</span>, and being <span class="math inline">\(\varepsilon\)</span>-far from it is a rare event
+of size <span class="math inline">\(\sim \frac{1}{n^2}\)</span>.</p>
+<p><strong>Strategy:</strong> copy Hausdorff’s differentiation trick,
+now with the weights <span class="math inline">\(\left(\frac{1}{r}\right)^p\left(\frac{r-1}{r}\right)^{n-p}\)</span>.</p>
+</section>
+<section><h2>Main Lemma: Proof Sketch</h2>
+<p> Fix <span class="math inline">\(s = r - 1\)</span> and <span class="math inline">\(n\)</span>. Define <span class="math inline">\(f_0(x,y) = \sum_{p=0}^{n}\binom{n}{p}x^{sp}y^{n-p} = (x^s + y)^n\)</span> and <span class="math inline">\(f_{k+1} = x\frac{\partial f_k}{\partial x} - y\frac{\partial f_k}{\partial y}\)</span>. Differentiating term by term, induction shows <span class="math display">\[f_k(x,y) = \sum_{p=0}^{n}\binom{n}{p}\big((s+1)p - n\big)^k x^{sp}y^{n-p}\]</span> Computing <span class="math inline">\(f_4\)</span> from <span class="math inline">\((x^s+y)^n\)</span> is tedious but elementary (a
+computer algebra system helps). Now choose <span class="math display">\[x = r^{-1/s}, \qquad y = \frac{r-1}{r} \quad\Longrightarrow\quad x^s = \frac{1}{r},\; s\,x^s = y\]</span> so
+the troublesome terms vanish, just like <span class="math inline">\(v = 0\)</span> in base <span class="math inline">\(2\)</span>, and <span class="math display">\[f_4(x,y) = 3(r-1)^2 n^2 + (r^3 - 7r^2 + 12r - 6)\,n \leq C n^2\]</span> With this choice <span class="math inline">\(x^{sp}y^{n-p} = \frac{(r-1)^{n-p}}{r^n}\)</span>,
+so the formula for <span class="math inline">\(f_4\)</span> reads <span class="math inline">\(\sum_p \binom{n}{p}\frac{(r-1)^{n-p}}{r^n}(rp-n)^4 \leq Cn^2\)</span>. Dividing by <span class="math inline">\(r^4n^4\)</span> gives the Lemma with <span class="math inline">\(D = C/r^4\)</span>. <span class="math inline">\(\qquad \blacksquare\)</span></p>
+</section>
+<section><h2>Theorem 5.6: Almost All Numbers Are Simply Normal</h2>
+
+<div class="block"><div class="block-title">Theorem 5.6</div><div class="block-body">
+<p> <em>If <span class="math inline">\(r \geq 2\)</span> is any base, almost all numbers are simply normal in base
+<span class="math inline">\(r\)</span>.</em></p>
+</div></div>
+<p><strong>Proof.</strong> Work in <span class="math inline">\([0,1)\)</span>, fix a digit <span class="math inline">\(b\)</span> and let <span class="math inline">\(M_b(n, \varepsilon) = \left\{\alpha : \left|\frac{p_{b,n,\alpha,r}}{n} - \frac{1}{r}\right| \geq \varepsilon\right\}\)</span>. Numbers with exactly <span class="math inline">\(p\)</span> copies of <span class="math inline">\(b\)</span> among the first <span class="math inline">\(n\)</span> digits have measure <span class="math inline">\(\binom{n}{p}\frac{(r-1)^{n-p}}{r^n}\)</span>. As
+in Hausdorff’s proof, using <span class="math inline">\(\varepsilon^4 \leq (\frac{p}{n} - \frac{1}{r})^4\)</span> on the bad set and the Main
+Lemma: <span class="math display">\[\lambda\big(M_b(n,\varepsilon)\big) \leq \frac{D}{\varepsilon^4 n^2}\]</span> Then, exactly as before: <span class="math inline">\(\lambda\big(\bigcup_{k \geq m} M_b(k,\varepsilon)\big) \leq \frac{D}{\varepsilon^4}\sum_{k \geq m}\frac{1}{k^2} \to 0\)</span>, so the set <span class="math inline">\(M_b(\varepsilon)\)</span> of <span class="math inline">\(\alpha\)</span> that are <span class="math inline">\(\varepsilon\)</span>-bad for infinitely many <span class="math inline">\(n\)</span> is null.</p>
+<p>Finally <span class="math inline">\(\bigcup_{k}M_b(1/k)\)</span> is
+null (Lemma 5.2), and so is the union over the <span class="math inline">\(r\)</span> digits <span class="math inline">\(b\)</span>. <span class="math inline">\(\qquad \blacksquare\)</span></p>
+</section>
+<section><h2>Corollaries: Normal, then Absolutely Normal</h2>
+
+<div class="block"><div class="block-title">Corollary 5.7</div><div class="block-body">
+<p> <em>If <span class="math inline">\(r \geq 2\)</span>, almost all numbers are normal in base <span class="math inline">\(r\)</span>.</em></p>
+</div></div>
+<p><strong>Proof.</strong> Fix <span class="math inline">\(m \in \mathbb{N}\)</span> and <span class="math inline">\(n \in \mathbb{N}^{+}\)</span>, and let <span class="math inline">\(N\)</span>
+be the set of reals that are not simply normal in base <span class="math inline">\(r^n\)</span>. Theorem 5.6 gives <span class="math inline">\(\lambda(N \cap [0,1)) = 0\)</span>. The integer
+part does not affect digits after the radix point, so <span class="math inline">\(N \cap [j, j+1) = j + (N \cap [0,1))\)</span> is
+also null, and by Lemma 5.2 so is <span class="math inline">\(N \cap [0, r^m)\)</span>. Multiplying by <span class="math inline">\(r^{-m}\)</span> shrinks lengths by a constant
+factor, so the set of <span class="math inline">\(\alpha \in [0,1)\)</span> with <span class="math inline">\(r^m\alpha \in N\)</span>
+is null.</p>
+<p>The pairs <span class="math inline">\((m, n)\)</span> are countable,
+so Lemma 5.2 finishes the job. <span class="math inline">\(\qquad \blacksquare\)</span></p>
+<div class="block"><div class="block-title">Corollary 5.8 (Borel’s Theorem)</div><div class="block-body">
+<p> <em>Almost all numbers
+are absolutely normal.</em></p>
+</div></div>
+<p><strong>Proof.</strong> For each base <span class="math inline">\(r \in \{2, 3, 4, \ldots\}\)</span> the non-normal numbers form a null set
+(Cor. 5.7). There are countably many bases, so by Lemma 5.2 their union
+is null. <span class="math inline">\(\qquad \blacksquare\)</span></p>
+</section>
+<section><h2>Putting It All Together</h2>
+
+<div class="center">
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><strong>Borel (1909)</strong></th>
+<th style="text-align: left;"><strong>Hausdorff (1914) /
+Weitz</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Viewpoint</td>
+<td style="text-align: left;">Probability (i.i.d. digits)</td>
+<td style="text-align: left;">Counting interval lengths</td>
+</tr>
+<tr>
+<td style="text-align: left;">Key estimate</td>
+<td style="text-align: left;">Stirling <span class="math inline">\(\Rightarrow\)</span> Gaussian tail</td>
+<td style="text-align: left;">Fourth moment <span class="math inline">\(\Rightarrow \frac{D}{n^2}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">Summability</td>
+<td style="text-align: left;"><span class="math inline">\(\sum e^{-cn^{2\varepsilon}} &lt; \infty\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\sum \frac{1}{n^2} &lt; \infty\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">Conclusion step</td>
+<td style="text-align: left;">Borel–Cantelli</td>
+<td style="text-align: left;">Same idea, done by hand</td>
+</tr>
+<tr>
+<td style="text-align: left;">Bases covered</td>
+<td style="text-align: left;">Any <span class="math inline">\(q \geq 2\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(2\)</span>
+(Hausdorff), any <span class="math inline">\(r \geq 2\)</span>
+(Weitz)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="block"><div class="block-title">Take-home message</div><div class="block-body">
+<p> Both roads lead to the same place: the
+“bad” sets are so small that they can be added up (countably many times)
+without ever reaching positive measure. So <strong>almost every</strong>
+real number is normal, yet explicit examples (e.g. <span class="math inline">\(\pi\)</span>, <span class="math inline">\(\sqrt{2}\)</span>) are still unproven!</p>
+</div></div>
+</section>
+<section><h2>References</h2>
+
+<ol>
+<li><p>Borel, É. <em>Les probabilités dénombrables et leurs applications
+arithmétiques.</em> Suppl. Rend. Circ. mat. Palermo 27, 247–271
+(1909).</p></li>
+<li><p>Champernowne, D. G. <em>The construction of decimals normal in
+the scale of ten.</em> J. London Math. Soc. 8, 254–260 (1933).</p></li>
+<li><p>Hausdorff, F. <em>Grundzüge der Mengenlehre.</em> Veit &amp;
+Comp., Leipzig (1914).</p></li>
+<li><p>Weitz, E. <em>Hausdorff’s forgotten proof that almost all numbers
+are normal.</em> arXiv:2102.00493v5 [math.NT] (2021).</p></li>
+</ol>
+</section>
+<section class="divider"><h1>Thank You!</h1><p>Questions?</p></section>
+
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.js"></script>
+  <script>
+    function fit(slide) {
+      if (!slide) return;
+      slide.style.fontSize = '';
+      var limit = 700, size = 100;
+      while (slide.scrollHeight > limit && size > 55) {
+        size -= 4; slide.style.fontSize = size + '%';
+      }
+    }
+    function fitAll() { document.querySelectorAll('.reveal .slides section').forEach(fit); }
+    function start() {
+      Reveal.initialize({
+        width: 1280, height: 720, margin: 0.04,
+        center: true, hash: true, controls: true, progress: true,
+        slideNumber: 'c/t', transition: 'slide', transitionSpeed: 'fast'
+      }).then(function () {
+        fitAll();
+        Reveal.on('slidechanged', function (e) { fit(e.currentSlide); });
+      });
+    }
+    MathJax.startup.promise
+      .then(function () { return MathJax.typesetPromise(); })
+      .catch(function (e) { console.error(e); })
+      .then(start);
+  </script>
+</body>
+</html>
