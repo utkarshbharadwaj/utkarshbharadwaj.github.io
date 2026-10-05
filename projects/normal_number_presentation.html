@@ -120,7 +120,7 @@ for all measurable sets <span class="math inline">\(A\)</span> and <span class="
 <section><h2>Continued</h2>
 
 <div class="block"><div class="block-title">Note 1.3</div><div class="block-body">
-<p> <strong>Null Set:</strong> A set <span class="math inline">\("A"\)</span> is called a <em>Null
+<p> <strong>Null Set:</strong> A set <span class="math inline">\(A\)</span> is called a <em>Null
 set</em> if <span class="math inline">\(\lambda(A) = 0\)</span>.
 Equivalently, <span class="math inline">\(A\)</span> is a null set if,
 for every <span class="math inline">\(\varepsilon &gt; 0\)</span>, one
@@ -292,7 +292,7 @@ lengths of intervals.</p>
 <section><h2>From \([0, 1)\) to the Whole
 Real Line</h2>
 
-<div class="block"><div class="block-title">Theorem 4.1</div><div class="block-body">
+<div class="block"><div class="block-title">Theorem 3.2</div><div class="block-body">
 <p> <em>Almost all real numbers in <span class="math inline">\(\mathbb{R}\)</span> are absolutely
 normal.</em></p>
 </div></div>
@@ -334,12 +334,12 @@ redo the base-<span class="math inline">\(2\)</span> computation with
 </section>
 <section><h2>Two Handy Lemmas on Null Sets</h2>
 
-<div class="block"><div class="block-title">Lemma 5.1</div><div class="block-body">
+<div class="block"><div class="block-title">Lemma 4.1</div><div class="block-body">
 <p> <em>Every countable set is a null
 set.</em></p>
 </div></div>
 <p><strong>Proof.</strong> Enumerate <span class="math inline">\(A = \{a_0, a_1, \ldots\}\)</span> and fix <span class="math inline">\(\varepsilon &gt; 0\)</span>. Cover <span class="math inline">\(a_n\)</span> by an interval <span class="math inline">\(I_n\)</span> of length <span class="math inline">\(\varepsilon/2^{n+1}\)</span>. Then <span class="math inline">\(A \subseteq \bigcup_n I_n\)</span> and <span class="math inline">\(\sum_n \lambda(I_n) = \sum_n \frac{\varepsilon}{2^{n+1}} = \varepsilon\)</span>. As <span class="math inline">\(\varepsilon\)</span> is arbitrary, <span class="math inline">\(\lambda(A) = 0\)</span>.</p>
-<div class="block"><div class="block-title">Lemma 5.2</div><div class="block-body">
+<div class="block"><div class="block-title">Lemma 4.2</div><div class="block-body">
 <p> <em>A countable union of null sets is a null
 set.</em></p>
 </div></div>
@@ -350,7 +350,7 @@ set.</em></p>
 <p> A finite string <span class="math inline">\(w = b_1 b_2 \cdots b_n\)</span> of base-<span class="math inline">\(r\)</span> digits is an <em><span class="math inline">\(r\)</span>-word</em>, with length <span class="math inline">\(|w| = n\)</span>. Let <span class="math display">\[p_{w, n, \alpha, r} = \left|\left\{j \in \mathbb{N}^{+} : j + |w| - 1 \leq n \text{ and } \alpha_{[j,\, j+|w|-1],\, r} = w\right\}\right|\]</span> count the (possibly
 overlapping) occurrences of <span class="math inline">\(w\)</span> among
 the first <span class="math inline">\(n\)</span> digits of <span class="math inline">\(\alpha\)</span>.</p>
-<div class="block"><div class="block-title">Lemma 5.3</div><div class="block-body">
+<div class="block"><div class="block-title">Lemma 4.3</div><div class="block-body">
 <p> <em>If <span class="math inline">\(r^m\alpha\)</span> is simply normal in base <span class="math inline">\(r^n\)</span> for all <span class="math inline">\(n \in \mathbb{N}^{+}\)</span> and all <span class="math inline">\(m &lt; n\)</span>, then <span class="math inline">\(\alpha\)</span> is normal
 in base <span class="math inline">\(r\)</span>.</em></p>
 </div></div>
@@ -361,7 +361,7 @@ hypothesis.</p>
 </section>
 <section><h2>Normal Numbers Contain Every Pattern</h2>
 
-<div class="block"><div class="block-title">Lemma 5.4</div><div class="block-body">
+<div class="block"><div class="block-title">Lemma 4.4</div><div class="block-body">
 <p> <em>If <span class="math inline">\(\alpha\)</span> is normal in base <span class="math inline">\(r\)</span>, then for every <span class="math inline">\(r\)</span>-word <span class="math inline">\(w\)</span>,</em> <span class="math display">\[\lim_{n \to \infty} \frac{p_{w, n, \alpha, r}}{n} = \frac{1}{r^{|w|}}\]</span></p>
 </div></div>
 <p><strong>Idea of the proof.</strong> Let <span class="math inline">\(|w| = L\)</span> and <span class="math inline">\(R = r^L\)</span>. The word <span class="math inline">\(w\)</span> is a
@@ -381,7 +381,7 @@ copies starting at <span class="math inline">\(c+1, c+L+1, \ldots\)</span> Frequ
 </section>
 <section><h2>The Main Lemma (Hausdorff for Base \(r\) )</h2>
 
-<div class="block"><div class="block-title">Lemma 5.5</div><div class="block-body">
+<div class="block"><div class="block-title">Lemma 4.5</div><div class="block-body">
 <p> <em>If <span class="math inline">\(r \geq 2\)</span> is an integer, there is a constant <span class="math inline">\(D &gt; 0\)</span> such that for all <span class="math inline">\(n \in \mathbb{N}^{+}\)</span></em> <span class="math display">\[\sum_{p=0}^{n} \binom{n}{p}\frac{(r-1)^{n-p}}{r^n}\left(\frac{p}{n} - \frac{1}{r}\right)^4 \leq \frac{D}{n^2}\]</span></p>
 </div></div>
 <p><strong>What does it say?</strong> The sum is the fourth central
@@ -397,9 +397,9 @@ computer algebra system helps). Now choose <span class="math display">\[x = r^{-
 the troublesome terms vanish, just like <span class="math inline">\(v = 0\)</span> in base <span class="math inline">\(2\)</span>, and <span class="math display">\[f_4(x,y) = 3(r-1)^2 n^2 + (r^3 - 7r^2 + 12r - 6)\,n \leq C n^2\]</span> With this choice <span class="math inline">\(x^{sp}y^{n-p} = \frac{(r-1)^{n-p}}{r^n}\)</span>,
 so the formula for <span class="math inline">\(f_4\)</span> reads <span class="math inline">\(\sum_p \binom{n}{p}\frac{(r-1)^{n-p}}{r^n}(rp-n)^4 \leq Cn^2\)</span>. Dividing by <span class="math inline">\(r^4n^4\)</span> gives the Lemma with <span class="math inline">\(D = C/r^4\)</span>. <span class="math inline">\(\qquad \blacksquare\)</span></p>
 </section>
-<section><h2>Theorem 5.6: Almost All Numbers Are Simply Normal</h2>
+<section><h2>Theorem 4.1: Almost All Numbers Are Simply Normal</h2>
 
-<div class="block"><div class="block-title">Theorem 5.6</div><div class="block-body">
+<div class="block"><div class="block-title">Theorem 4.1</div><div class="block-body">
 <p> <em>If <span class="math inline">\(r \geq 2\)</span> is any base, almost all numbers are simply normal in base
 <span class="math inline">\(r\)</span>.</em></p>
 </div></div>
@@ -407,27 +407,27 @@ so the formula for <span class="math inline">\(f_4\)</span> reads <span class="m
 in Hausdorff’s proof, using <span class="math inline">\(\varepsilon^4 \leq (\frac{p}{n} - \frac{1}{r})^4\)</span> on the bad set and the Main
 Lemma: <span class="math display">\[\lambda\big(M_b(n,\varepsilon)\big) \leq \frac{D}{\varepsilon^4 n^2}\]</span> Then, exactly as before: <span class="math inline">\(\lambda\big(\bigcup_{k \geq m} M_b(k,\varepsilon)\big) \leq \frac{D}{\varepsilon^4}\sum_{k \geq m}\frac{1}{k^2} \to 0\)</span>, so the set <span class="math inline">\(M_b(\varepsilon)\)</span> of <span class="math inline">\(\alpha\)</span> that are <span class="math inline">\(\varepsilon\)</span>-bad for infinitely many <span class="math inline">\(n\)</span> is null.</p>
 <p>Finally <span class="math inline">\(\bigcup_{k}M_b(1/k)\)</span> is
-null (Lemma 5.2), and so is the union over the <span class="math inline">\(r\)</span> digits <span class="math inline">\(b\)</span>. <span class="math inline">\(\qquad \blacksquare\)</span></p>
+null (Lemma 4.2), and so is the union over the <span class="math inline">\(r\)</span> digits <span class="math inline">\(b\)</span>. <span class="math inline">\(\qquad \blacksquare\)</span></p>
 </section>
 <section><h2>Corollaries: Normal, then Absolutely Normal</h2>
 
-<div class="block"><div class="block-title">Corollary 5.7</div><div class="block-body">
+<div class="block"><div class="block-title">Corollary 4.2</div><div class="block-body">
 <p> <em>If <span class="math inline">\(r \geq 2\)</span>, almost all numbers are normal in base <span class="math inline">\(r\)</span>.</em></p>
 </div></div>
 <p><strong>Proof.</strong> Fix <span class="math inline">\(m \in \mathbb{N}\)</span> and <span class="math inline">\(n \in \mathbb{N}^{+}\)</span>, and let <span class="math inline">\(N\)</span>
-be the set of reals that are not simply normal in base <span class="math inline">\(r^n\)</span>. Theorem 5.6 gives <span class="math inline">\(\lambda(N \cap [0,1)) = 0\)</span>. The integer
+be the set of reals that are not simply normal in base <span class="math inline">\(r^n\)</span>. Theorem 4.1 gives <span class="math inline">\(\lambda(N \cap [0,1)) = 0\)</span>. The integer
 part does not affect digits after the radix point, so <span class="math inline">\(N \cap [j, j+1) = j + (N \cap [0,1))\)</span> is
-also null, and by Lemma 5.2 so is <span class="math inline">\(N \cap [0, r^m)\)</span>. Multiplying by <span class="math inline">\(r^{-m}\)</span> shrinks lengths by a constant
+also null, and by Lemma 4.2 so is <span class="math inline">\(N \cap [0, r^m)\)</span>. Multiplying by <span class="math inline">\(r^{-m}\)</span> shrinks lengths by a constant
 factor, so the set of <span class="math inline">\(\alpha \in [0,1)\)</span> with <span class="math inline">\(r^m\alpha \in N\)</span>
 is null.</p>
 <p>The pairs <span class="math inline">\((m, n)\)</span> are countable,
-so Lemma 5.2 finishes the job. <span class="math inline">\(\qquad \blacksquare\)</span></p>
-<div class="block"><div class="block-title">Corollary 5.8 (Borel’s Theorem)</div><div class="block-body">
+so Lemma 4.2 finishes the job. <span class="math inline">\(\qquad \blacksquare\)</span></p>
+<div class="block"><div class="block-title">Corollary 4.3 (Borel’s Theorem)</div><div class="block-body">
 <p> <em>Almost all numbers
 are absolutely normal.</em></p>
 </div></div>
 <p><strong>Proof.</strong> For each base <span class="math inline">\(r \in \{2, 3, 4, \ldots\}\)</span> the non-normal numbers form a null set
-(Cor. 5.7). There are countably many bases, so by Lemma 5.2 their union
+(Cor. 4.3). There are countably many bases, so by Lemma 4.2 their union
 is null. <span class="math inline">\(\qquad \blacksquare\)</span></p>
 </section>
 <section><h2>Putting It All Together</h2>
