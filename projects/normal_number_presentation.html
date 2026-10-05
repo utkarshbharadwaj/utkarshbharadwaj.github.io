@@ -9,8 +9,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.css">
   <style>
-:root { --accent:#3b4a8c; --accent2:#e8ebf7; --text:#222; }
-html, body { background:#fff; }
+:root {
+  --accent:#3b4a8c; --accent2:#e8ebf7; --text:#222; --bg:#fff;
+  --sub:#555; --author:#333; --date:#777;
+  --block-bg:#f6f7fc; --block-border:#c9cfe8; --on-accent:#fff;
+  --r-background-color:#fff; --r-main-color:#222;
+}
+[data-theme="dark"] {
+  --accent:#a5b4fc; --accent2:#2a3358; --text:#e5e7eb; --bg:#0f172a;
+  --sub:#cbd5e1; --author:#e2e8f0; --date:#94a3b8;
+  --block-bg:#1e293b; --block-border:#3b4670; --on-accent:#0f172a;
+  --r-background-color:#0f172a; --r-main-color:#e5e7eb;
+}
+html, body, .reveal-viewport { background:var(--bg); transition:background-color .3s ease; }
 .reveal { font-family:"Segoe UI", "Helvetica Neue", Arial, sans-serif; font-size:30px; color:var(--text); }
 .reveal .slides { text-align:left; }
 .reveal .slides section { padding:0 40px; box-sizing:border-box; width:100%; }
@@ -18,26 +29,35 @@ html, body { background:#fff; }
 .reveal h2 { font-size:1.45em; margin:0 0 .5em; padding-bottom:.25em; border-bottom:3px solid var(--accent2); }
 .reveal #title-slide, .reveal section.divider { text-align:center; }
 .reveal #title-slide h1 { font-size:2.1em; margin-bottom:.1em; }
-.reveal #title-slide .subtitle { font-size:1.2em; color:#555; margin:.2em 0 1.2em; }
-.reveal #title-slide .author { font-size:.8em; color:#333; }
-.reveal #title-slide .date { font-size:.8em; color:#777; }
+.reveal #title-slide .subtitle { font-size:1.2em; color:var(--sub); margin:.2em 0 1.2em; }
+.reveal #title-slide .author { font-size:.8em; color:var(--author); }
+.reveal #title-slide .date { font-size:.8em; color:var(--date); }
 .reveal section.divider h1 { font-size:3em; margin:0; }
-.reveal section.divider p { font-size:1.3em; color:#555; }
+.reveal section.divider p { font-size:1.3em; color:var(--sub); }
 .reveal p, .reveal li { line-height:1.4; margin:.45em 0; }
 .reveal ol, .reveal ul { display:block; margin:.3em 0 .3em 1.2em; }
-.reveal .block { margin:.7em 0; border-radius:8px; overflow:hidden; border:1px solid #c9cfe8; background:#f6f7fc; }
-.reveal .block-title { background:var(--accent); color:#fff; font-weight:600; padding:.25em .8em; font-size:.9em; }
+.reveal .block { margin:.7em 0; border-radius:8px; overflow:hidden; border:1px solid var(--block-border); background:var(--block-bg); }
+.reveal .block-title { background:var(--accent); color:var(--on-accent); font-weight:600; padding:.25em .8em; font-size:.9em; }
 .reveal .block-body { padding:.2em .9em; }
 .reveal .block-body p { margin:.35em 0; }
 .reveal table { margin:.5em auto; border-collapse:collapse; font-size:.8em; }
-.reveal table th, .reveal table td { border:1px solid #c9cfe8; padding:.4em .8em; text-align:left; }
+.reveal table th, .reveal table td { border:1px solid var(--block-border); padding:.4em .8em; text-align:left; }
 .reveal table th { background:var(--accent2); }
 .reveal mjx-container[display="true"] { margin:.5em 0 !important; }
 .reveal .slide-number { color:var(--accent); background:none; }
 .reveal .progress { color:var(--accent); }
 .reveal .controls { color:var(--accent); }
 
+.theme-toggle { position:fixed; top:14px; right:14px; z-index:50; width:40px; height:40px; display:flex; align-items:center; justify-content:center; border-radius:50%; border:1px solid var(--block-border); background:var(--block-bg); color:var(--accent); cursor:pointer; padding:0; }
+.theme-toggle:hover { background:var(--accent2); }
+.theme-toggle svg { width:20px; height:20px; }
+#sunIcon { display:none; }
+[data-theme="dark"] #moonIcon { display:none; }
+[data-theme="dark"] #sunIcon { display:block; }
   </style>
+  <script>
+    try { if (localStorage.getItem('theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}
+  </script>
   <script>
     // Typeset all the maths first, then start the slideshow so layout is measured with final sizes.
     window.MathJax = {
@@ -49,6 +69,10 @@ html, body { background:#fff; }
   <script id="mj" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+  </button>
   <div class="reveal">
     <div class="slides">
 <section id="title-slide">
@@ -523,6 +547,14 @@ are normal.</em> arXiv:2102.00493v5 [math.NT] (2021).</p></li>
       .then(function () { return MathJax.typesetPromise(); })
       .catch(function (e) { console.error(e); })
       .then(start);
+  </script>
+  <script>
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      var root = document.documentElement;
+      var dark = root.getAttribute('data-theme') === 'dark';
+      if (dark) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', 'dark');
+      try { localStorage.setItem('theme', dark ? 'light' : 'dark'); } catch (e) {}
+    });
   </script>
 </body>
 </html>
