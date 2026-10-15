@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ISID - BSDS</title>
+<meta name="description" content="Bachelor of Statistical Data Science (BSDS) at the Delhi Centre of the Indian Statistical Institute. Unofficial prototype.">
+<style>
+:root{
+  --navy:#16284a; --navy-2:#0f1d37; --ink:#1d2330; --muted:#5b6475; --line:#d9d6cd;
+  --paper:#fbfaf6; --band:#f1eee6; --accent:#8c2f2f; --focus:#c28a00;
+  --nav-h:64px; --w:1120px;
+  --serif:Georgia,"Times New Roman",serif; --sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --navy:#aebfe6; --navy-2:#0a1120; --ink:#e3e6ee; --muted:#9aa4b8; --line:#2e3a52;
+  --paper:#121a2b; --band:#17213a; --accent:#e08a8a; --focus:#e6b422;
+}
+html[data-theme="dark"] .btn{color:#16284a}
+html[data-theme="dark"] .btn:hover{color:#fff}
+html[data-theme="dark"] .pathways a:hover{background:var(--band)}
+html[data-theme="dark"] .photo{background:repeating-linear-gradient(135deg,#1c2740 0 14px,#18223a 14px 28px)}
+html[data-theme="dark"] .skip{background:var(--paper);color:var(--navy)}
+
+.nav .wrap{gap:8px}
+.brand{margin-right:auto;min-width:0}
+.theme{width:44px;height:44px;flex:none;background:none;border:1px solid var(--line);color:var(--navy);cursor:pointer;font-size:1.15rem;line-height:1}
+.theme:hover{border-color:var(--navy)}
+
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(var(--nav-h) + 16px);scroll-behavior:smooth}
+body{margin:0;font:17px/1.65 var(--sans);color:var(--ink);background:var(--paper)}
+img{max-width:100%;display:block}
+a{color:var(--navy)}
+a:hover{color:var(--accent)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.25;margin:0 0 .5em;color:var(--navy)}
+h2{font-size:1.75rem;padding-bottom:.35em;border-bottom:1px solid var(--line);margin-bottom:1em}
+h3{font-size:1.15rem}
+p{margin:0 0 1em;max-width:68ch}
+.skip{position:absolute;left:-999px;top:0;background:#fff;padding:8px 12px;z-index:100}
+.skip:focus{left:8px;top:8px}
+
+/* notice and nav */
+.notice{background:var(--navy-2);color:#e8eaf0;font-size:.82rem;text-align:center;padding:6px 16px}
+.nav{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:1px solid var(--line);height:var(--nav-h)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:100%}
+.brand{text-decoration:none;color:var(--navy);line-height:1.2;display:block}
+.brand b{display:block;font:600 1.05rem var(--serif)}
+.brand span{font-size:.8rem;color:var(--muted)}
+.menu{display:flex;gap:2px;list-style:none;margin:0;padding:0}
+.menu a{display:block;padding:21px 12px 18px;text-decoration:none;color:var(--ink);font-size:.95rem;border-bottom:3px solid transparent}
+.menu a:hover{color:var(--navy);border-bottom-color:var(--line)}
+.menu a[aria-current="page"]{border-bottom-color:var(--accent);color:var(--navy);font-weight:600}
+.toggle{display:none;background:none;border:1px solid var(--line);padding:10px 14px;font:inherit;font-size:.9rem;color:var(--navy);cursor:pointer;min-height:44px}
+
+/* hero */
+.hero{position:relative;background:var(--navy-2);color:#fff;height:clamp(380px,62vh,580px);overflow:hidden}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity .8s ease;background:repeating-linear-gradient(135deg,#2a3858 0 14px,#26344f 14px 28px)}
+.slide.on{opacity:1}
+.slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slide .ph{position:absolute;right:16px;bottom:56px;font-size:.78rem;color:#c9d0e0;text-align:right;max-width:60%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,18,36,.82) 0,rgba(10,18,36,.55) 55%,rgba(10,18,36,.15) 100%);z-index:1;pointer-events:none}
+.hero-text{position:absolute;z-index:2;left:0;right:0;top:50%;transform:translateY(-50%)}
+.hero-text h1{color:#fff;font-size:clamp(1.8rem,4.2vw,2.8rem);max-width:20ch;margin-bottom:.4em}
+.hero-text p{color:#e6e9f1;max-width:52ch;font-size:1.05rem}
+.btn{display:inline-block;background:#fff;color:var(--navy);padding:11px 20px;text-decoration:none;font-weight:600;font-size:.95rem;border:1px solid #fff}
+.btn:hover{background:transparent;color:#fff}
+.ctrl{position:absolute;z-index:3;bottom:14px;right:24px;display:flex;align-items:center;gap:8px}
+.ctrl button{width:44px;height:44px;background:rgba(10,18,36,.55);color:#fff;border:1px solid rgba(255,255,255,.55);cursor:pointer;font-size:1.2rem}
+.ctrl button:hover{background:rgba(10,18,36,.85)}
+.dots{display:flex;gap:2px}
+.dots button{width:44px;height:44px;background:none;border:0;position:relative;padding:0}
+.dots button::after{content:"";position:absolute;left:12px;right:12px;top:21px;height:3px;background:rgba(255,255,255,.45)}
+.dots button[aria-current="true"]::after{background:#fff}
+.cap{position:absolute;z-index:3;left:24px;bottom:18px;font-size:.8rem;color:#d4d9e6}
+
+/* sections */
+section{padding:56px 0}
+.band{background:var(--band)}
+.split{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:start}
+.photo{aspect-ratio:4/3;background:repeating-linear-gradient(135deg,#e3dfd3 0 14px,#ddd8ca 14px 28px);border:1px solid var(--line);position:relative}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.photo span{position:absolute;inset:auto 12px 10px 12px;font-size:.78rem;color:var(--muted)}
+.facts{list-style:none;padding:0;margin:0 0 1.2em;border-top:1px solid var(--line)}
+.facts li{padding:10px 0;border-bottom:1px solid var(--line)}
+.facts b{font-weight:600;color:var(--navy)}
+.todo{font-size:.85rem;color:var(--accent);border-left:3px solid var(--accent);padding:2px 10px;margin:0 0 1em}
+.pathways{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);background:var(--paper)}
+.pathways a{padding:18px 20px;text-decoration:none;color:var(--ink);border-right:1px solid var(--line)}
+.pathways a:last-child{border-right:0}
+.pathways strong{display:block;font-family:var(--serif);color:var(--navy);font-size:1.05rem}
+.pathways small{color:var(--muted)}
+.pathways a:hover{background:#fff}
+.news{list-style:none;padding:0;margin:0}
+.news li{display:grid;grid-template-columns:140px 1fr;gap:24px;padding:16px 0;border-bottom:1px solid var(--line)}
+.news time{font-size:.9rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.news h3{margin:0 0 .2em;font-size:1.05rem}
+.news p{margin:0;font-size:.95rem;color:var(--muted)}
+.tag{font-size:.75rem;border:1px solid var(--accent);color:var(--accent);padding:0 6px;margin-left:6px;white-space:nowrap}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+address{font-style:normal}
+dl{margin:0}dt{font-weight:600;color:var(--navy);margin-top:.9em}dd{margin:0}
+footer{background:var(--navy-2);color:#cfd5e3;padding:40px 0 24px;font-size:.92rem}
+footer a{color:#fff}
+footer h3{color:#fff;font-size:1rem}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
+.legal{border-top:1px solid #33425f;margin-top:28px;padding-top:16px;font-size:.82rem;color:#aab3c8}
+
+@media (max-width:900px){
+  .toggle{display:block}
+  .menu{display:none;position:absolute;top:var(--nav-h);left:0;right:0;background:var(--paper);border-bottom:1px solid var(--line);flex-direction:column;padding:0 24px 12px}
+  .menu.open{display:flex}
+  .menu a{padding:14px 0;border-bottom:1px solid var(--line)}
+  .menu a[aria-current="page"]{border-bottom-color:var(--accent)}
+  .split,.contact,.fgrid{grid-template-columns:1fr;gap:28px}
+  .pathways{grid-template-columns:1fr}.pathways a{border-right:0;border-bottom:1px solid var(--line)}
+  .news li{grid-template-columns:1fr;gap:4px}
+  .hero::after{background:rgba(10,18,36,.68)}
+  .cap{display:none}.slide .ph{bottom:70px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.slide{transition:none}}
+</style>
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="notice">This is the official website of the BSDS Program run at Indian Statistical Institute (ISI), Delhi Center</div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><b>Indian Statistical Institute, Delhi Centre</b><span>Bachelor of Statistical Data Science (BSDS)</span></a>
+    <button class="toggle" id="toggle" aria-expanded="false" aria-controls="menu">Menu</button>
+    <nav aria-label="Main">
+      <ul class="menu" id="menu">
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="https://www.isid.ac.in/~statsu/">Statistical Science Unit</a></li>
+        <li><a href="people.html">People</a></li>
+        <li><a href="academic.html">Academic</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="#news-events">News and Events</a></li>
+        <li><a href="#contacts">Contacts</a></li>
+      </ul>
+    </nav>
+    <button type="button" class="theme" id="theme"></button>
+  </div>
+</header>
+
+<main id="main">
+<!-- HERO: images are replaceable files in assets/images/. See ASSETS.md -->
+<div class="hero" id="hero" role="region" aria-roledescription="carousel" aria-label="Photographs of ISI Delhi">
+  <div class="slide on" aria-label="1 of 4">
+    <img src="assets/images/isi-delhi-campus.jpg" width="1600" height="700" alt="The ISI Delhi Centre campus on S.J.S. Sansanwal Marg, New Delhi" onerror="this.remove()">
+  </div>
+  <div class="slide" aria-label="2 of 4">
+    <img src="assets/images/bsds-batch.jpg" width="1600" height="700" alt="The BSDS batch at ISI Delhi" loading="lazy" onerror="this.remove()">
+  </div>
+  <div class="slide" aria-label="3 of 4">
+    <img src="assets/images/academic-seminar.jpg" width="1600" height="700" alt="A seminar or lecture at ISI Delhi" loading="lazy" onerror="this.remove()">
+  </div>
+  <div class="slide" aria-label="4 of 4">
+    <img src="assets/images/student-activities.jpg" width="1600" height="700" alt="Students at an activity on the ISI Delhi campus" loading="lazy" onerror="this.remove()">
+  </div>
+  <div class="hero-text"><div class="wrap">
+    <h1>Welcome to the BSDS Programme at ISI Delhi</h1>
+    <p>A four-year undergraduate programme in statistical data science, offered at the Delhi Centre of the Indian Statistical Institute.</p>
+    <a class="btn" href="academic.html">Explore the Programme</a>
+  </div></div>
+  <div class="ctrl">
+    <button type="button" id="prev" aria-label="Previous photograph">&#8249;</button>
+    <div class="dots" id="dots"></div>
+    <button type="button" id="next" aria-label="Next photograph">&#8250;</button>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap split">
+    <div>
+      <h2>About ISI Delhi</h2>
+      <p>The Indian Statistical Institute was founded by Professor P.C. Mahalanobis in Kolkata on 17th December, 1931. The institute gained the status of an Institution of National Importance by an act of the Indian Parliament in 1959.</p>
+      
+      <p>The Delhi Centre of the Indian Statistical Institute was started in 1974, and shifted to its present campus in 1975. Some of India's leading statisticians, mathematicians, and economists have been on its faculty, and its training programs enjoy worldwide repute.</p>
+      <p><a href="https://www.isical.ac.in/">Indian Statistical Institute (official site)</a></p>
+    </div>
+    <figure class="photo" style="margin:0"><img src="assets/images/mahalanobis.png" alt="ISI Delhi Centre" loading="lazy" width="800" height="600" onerror="this.remove()">
+  </div>
+</section>
+
+<section id="programme" class="band">
+  <div class="wrap">
+    <h2>The BSDS Programme</h2>
+    <div class="split">
+      <div>
+        <p>The four-year Bachelor (Hons.) programme in Statistical Data Science focuses on statistical methodology, with emphasis on statistical machine learning, computational and classical statistics and data analytics. It stresses applications of statistics in industry and the sciences, on a base of rigorous training in statistics, probability and mathematics.</p>
+        <p>Admission requires completion of 10+2 or equivalent. For 2026, admission was based on JEE Main and CUET (UG) percentiles. <a href="https://admission.isical.ac.in/">Admission portal</a></p>
+      </div>
+      <ul class="facts">
+        <li><b>Duration:</b> four years, Bachelor (Hons.)</li>
+        <li><b>Exit option:</b> BSDS degree after three years</li>
+        <li><b>Fifth year:</b> optional, leads to an Integrated Master of Statistical Data Science</li>
+        <li><b>Seats per centre:</b> 25 (as stated on the programme page)</li>
+        <li><a href="https://www.isical.ac.in/~deanweb/bsds.html">Official programme page</a></li>
+      </ul>
+    </div>
+    <div class="pathways">
+      <a href="https://bsds-isi.github.io/documents/BSDS-Curriculum-2025.pdf"><strong>Academic</strong><small>Curriculum and regulations</small></a>
+      <a href="people.html"><strong>People</strong><small>Faculty, staff and students</small></a>
+      <a href="research.html"><strong>Research</strong><small>Research at the centre</small></a>
+    </div>
+  </div>
+</section>
+
+<section id="news-events">
+  <div class="wrap">
+    <h2>News and Events</h2>
+    <ul class="news">
+      <li>
+        <time>Oct 13, 2026</time>
+        <div>
+          <h3><a href="https://www.linkedin.com/posts/isi-isidelhi-bsds-ugcPost-7515836524165271552-yiHd/">Opportunity Seminar by Mr. Utsyo Chakraborty, Senior Data Scientist @ ProcDNA</a></h3>
+          <p>Mr. Utsyo Chakraborty, Senior Data Scientist at ProcDNA and an alumnus of ISI Delhi, delivered an engaging career opportunity seminar on statistical modeling and marketing within the pharmaceutical industry, offering students valuable industry insights.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section id="contacts" class="band">
+  <div class="wrap">
+    <h2>Contacts</h2>
+    <div class="contact">
+      <div>
+        <h3>Delhi Centre</h3>
+        <address>Indian Statistical Institute<br>7 S.J.S. Sansanwal Marg<br>New Delhi 110016, India</address>
+        <p style="margin-top:1em"><a href="https://www.isical.ac.in/">ISI main website</a><br><a href="https://admission.isical.ac.in/">ISI admission portal</a><br><a href="https://www.linkedin.com/school/bsds-isi-delhi/home/">LinkedIn</a></p>
+      </div>
+      <dl>
+        <dt>BSDS programme coordinator</dt><dd><a href="https://sites.google.com/view/kaushikjana/">Dr. Kaushik Jana</a></dd>
+        <dt>Email</dt><dd><a href="mailto:kaushik@isid.ac.in">kaushik@isid.ac.in</a></dd>
+        <dt>Telephone</dt><dd>NIL</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <h3>Indian Statistical Institute, Delhi Centre</h3>
+        <p>Bachelor of Statistical Data Science (BSDS), a four-year undergraduate programme in statistics, probability and data analytics.</p>
+      </div>
+      <div>
+        <h3>Pages</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li><li><a href="unit.html">Unit</a></li><li><a href="people.html">People</a></li>
+          <li><a href="academic.html">Academic</a></li><li><a href="research.html">Research</a></li>
+          <li><a href="#news-events">News and Events</a></li><li><a href="#contacts">Contacts</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Official links</h3>
+        <ul>
+          <li><a href="https://www.isical.ac.in/">Indian Statistical Institute</a></li>
+          <li><a href="https://www.isical.ac.in/~deanweb/bsds.html">BSDS programme page</a></li>
+          <li><a href="https://admission.isical.ac.in/">Admissions</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal"><center>&copy; 2026 Indian Statistical Institute</center></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var t=document.getElementById('toggle'),m=document.getElementById('menu');
+  t.addEventListener('click',function(){var o=m.classList.toggle('open');t.setAttribute('aria-expanded',o)});
+  m.addEventListener('click',function(e){if(e.target.tagName==='A'){m.classList.remove('open');t.setAttribute('aria-expanded','false')}});
+
+  var DELAY=2000;
+  var hero=document.getElementById('hero'),slides=hero.querySelectorAll('.slide'),dots=document.getElementById('dots'),i=0,timer=null;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function go(n){
+    slides[i].classList.remove('on');i=(n+slides.length)%slides.length;slides[i].classList.add('on');
+    dots.querySelectorAll('button').forEach(function(b,k){b.setAttribute('aria-current',k===i)});
+  }
+  function stop(){clearInterval(timer);timer=null}
+  function start(){stop();if(!reduce)timer=setInterval(function(){go(i+1)},DELAY)}
+  function manual(n){go(n);start()}   // a click moves the slide and restarts the clock
+
+  slides.forEach(function(_,n){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Show photograph '+(n+1));b.onclick=function(){manual(n)};dots.appendChild(b)});
+  document.getElementById('prev').onclick=function(){manual(i-1)};
+  document.getElementById('next').onclick=function(){manual(i+1)};
+  hero.addEventListener('mouseenter',stop);
+  hero.addEventListener('mouseleave',start);
+  hero.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')manual(i-1);if(e.key==='ArrowRight')manual(i+1)});
+    var th=document.getElementById('theme'),root=document.documentElement;
+  function paint(){
+    var d=root.getAttribute('data-theme')==='dark';
+    th.textContent=d?'\u2600':'\u263E';
+    th.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');
+    th.title=d?'Light mode':'Dark mode';
+  }
+  th.onclick=function(){
+    var d=root.getAttribute('data-theme')!=='dark';
+    root.setAttribute('data-theme',d?'dark':'light');
+    try{localStorage.setItem('theme',d?'dark':'light')}catch(e){}
+    paint();
+  };
+  paint();
+  go(0);start();
+})();
+</script>
+
+</body>
+</html>
