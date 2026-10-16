@@ -51,9 +51,19 @@ p{margin:0 0 1em;max-width:68ch}
 .brand b{display:block;font:600 clamp(.95rem,1.4vw,1.05rem) var(--serif);white-space:nowrap}
 .brand span{font-size:.8rem;color:var(--muted);white-space:nowrap}
 .menu{display:flex;flex-wrap:nowrap;gap:0;list-style:none;margin:0;padding:0}
-.menu a{display:block;padding:21px clamp(7px,.75vw,12px) 18px;text-decoration:none;color:var(--ink);font-size:clamp(.84rem,1.1vw,.95rem);white-space:nowrap;border-bottom:3px solid transparent}
-.menu a:hover{color:var(--navy);border-bottom-color:var(--line)}
-.menu a[aria-current="page"]{border-bottom-color:var(--accent);color:var(--navy);font-weight:600}
+.menu a,.menu .sub-toggle{display:block;padding:21px clamp(7px,.75vw,12px) 18px;text-decoration:none;color:var(--ink);font-size:clamp(.84rem,1.1vw,.95rem);white-space:nowrap;border-bottom:3px solid transparent}
+.menu a:hover,.menu .sub-toggle:hover{color:var(--navy);border-bottom-color:var(--line)}
+.menu a[aria-current="page"],.menu .has-sub.current>.sub-toggle{border-bottom-color:var(--accent);color:var(--navy);font-weight:600}
+.menu li{position:relative}
+.menu .sub-toggle{background:none;border:0;border-bottom:3px solid transparent;font-family:inherit;line-height:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.menu .sub-toggle::after{content:"";display:inline-block;width:7px;height:7px;margin-left:8px;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(45deg);position:relative;top:-3px;transition:transform .15s}
+.menu .has-sub.open>.sub-toggle::after{transform:rotate(-135deg);top:1px}
+.menu .sub{display:none;position:absolute;top:100%;left:0;min-width:190px;margin:0;padding:6px 0;list-style:none;background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--accent);box-shadow:0 10px 24px rgba(10,18,36,.12);z-index:60}
+.menu .sub a{padding:11px 20px;font-size:.92rem;border-bottom:0}
+.menu .sub a:hover{background:var(--band);color:var(--navy)}
+.menu .sub a[aria-current="page"]{box-shadow:inset 3px 0 0 var(--accent)}
+.menu .has-sub.open>.sub{display:block}
+@media (hover:hover) and (min-width:1181px){.menu .has-sub:hover>.sub{display:block}}
 .toggle{display:none;background:none;border:1px solid var(--line);padding:10px 14px;font:inherit;font-size:.9rem;color:var(--navy);cursor:pointer;min-height:44px}
 
 /* hero */
@@ -116,6 +126,11 @@ footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
   .menu.open{display:flex}
   .menu a{padding:14px 0;font-size:.95rem;border-bottom:1px solid var(--line)}
   .menu a[aria-current="page"]{border-bottom-color:var(--accent)}
+  .menu .sub-toggle{display:flex;width:100%;align-items:center;justify-content:space-between;padding:14px 0;font-size:.95rem;text-align:left;border-bottom:1px solid var(--line)}
+  .menu .sub-toggle::after{margin:0 4px 0 auto}
+  .menu .sub{position:static;padding:0 0 0 16px;background:none;border:0;box-shadow:none}
+  .menu .sub a{padding:12px 0;font-size:.92rem;border-bottom:1px solid var(--line)}
+  .menu .sub a[aria-current="page"]{box-shadow:none}
 }
 @media (max-width:900px){
   .split,.contact,.fgrid{grid-template-columns:1fr;gap:28px}
@@ -157,7 +172,13 @@ footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
       <ul class="menu" id="menu">
         <li><a href="index.html" aria-current="page">Home</a></li>
         <li><a href="https://www.isid.ac.in/~statsu/">Statistical Science Unit</a></li>
-        <li><a href="people.html">People</a></li>
+        <li class="has-sub">
+          <button type="button" class="sub-toggle" aria-expanded="false" aria-controls="sub-people">People</button>
+          <ul class="sub" id="sub-people">
+            <li><a href="people/faculty.html">Faculty</a></li>
+            <li><a href="people/students.html">Students</a></li>
+          </ul>
+        </li>
         <li><a href="academic.html">Academic</a></li>
         <li><a href="research.html">Research</a></li>
         <li><a href="#news-events">News and Events</a></li>
@@ -226,7 +247,7 @@ footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
     </div>
     <div class="pathways">
       <a href="https://bsds-isi.github.io/documents/BSDS-Curriculum-2025.pdf"><strong>Academic</strong><small>Curriculum and regulations</small></a>
-      <a href="people.html"><strong>People</strong><small>Faculty, staff and students</small></a>
+      <a href="people/faculty.html"><strong>People</strong><small>Faculty, staff and students</small></a>
       <a href="research.html"><strong>Research</strong><small>Research at the centre</small></a>
     </div>
   </div>
@@ -276,7 +297,7 @@ footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
       <div>
         <h3>Pages</h3>
         <ul>
-          <li><a href="index.html">Home</a></li><li><a href="unit.html">Unit</a></li><li><a href="people.html">People</a></li>
+          <li><a href="index.html">Home</a></li><li><a href="unit.html">Unit</a></li><li><a href="people/faculty.html">People</a></li>
           <li><a href="academic.html">Academic</a></li><li><a href="research.html">Research</a></li>
           <li><a href="#news-events">News and Events</a></li><li><a href="#contacts">Contacts</a></li>
         </ul>
@@ -299,6 +320,12 @@ footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
   var t=document.getElementById('toggle'),m=document.getElementById('menu');
   t.addEventListener('click',function(){var o=m.classList.toggle('open');t.setAttribute('aria-expanded',o)});
   m.addEventListener('click',function(e){if(e.target.tagName==='A'){m.classList.remove('open');t.setAttribute('aria-expanded','false')}});
+
+  var sub=m.querySelector('.has-sub'),st=sub.querySelector('.sub-toggle');
+  function closeSub(){sub.classList.remove('open');st.setAttribute('aria-expanded','false')}
+  st.addEventListener('click',function(){st.setAttribute('aria-expanded',sub.classList.toggle('open'))});
+  document.addEventListener('click',function(e){if(!sub.contains(e.target))closeSub()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sub.classList.contains('open')){closeSub();st.focus()}});
 
   var DELAY=2000;
   var hero=document.getElementById('hero'),slides=hero.querySelectorAll('.slide'),dots=document.getElementById('dots'),i=0,timer=null;
@@ -333,7 +360,7 @@ footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
   };
   paint();
   go(0);start();
-})(); 
+})();
 </script>
 
 </body>
