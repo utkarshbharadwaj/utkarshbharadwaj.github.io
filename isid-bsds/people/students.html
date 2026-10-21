@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Students | ISID - BSDS</title>
+<meta name="description" content="Students of the Bachelor of Statistical Data Science (BSDS) programme at the Delhi Centre of the Indian Statistical Institute. Unofficial prototype.">
+<style>
+:root{
+  --navy:#16284a; --navy-2:#0f1d37; --ink:#1d2330; --muted:#5b6475; --line:#d9d6cd;
+  --paper:#fbfaf6; --band:#f1eee6; --accent:#8c2f2f; --focus:#c28a00;
+  --nav-h:64px; --w:1120px;
+  --serif:Georgia,"Times New Roman",serif; --sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --navy:#aebfe6; --navy-2:#0a1120; --ink:#e3e6ee; --muted:#9aa4b8; --line:#2e3a52;
+  --paper:#121a2b; --band:#17213a; --accent:#e08a8a; --focus:#e6b422;
+}
+html[data-theme="dark"] .skip{background:var(--paper);color:var(--navy)}
+
+.nav .wrap{gap:8px;max-width:1280px}
+.brand{margin-right:auto;min-width:0}
+.theme{width:44px;height:44px;flex:none;background:none;border:1px solid var(--line);color:var(--navy);cursor:pointer;font-size:1.15rem;line-height:1}
+.theme:hover{border-color:var(--navy)}
+
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(var(--nav-h) + 16px);scroll-behavior:smooth}
+body{margin:0;font:17px/1.65 var(--sans);color:var(--ink);background:var(--paper)}
+img{max-width:100%;display:block}
+a{color:var(--navy)}
+a:hover{color:var(--accent)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.25;margin:0 0 .5em;color:var(--navy)}
+h2{font-size:1.75rem;padding-bottom:.35em;border-bottom:1px solid var(--line);margin-bottom:1em}
+h3{font-size:1.15rem}
+p{margin:0 0 1em;max-width:68ch}
+.skip{position:absolute;left:-999px;top:0;background:#fff;padding:8px 12px;z-index:100}
+.skip:focus{left:8px;top:8px}
+
+/* notice and nav */
+.notice{background:var(--navy-2);color:#e8eaf0;font-size:.82rem;text-align:center;padding:6px 16px}
+.nav{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:1px solid var(--line);height:var(--nav-h)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:100%}
+.brand{text-decoration:none;color:var(--navy);line-height:1.2;display:block}
+.brand b{display:block;font:600 clamp(.95rem,1.4vw,1.05rem) var(--serif);white-space:nowrap}
+.brand span{font-size:.8rem;color:var(--muted);white-space:nowrap}
+.menu{display:flex;flex-wrap:nowrap;gap:0;list-style:none;margin:0;padding:0}
+.menu a,.menu .sub-toggle{display:block;padding:21px clamp(7px,.75vw,12px) 18px;text-decoration:none;color:var(--ink);font-size:clamp(.84rem,1.1vw,.95rem);white-space:nowrap;border-bottom:3px solid transparent}
+.menu a:hover,.menu .sub-toggle:hover{color:var(--navy);border-bottom-color:var(--line)}
+.menu a[aria-current="page"],.menu .has-sub.current>.sub-toggle{border-bottom-color:var(--accent);color:var(--navy);font-weight:600}
+.menu li{position:relative}
+.menu .sub-toggle{background:none;border:0;border-bottom:3px solid transparent;font-family:inherit;line-height:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.menu .sub-toggle::after{content:"";display:inline-block;width:7px;height:7px;margin-left:8px;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(45deg);position:relative;top:-3px;transition:transform .15s}
+.menu .has-sub.open>.sub-toggle::after{transform:rotate(-135deg);top:1px}
+.menu .sub{display:none;position:absolute;top:100%;left:0;min-width:190px;margin:0;padding:6px 0;list-style:none;background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--accent);box-shadow:0 10px 24px rgba(10,18,36,.12);z-index:60}
+.menu .sub a{padding:11px 20px;font-size:.92rem;border-bottom:0}
+.menu .sub a:hover{background:var(--band);color:var(--navy)}
+.menu .sub a[aria-current="page"]{box-shadow:inset 3px 0 0 var(--accent)}
+.menu .has-sub.open>.sub{display:block}
+@media (hover:hover) and (min-width:1181px){.menu .has-sub:hover>.sub{display:block}}
+.toggle{display:none;background:none;border:1px solid var(--line);padding:10px 14px;font:inherit;font-size:.9rem;color:var(--navy);cursor:pointer;min-height:44px}
+
+/* sections + footer (shared with index) */
+section{padding:56px 0}
+footer{background:var(--navy-2);color:#cfd5e3;padding:40px 0 24px;font-size:.92rem}
+footer a{color:#fff}
+footer h3{color:#fff;font-size:1rem}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
+.legal{border-top:1px solid #33425f;margin-top:28px;padding-top:16px;font-size:.82rem;color:#aab3c8}
+address{font-style:normal}
+
+/* page header */
+.page-head{background:var(--band);border-bottom:1px solid var(--line);padding:36px 0 30px}
+.crumbs{font-size:.88rem;color:var(--muted);margin:0 0 .8em}
+.crumbs a{color:var(--muted)}.crumbs a:hover{color:var(--accent)}
+.page-head h1{font-size:clamp(1.75rem,4vw,2.4rem);margin:0 0 .25em}
+.page-head p{margin:0;color:var(--muted);max-width:60ch}
+
+/* year jump links */
+.years{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:1.1em 0 0;padding:0}
+.years a{display:block;font-size:.88rem;line-height:1.5;padding:4px 14px;min-height:32px;border:1px solid var(--line);background:var(--paper);color:var(--navy);text-decoration:none}
+.years a:hover{border-color:var(--navy);color:var(--navy)}
+
+/* year sections */
+.year + .year{padding-top:0}
+.year h2{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px}
+.year h2 small{font:400 .9rem var(--sans);color:var(--muted)}
+.empty{margin:0;padding:22px 24px;border:1px dashed var(--line);background:var(--band);color:var(--muted);font-size:.95rem;max-width:none}
+
+/* student cards */
+.students{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:20px;list-style:none;margin:0;padding:0}
+.stu{display:grid;grid-template-columns:auto 1fr;column-gap:20px;align-items:center;height:100%;padding:20px;border:1px solid var(--line);background:var(--paper)}
+.stu:hover,.stu:focus-within{border-color:var(--navy)}
+.avatar{position:relative;display:grid;place-items:center;width:96px;height:96px;border-radius:50%;overflow:hidden;border:1px solid var(--line);background:repeating-linear-gradient(135deg,#e3dfd3 0 14px,#ddd8ca 14px 28px)}
+html[data-theme="dark"] .avatar{background:repeating-linear-gradient(135deg,#1c2740 0 14px,#18223a 14px 28px)}
+.avatar .ini{font:600 1.4rem var(--serif);color:var(--navy);opacity:.55}
+.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.stu h3{font-size:1.1rem;margin:0 0 .45em}
+.li{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;line-height:1.5;padding:1px 10px;min-height:28px;border:1px solid var(--line);background:var(--band);color:var(--navy);text-decoration:none}
+.li:hover{border-color:var(--navy);color:var(--accent)}
+
+@media (max-width:1180px){
+  .toggle{display:block}
+  .menu{display:none;position:absolute;top:var(--nav-h);left:0;right:0;background:var(--paper);border-bottom:1px solid var(--line);flex-direction:column;padding:0 24px 12px;max-height:calc(100vh - var(--nav-h));max-height:calc(100dvh - var(--nav-h));overflow-y:auto}
+  .menu.open{display:flex}
+  .menu a{padding:14px 0;font-size:.95rem;border-bottom:1px solid var(--line)}
+  .menu a[aria-current="page"]{border-bottom-color:var(--accent)}
+  .menu .sub-toggle{display:flex;width:100%;align-items:center;justify-content:space-between;padding:14px 0;font-size:.95rem;text-align:left;border-bottom:1px solid var(--line)}
+  .menu .sub-toggle::after{margin:0 4px 0 auto}
+  .menu .sub{position:static;padding:0 0 0 16px;background:none;border:0;box-shadow:none}
+  .menu .sub a{padding:12px 0;font-size:.92rem;border-bottom:1px solid var(--line)}
+  .menu .sub a[aria-current="page"]{box-shadow:none}
+}
+
+@media (max-width:900px){.fgrid{grid-template-columns:1fr;gap:28px}}
+@media (max-width:600px){
+  body{font-size:16px;overflow-wrap:break-word}
+  .wrap{padding:0 18px}
+  .menu{padding:0 18px 12px}
+  .notice{font-size:.78rem;padding:6px 12px}
+  .brand b{white-space:normal;font-size:.95rem;line-height:1.25}
+  .brand span{display:none}
+  .toggle{padding:10px 12px}
+  section{padding:36px 0}
+  .page-head{padding:28px 0 24px}
+  footer{padding:32px 0 20px}
+}
+@media (max-width:520px){
+  .stu{padding:16px;column-gap:16px}
+  .avatar{width:80px;height:80px}
+  .avatar .ini{font-size:1.25rem}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="notice">This is the official website of the BSDS Program run at Indian Statistical Institute (ISI), Delhi Center</div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><b>Indian Statistical Institute, Delhi Centre</b><span>Bachelor of Statistical Data Science (BSDS)</span></a>
+    <button class="toggle" id="toggle" aria-expanded="false" aria-controls="menu">Menu</button>
+    <nav aria-label="Main">
+      <ul class="menu" id="menu">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="https://www.isid.ac.in/~statsu/">Statistical Science Unit</a></li>
+        <li class="has-sub current">
+          <button type="button" class="sub-toggle" aria-expanded="false" aria-controls="sub-people">People</button>
+          <ul class="sub" id="sub-people">
+            <li><a href="faculty.html">Faculty</a></li>
+            <li><a href="students.html" aria-current="page">Students</a></li>
+          </ul>
+        </li>
+        <li><a href="../academic.html">Academic</a></li>
+        <li><a href="../research.html">Research</a></li>
+        <li><a href="../index.html#news-events">News and Events</a></li>
+        <li><a href="../index.html#contacts">Contacts</a></li>
+      </ul>
+    </nav>
+    <button type="button" class="theme" id="theme"></button>
+  </div>
+</header>
+
+<main id="main">
+<div class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / People / Students</p>
+    <h1>Students</h1>
+    <p>The students of the BSDS programme at ISI Delhi, by year. Select a LinkedIn link to see their profile.</p>
+    <ul class="years" aria-label="Jump to year">
+      <li><a href="#third-year">Third year</a></li>
+      <li><a href="#second-year">Second year</a></li>
+      <li><a href="#first-year">First year</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- To add a student: copy one <li>…</li> block and edit it.
+     Photo: save a square photo as assets/images/students/<year>-year/<first-name>.jpg (use first-last where two students share a first name)
+     and update the img src and alt. Until the photo exists, the initials are shown in the circle. -->
+
+<section class="year" id="third-year" aria-labelledby="third-year-h">
+  <div class="wrap">
+    <h2 id="third-year-h">Third year <small>2024 batch</small></h2>
+    <ul class="students">
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">AK</span><img src="../assets/images/students/third-year/abhishek.jpg" width="256" height="256" alt="Photo of Abhishek Kumar" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Abhishek Kumar</h3>
+            <a class="li" href="https://www.linkedin.com/in/abhishek-kumar-371b93348/" target="_blank" rel="noopener noreferrer" aria-label="Abhishek Kumar on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">AK</span><img src="../assets/images/students/third-year/adarsh.png" width="256" height="256" alt="Photo of Adarsh Kumar" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Adarsh Kumar</h3>
+            <a class="li" href="https://www.linkedin.com/in/adarsh-nangla-848011370/" target="_blank" rel="noopener noreferrer" aria-label="Adarsh Kumar on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">AR</span><img src="../assets/images/students/third-year/adithyan.png" width="256" height="256" alt="Photo of Adithyan Radhakrishnan" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Adithyan Radhakrishnan</h3>
+            <a class="li" href="https://www.linkedin.com/in/adithyan-radhakrishnan-209917369/" target="_blank" rel="noopener noreferrer" aria-label="Adithyan Radhakrishnan on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">AR</span><img src="../assets/images/students/third-year/ankit.png" width="256" height="256" alt="Photo of Ankit Roy" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Ankit Roy</h3>
+            <a class="li" href="https://www.linkedin.com/in/ankit-r-600a41361/" target="_blank" rel="noopener noreferrer" aria-label="Ankit Roy on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">AS</span><img src="../assets/images/students/third-year/ansh.jpg" width="256" height="256" alt="Photo of Ansh Sarraf" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Ansh Sarraf</h3>
+            <a class="li" href="https://www.linkedin.com/in/ansh-sarraf-540352325/" target="_blank" rel="noopener noreferrer" aria-label="Ansh Sarraf on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">A</span><img src="../assets/images/students/third-year/antas.png" width="256" height="256" alt="Photo of Antas" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Antas</h3>
+            <a class="li" href="https://www.linkedin.com/in/antas-6a6460226/" target="_blank" rel="noopener noreferrer" aria-label="Antas on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">CM</span><img src="../assets/images/students/third-year/charmesh.png" width="256" height="256" alt="Photo of Charmesh Meena" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Charmesh Meena</h3>
+            <a class="li" href="https://www.linkedin.com/in/charmesh-k-412654338/" target="_blank" rel="noopener noreferrer" aria-label="Charmesh Meena on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">CB</span><img src="../assets/images/students/third-year/chukka.jpg" width="256" height="256" alt="Photo of Chukka Bhagavath" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Chukka Bhagavath</h3>
+            <a class="li" href="https://www.linkedin.com/in/bhagavath-chukka-0a436831b/" target="_blank" rel="noopener noreferrer" aria-label="Chukka Bhagavath on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">DT</span><img src="../assets/images/students/third-year/dev.png" width="256" height="256" alt="Photo of Dev Tinker" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Dev Tinker</h3>
+            <a class="li" href="https://www.linkedin.com/in/dev-tinker-aa61b2396/" target="_blank" rel="noopener noreferrer" aria-label="Dev Tinker on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">HM</span><img src="../assets/images/students/third-year/harsh-maurya.png" width="256" height="256" alt="Photo of Harsh Maurya" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Harsh Maurya</h3>
+            <a class="li" href="https://www.linkedin.com/in/harsh-maurya-r/" target="_blank" rel="noopener noreferrer" aria-label="Harsh Maurya on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">KB</span><img src="../assets/images/students/third-year/kanishk.jpg" width="256" height="256" alt="Photo of Kanishk Bhuradiya" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Kanishk Bhuradiya</h3>
+            <a class="li" href="https://www.linkedin.com/in/kanishk-bhuradiya-88048b312/" target="_blank" rel="noopener noreferrer" aria-label="Kanishk Bhuradiya on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">KJ</span><img src="../assets/images/students/third-year/krishna.png" width="256" height="256" alt="Photo of Krishna Jain" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Krishna Jain</h3>
+            <a class="li" href="https://www.linkedin.com/in/krishna-jain-731270311/" target="_blank" rel="noopener noreferrer" aria-label="Krishna Jain on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">SJ</span><img src="../assets/images/students/third-year/sarvesh.png" width="256" height="256" alt="Photo of Sarvesh Jaywant" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Sarvesh Jaywant</h3>
+            <a class="li" href="https://www.linkedin.com/in/sarvesh-kumbhoje-1532b6315/" target="_blank" rel="noopener noreferrer" aria-label="Sarvesh Jaywant on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">PM</span><img src="../assets/images/students/third-year/p-maurya.jpg" width="256" height="256" alt="Photo of P. Maurya" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>P. Maurya</h3>
+            <a class="li" href="https://www.linkedin.com/in/maurya-p-252257327/" target="_blank" rel="noopener noreferrer" aria-label="P. Maurya on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">PR</span><img src="../assets/images/students/third-year/pronamika.png" width="256" height="256" alt="Photo of Pronamika Roy" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Pronamika Roy</h3>
+            <a class="li" href="https://www.linkedin.com/in/pronamika-roy-795aa3333/" target="_blank" rel="noopener noreferrer" aria-label="Pronamika Roy on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">RK</span><img src="../assets/images/students/third-year/rahul-kumar.jpg" width="256" height="256" alt="Photo of Rahul Kumar" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Rahul Kumar</h3>
+            <a class="li" href="https://www.linkedin.com/in/rahul-kumar-9480b2407/" target="_blank" rel="noopener noreferrer" aria-label="Rahul Kumar on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">RP</span><img src="../assets/images/students/third-year/rahul-pandit.jpg" width="256" height="256" alt="Photo of Rahul Pandit" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Rahul Pandit</h3>
+            <a class="li" href="https://www.linkedin.com/in/rahulpandit-isi/" target="_blank" rel="noopener noreferrer" aria-label="Rahul Pandit on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">SP</span><img src="../assets/images/students/third-year/smarak.png" width="256" height="256" alt="Photo of Smarak Patel" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Smarak Patel</h3>
+            <a class="li" href="https://www.linkedin.com/in/smarak-patel-806996362/" target="_blank" rel="noopener noreferrer" aria-label="Smarak Patel on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">TR</span><img src="../assets/images/students/third-year/tabish.jpg" width="256" height="256" alt="Photo of Tabish Raza" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Tabish Raza</h3>
+            <a class="li" href="https://www.linkedin.com/in/tabish-raza-isid/" target="_blank" rel="noopener noreferrer" aria-label="Tabish Raza on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="stu">
+          <div class="avatar"><span class="ini" aria-hidden="true">TK</span><img src="../assets/images/students/third-year/tanish.jpg" width="256" height="256" alt="Photo of Tanish Kothari" loading="lazy" onerror="this.remove()"></div>
+          <div class="info">
+            <h3>Tanish Kothari</h3>
+            <a class="li" href="https://www.linkedin.com/in/tanish-kothari-144826201/" target="_blank" rel="noopener noreferrer" aria-label="Tanish Kothari on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="year" id="second-year" aria-labelledby="second-year-h">
+  <div class="wrap">
+    <h2 id="second-year-h">Second year <small>2025 batch</small></h2>
+    <!-- When the data is ready, replace this <p> with <ul class="students"> … </ul> -->
+    <p class="empty">The second-year student directory will be added soon.</p>
+  </div>
+</section>
+
+<section class="year" id="first-year" aria-labelledby="first-year-h">
+  <div class="wrap">
+    <h2 id="first-year-h">First year <small>2026 batch</small></h2>
+    <!-- When the data is ready, replace this <p> with <ul class="students"> … </ul> -->
+    <p class="empty">The first-year student directory will be added soon.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <h3>Indian Statistical Institute, Delhi Centre</h3>
+        <p>Bachelor of Statistical Data Science (BSDS), a four-year undergraduate programme in statistics, probability and data analytics.</p>
+      </div>
+      <div>
+        <h3>Pages</h3>
+        <ul>
+          <li><a href="../index.html">Home</a></li><li><a href="../unit.html">Unit</a></li><li><a href="faculty.html">People</a></li>
+          <li><a href="../academic.html">Academic</a></li><li><a href="../research.html">Research</a></li>
+          <li><a href="../index.html#news-events">News and Events</a></li><li><a href="../index.html#contacts">Contacts</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Official links</h3>
+        <ul>
+          <li><a href="https://www.isical.ac.in/">Indian Statistical Institute</a></li>
+          <li><a href="https://www.isical.ac.in/~deanweb/bsds.html">BSDS programme page</a></li>
+          <li><a href="https://admission.isical.ac.in/">Admissions</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal"><center>&copy; 2026 Indian Statistical Institute</center></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var t=document.getElementById('toggle'),m=document.getElementById('menu');
+  t.addEventListener('click',function(){var o=m.classList.toggle('open');t.setAttribute('aria-expanded',o)});
+  m.addEventListener('click',function(e){if(e.target.tagName==='A'){m.classList.remove('open');t.setAttribute('aria-expanded','false')}});
+
+  var sub=m.querySelector('.has-sub'),st=sub.querySelector('.sub-toggle');
+  function closeSub(){sub.classList.remove('open');st.setAttribute('aria-expanded','false')}
+  st.addEventListener('click',function(){st.setAttribute('aria-expanded',sub.classList.toggle('open'))});
+  document.addEventListener('click',function(e){if(!sub.contains(e.target))closeSub()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sub.classList.contains('open')){closeSub();st.focus()}});
+
+  var th=document.getElementById('theme'),root=document.documentElement;
+  function paint(){
+    var d=root.getAttribute('data-theme')==='dark';
+    th.textContent=d?'☀':'☾';
+    th.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');
+    th.title=d?'Light mode':'Dark mode';
+  }
+  th.onclick=function(){
+    var d=root.getAttribute('data-theme')!=='dark';
+    root.setAttribute('data-theme',d?'dark':'light');
+    try{localStorage.setItem('theme',d?'dark':'light')}catch(e){}
+    paint();
+  };
+  paint();
+})();
+</script>
+
+</body>
+</html>
