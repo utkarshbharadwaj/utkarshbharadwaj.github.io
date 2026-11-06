@@ -104,11 +104,16 @@ section{padding:56px 0}
 .pathways strong{display:block;font-family:var(--serif);color:var(--navy);font-size:1.05rem}
 .pathways small{color:var(--muted)}
 .pathways a:hover{background:#fff}
-.news{list-style:none;padding:0;margin:0}
-.news li{display:grid;grid-template-columns:140px 1fr;gap:24px;padding:16px 0;border-bottom:1px solid var(--line)}
-.news time{font-size:.9rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.news{list-style:none;padding:4px 2px 16px;margin:0;display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.news li{flex:0 0 340px;scroll-snap-align:start;display:flex;flex-direction:column;gap:6px;padding:20px 22px;background:var(--band);border:1px solid var(--line);border-top:3px solid var(--accent)}
+.news time{font-size:.88rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .news h3{margin:0 0 .2em;font-size:1.05rem}
 .news p{margin:0;font-size:.95rem;color:var(--muted)}
+.news-ctrl{display:flex;justify-content:flex-end;gap:8px;margin:-.4em 0 14px}
+.news-ctrl button{width:44px;height:44px;background:none;border:1px solid var(--line);color:var(--navy);cursor:pointer;font-size:1.3rem;line-height:1}
+.news-ctrl button:hover{border-color:var(--navy)}
+.news-ctrl button:disabled{opacity:.35;cursor:default}
+.news .tag{margin:0;align-self:flex-start}
 .tag{font-size:.75rem;border:1px solid var(--accent);color:var(--accent);padding:0 6px;margin-left:6px;white-space:nowrap}
 .contact{display:grid;grid-template-columns:1fr 1fr;gap:48px}
 address{font-style:normal}
@@ -135,7 +140,6 @@ footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
 @media (max-width:900px){
   .split,.contact,.fgrid{grid-template-columns:1fr;gap:28px}
   .pathways{grid-template-columns:1fr}.pathways a{border-right:0;border-bottom:1px solid var(--line)}
-  .news li{grid-template-columns:1fr;gap:4px}
   .hero{height:auto;min-height:420px}
   .hero::after{background:rgba(10,18,36,.68)}
   .hero-text{position:relative;top:auto;transform:none;padding:56px 0 96px}
@@ -156,7 +160,8 @@ footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
   .pathways a{padding:16px 18px}
   footer{padding:32px 0 20px}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.slide{transition:none}}
+@media (max-width:600px){.news li{flex-basis:82%}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.slide{transition:none}.news{scroll-behavior:auto}}
 </style>
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
 </head>
@@ -180,7 +185,7 @@ footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
           </ul>
         </li>
         <li><a href="academic.html">Academic</a></li>
-        <li><a href="research.html">Research</a></li>
+        <li><a href="#student-activities">Student Activities</a></li>
         <li><a href="#news-events">News and Events</a></li>
         <li><a href="#contacts">Contacts</a></li>
       </ul>
@@ -248,7 +253,7 @@ footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
     <div class="pathways">
       <a href="https://bsds-isi.github.io/documents/BSDS-Curriculum-2025.pdf"><strong>Academic</strong><small>Curriculum and regulations</small></a>
       <a href="people/faculty.html"><strong>People</strong><small>Faculty, staff and students</small></a>
-      <a href="research.html"><strong>Research</strong><small>Research at the centre</small></a>
+      <a href="#student-activities"><strong>Student Activities</strong><small>Student Activities at the centre</small></a>
     </div>
   </div>
 </section>
@@ -256,12 +261,70 @@ footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
 <section id="news-events">
   <div class="wrap">
     <h2>News and Events</h2>
-    <ul class="news">
+    <div class="news-ctrl">
+      <button type="button" id="news-prev" aria-label="Scroll news left">&#8249;</button>
+      <button type="button" id="news-next" aria-label="Scroll news right">&#8250;</button>
+    </div>
+    <ul class="news" id="news" tabindex="0" aria-label="News and events, scroll horizontally">
       <li>
-        <time>Oct 13, 2026</time>
+        <time datetime="2026-10-30">Oct 30, 2026</time>
+        <div>
+          <h3><a href="https://www.linkedin.com/posts/bsds-isi-delhi_isi-isidelhi-bsds-activity-7521954467605282817-pxjZ">Industry Interaction on Causality with Dr. Tulasi Ram Reddy Annapareddy</a></h3>
+          <p>Dr. Annapareddy, an ISI alumnus, spoke on correlation versus causation, confounding and statistical fallacies such as the UC Berkeley admissions case, and shared career advice on moving from a PhD to industry and building strong foundations in AI.</p>
+        </div>
+      </li>
+      <li>
+        <time datetime="2026-10-29">Oct 29, 2026</time>
+        <div>
+          <h3><a href="https://www.linkedin.com/posts/bsds-isi-delhi_macroeconomics-isidelhi-economics-activity-7521638638518992896-DyqG">11th Delhi Macroeconomics Workshop 2026</a></h3>
+          <p>BSDS students attended the two-day workshop (Oct 29-30) hosted by the Economics and Planning Unit at ISI Delhi, including a keynote by Dr. V. Anantha Nageswaran on how trade, technology and energy shape the global economy.</p>
+        </div>
+      </li>
+      <li>
+        <time datetime="2026-10-23">Oct 23, 2026</time>
+        <div>
+          <h3><a href="https://www.linkedin.com/posts/bsds-isi-delhi_isi-isidelhi-bsds-activity-7519437178821763072-_dZh">Guest Session by Dr. Ranjitha Prasad: One Model, Many Drifts to Be Explained</a></h3>
+          <p>Dr. Ranjitha Prasad of IIIT Delhi discussed how to build reliable AI, covering federated learning, continual learning, machine unlearning and explainable AI.</p>
+        </div>
+      </li>
+      <li>
+        <time datetime="2026-10-16">Oct 16, 2026</time>
+        <div>
+          <h3><a href="https://www.linkedin.com/posts/bsds-isi-delhi_isi-isidelhi-statisticaldatascience-activity-7516911791520567296-rRbR">From Data Collection to Evidence-Based Policy: Session by Prof. E. Somanathan</a></h3>
+          <p>Prof. E. Somanathan of ISI Delhi shared field-research experiences on induction stoves and indoor air pollution, agricultural electricity and groundwater, and LPG use in Kerala, stressing the limits of what data can establish.</p>
+        </div>
+      </li>
+      <li>
+        <time datetime="2026-10-13">Oct 13, 2026</time>
         <div>
           <h3><a href="https://www.linkedin.com/posts/isi-isidelhi-bsds-ugcPost-7515836524165271552-yiHd/">Opportunity Seminar by Mr. Utsyo Chakraborty, Senior Data Scientist @ ProcDNA</a></h3>
           <p>Mr. Utsyo Chakraborty, Senior Data Scientist at ProcDNA and an alumnus of ISI Delhi, delivered an engaging career opportunity seminar on statistical modeling and marketing within the pharmaceutical industry, offering students valuable industry insights.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section id="student-activities">
+  <div class="wrap">
+    <h2>Student Activities and Achievements</h2>
+    <div class="news-ctrl">
+      <button type="button" id="act-prev" aria-label="Scroll student activities left">&#8249;</button>
+      <button type="button" id="act-next" aria-label="Scroll student activities right">&#8250;</button>
+    </div>
+    <ul class="news" id="act" tabindex="0" aria-label="Student activities and achievements, scroll horizontally">
+      <li>
+        <span class="tag">Industry</span>
+        <div>
+          <h3>WorldQuant Research Consultants</h3>
+          <p>A select group of our 2nd and 3rd-year students work as Consultants at WorldQuant, building invaluable expertise in quantitative finance through real-world contributions</p>
+        </div>
+      </li>
+      <li>
+        <span class="tag">Achievement</span>
+        <div>
+          <h3>First prize at <i>Conspectus@DTU</i></h3>
+          <p>A team of second-year BSDS students won first prize in <i>Analyse and Allocate</i>, part of <i>Conspectus</i> at the Delhi Technological University</p>
         </div>
       </li>
     </ul>
@@ -298,7 +361,7 @@ footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
         <h3>Pages</h3>
         <ul>
           <li><a href="index.html">Home</a></li><li><a href="unit.html">Unit</a></li><li><a href="people/faculty.html">People</a></li>
-          <li><a href="academic.html">Academic</a></li><li><a href="research.html">Research</a></li>
+          <li><a href="academic.html">Academic</a></li><li><a href="#student-activities">Student Activities</a></li>
           <li><a href="#news-events">News and Events</a></li><li><a href="#contacts">Contacts</a></li>
         </ul>
       </div>
@@ -359,6 +422,19 @@ footer ul{list-style:none;margin:0;padding:0}footer li{margin-bottom:.35em}
     paint();
   };
   paint();
+
+  function tiles(listId,prevId,nextId){
+    var nw=document.getElementById(listId),np=document.getElementById(prevId),nn=document.getElementById(nextId);
+    function nstep(){var li=nw.querySelector('li');return li?li.offsetWidth+20:300}
+    function nupd(){np.disabled=nw.scrollLeft<=2;nn.disabled=nw.scrollLeft+nw.clientWidth>=nw.scrollWidth-2}
+    np.onclick=function(){nw.scrollBy({left:-nstep()})};
+    nn.onclick=function(){nw.scrollBy({left:nstep()})};
+    nw.addEventListener('scroll',nupd);window.addEventListener('resize',nupd);
+    nw.addEventListener('keydown',function(e){if(e.key==='ArrowLeft'){e.preventDefault();np.click()}if(e.key==='ArrowRight'){e.preventDefault();nn.click()}});
+    nupd();
+  }
+  tiles('news','news-prev','news-next');
+  tiles('act','act-prev','act-next');
   go(0);start();
 })();
 </script>
